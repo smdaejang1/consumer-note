@@ -287,10 +287,6 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     </div>
   </div>
 </div>
-<div class="popup-actions">
-      <button class="pop-cancel" id="goalCancel">취소</button>
-      <button class="pop-confirm" id="goalConfirm">확인</button>
-    </div>
   </div>
 </div>
 <div class="fbar">
@@ -310,20 +306,20 @@ const STAGES = {
 };
 const HINTS = {
   product: {
-    '공유':'어떤 제품을, 어떤 방식으로 소비자에게 소개했나요?',
+    '공유':'이 소비자의 문제점·두려움·결핍 중 어떤 부분에 이 제품이 닿나요?',
     '인지':'소비자가 어느 정도 와닿은 것 같나요? 어떤 반응이었나요?',
-    '선택':'소비자가 "써보겠다"는 의사를 보였나요? 어떤 계기였나요?',
-    '구매':'실제 구매가 완료되었나요? 어떤 제품을, 얼마나 구매했나요?',
-    '확인':'사용 후 효과는 어떤가요? 만족도와 재구매 의향은?'
+    '선택':'소비자가 "써보겠다"는 의사를 보인 계기는 무엇이었나요?',
+    '구매':'어떤 제품을 구매했나요? 결핍이 어떻게 채워지고 있나요?',
+    '확인':'사용 후 문제점이 해소됐나요? 만족도와 재구매 의향은?'
   }
 };
 const CLS  = {product:'tp', business:'tb', system:'ts'};
 const TH   = {
-  product:  ['일정','제품군','needs','진행','피드백'],
-  business: ['일정','단계','needs','진행','피드백'],
-  system:   ['일정','시스템 종류','소통 내용','피드백','단계']
+  product:  ['일정','제품군','니즈','진행','피드백'],
+  business: ['일정','단계','니즈','진행','피드백'],
+  system:   ['일정','시스템 종류','니즈','피드백','단계']
 };
-const REL_STAGES  = ['관심','좋은사람','신뢰형성','승-승'];
+const REL_STAGES  = ['1단계(관심)','2단계(친한)','3단계(신뢰)','4단계(승승)'];
 const STAGE_DESC = {
   product: {
     '공유': '제품 정보를 소비자에게 처음 전달한 단계',
@@ -561,10 +557,10 @@ function buildForm(type,existing){
   if(isP) html+='<div class="fld"><label>제품군</label><input type="text" id="ef_target" placeholder="예: 뉴트리라이트 비타민C" value="'+esc(existing?existing.target:'')+'"></div>';
   if(isS) html+='<div class="fld"><label>시스템 종류</label><input type="text" id="ef_target" placeholder="함께한 시스템명" value="'+esc(existing?existing.target:'')+'"></div>';
   if(!isS){
-    html+='<div class="fld"><label>needs</label><textarea id="ef_needs" placeholder="소비자의 문제·필요·두려움·결핍">'+esc(existing?existing.needs:'')+'</textarea></div>';
-    html+='<div class="fld"><label>진행</label><textarea id="ef_proposal" placeholder="대안 제시 내용과 소비자 반응">'+esc(existing?existing.proposal:'')+'</textarea></div>';
+    html+='<div class="fld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ef_needs" placeholder="예) 피부 트러블로 고민 / 노후 건강이 걱정됨 / 어떤 제품을 써야 할지 모름">'+esc(existing?existing.needs:'')+'</textarea></div>';
+    html+='<div class="fld"><label>진행 (대안 제시 · 반응)</label><textarea id="ef_proposal" placeholder="어떤 방식으로 제안했고, 상대의 반응은 어땠나요?">'+esc(existing?existing.proposal:'')+'</textarea></div>';
   }else{
-    html+='<div class="fld"><label>소통 내용</label><textarea id="ef_needs" placeholder="어떤 내용으로 소통했나요?">'+esc(existing?existing.needs:'')+'</textarea></div>';
+    html+='<div class="fld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ef_needs" placeholder="어떤 관심이나 필요로 시스템에 참여했나요?">'+esc(existing?existing.needs:'')+'</textarea></div>';
   }
   html+='<div class="fld"><label>피드백</label><textarea id="ef_note" placeholder="결과 정리·다음 계획">'+esc(existing?existing.note:'')+'</textarea></div>';
   html+='<div class="fld"><label>단계 <span style="font-size:11px;color:var(--sub);font-weight:400">(내용 입력 후 선택)</span></label>';
@@ -688,10 +684,10 @@ function buildExpand(type,e){
   if(type==='product')html+='<div class="expfld"><label>제품군</label><textarea id="ex_target">'+esc(e.target||'')+'</textarea></div>';
   if(isS)html+='<div class="expfld"><label>시스템 종류</label><textarea id="ex_target">'+esc(e.target||'')+'</textarea></div>';
   if(!isS){
-    html+='<div class="expfld"><label>needs</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
-    html+='<div class="expfld"><label>진행</label><textarea id="ex_proposal">'+esc(e.proposal||'')+'</textarea></div>';
+    html+='<div class="expfld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
+    html+='<div class="expfld"><label>진행 (대안 제시 · 반응)</label><textarea id="ex_proposal">'+esc(e.proposal||'')+'</textarea></div>';
   }else{
-    html+='<div class="expfld"><label>소통 내용</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
+    html+='<div class="expfld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
   }
   html+='<div class="expfld"><label>피드백</label><textarea id="ex_note">'+esc(e.note||'')+'</textarea></div>';
   html+='<div class="expfld"><label>단계</label><div class="minisel" id="ex_chips">';
@@ -776,26 +772,6 @@ document.getElementById('fileInput').addEventListener('change',ev=>{
 // ── 초기화 ────────────────────────────────────────────
 load();
 renderList();
-</script>
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('./consumer-note-sw.js')
-      .then(reg=>{
-        reg.addEventListener('updatefound', ()=>{
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', ()=>{
-            if(newWorker.state==='installed' && navigator.serviceWorker.controller){
-              if(confirm('새 버전이 있습니다. 업데이트할까요?')){
-                newWorker.postMessage({action:'skipWaiting'});
-                window.location.reload();
-              }
-            }
-          });
-        });
-      });
-  });
-}
 </script>
 </body>
 </html>
