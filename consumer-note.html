@@ -251,6 +251,21 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .align-chip.sel.smo{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
 .align-chip.sel.stp{background:#fff3e0;color:#e07b00;border-color:#e07b00;font-weight:800;}
 .stat-view{display:none;}
+.help-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:flex;align-items:flex-end;justify-content:center;}
+.help-box{background:#fff;width:100%;max-width:640px;border-radius:20px 20px 0 0;max-height:88vh;overflow-y:auto;padding:20px 18px calc(20px + env(safe-area-inset-bottom));}
+.help-box h2{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--accent);}
+.help-subtitle{font-size:12.5px;color:var(--sub);margin-bottom:16px;}
+.help-section{margin-bottom:20px;}
+.help-section-title{font-size:14px;font-weight:800;color:var(--accent);padding:8px 12px;background:#f0f4ff;border-radius:10px;margin-bottom:10px;}
+.help-item{margin-bottom:10px;padding-left:4px;}
+.help-item-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.help-item-desc{font-size:13px;color:var(--sub);line-height:1.6;}
+.help-flow{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:8px 0;}
+.help-flow-item{background:#f0f4ff;color:var(--accent);font-size:12px;font-weight:700;padding:5px 10px;border-radius:20px;}
+.help-flow-arrow{color:var(--sub);font-size:14px;}
+.help-example{background:#f8f9fb;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 12px;margin-top:6px;font-size:12.5px;line-height:1.7;color:var(--text);}
+.help-example b{color:var(--accent);}
+.help-close-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:15px;margin-top:8px;}
 .fiscal-year-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .fy-btn{padding:8px 14px;border-radius:20px;border:1px solid var(--border);
   font-size:13px;font-weight:600;background:#fff;color:var(--sub);}
@@ -315,6 +330,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 <header>
   <button id="backBtn" style="display:none">← 목록</button>
   <h1 id="hTitle">소비자 관리 노트</h1>
+  <button id="helpBtn" style="background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;">❓</button>
   <button id="statBtn" style="background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;">📊 통계</button>
 </header>
 <div class="con">
@@ -469,6 +485,113 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     </div>
   </div>
 </div>
+  </div>
+</div>
+<div id="helpOverlay" class="help-overlay" style="display:none">
+  <div class="help-box">
+    <h2>❓ 소비자 관리 노트 도움말</h2>
+    <div class="help-subtitle">소비자와의 소통을 기록하고 3% 얼라인을 관리하는 도구입니다.</div>
+
+    <div class="help-section">
+      <div class="help-section-title">1️⃣ 기본 사용법</div>
+      <div class="help-item">
+        <div class="help-item-title">👤 소비자 등록</div>
+        <div class="help-item-desc">첫 화면 상단 이름 입력 → "추가" 버튼<br>소개자·첫접촉일은 선택 입력 가능</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🤝 관계발달 설정</div>
+        <div class="help-item-desc">소비자 상세 → 기본정보에서 개인적·사업적 단계 클릭 → 저장<br>1단계(관심) → 2단계(친한) → 3단계(신뢰) → 4단계(승승)</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📌 3개월 목표 설정</div>
+        <div class="help-item-desc">당월·익월·익익월별로 목표 클릭 → 저장<br>1개 제품 / 5개 제품 / 도움받는 3% / 스스로 3% / 복제하는 3%</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📝 컨택 기록 추가</div>
+        <div class="help-item-desc">제품·사업·시스템 탭 → ＋ 버튼 → 내용 입력<br>→ <b style="color:#e07b00">🎯 3% 필수 액션 선택 (중복 선택 가능!)</b> → 저장</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🤝 만남 기록</div>
+        <div class="help-item-desc">상세 화면 상단 🤝 만남 섹션 → ＋ 만남 기록 추가 → 날짜·메모 입력<br>탭 기록과 별개로 실제 만남 횟수를 기록합니다.</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💾 백업/복원</div>
+        <div class="help-item-desc">하단 ⬇ 백업 버튼으로 JSON 파일 저장<br>⬆ 복원 버튼으로 이전 데이터 불러오기</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-section-title">2️⃣ 3% 얼라인 개념</div>
+      <div class="help-item">
+        <div class="help-item-title">3%란?</div>
+        <div class="help-item-desc">나만의 제품 카탈로그, 나만의 장스오, 나만의 STP를 소비자와 공유하고<br>소비자도 소비자 관리 노트를 작성하게 하는 것이 목표입니다.</div>
+        <div class="help-flow">
+          <span class="help-flow-item">📋 카탈로그</span>
+          <span class="help-flow-arrow">→</span>
+          <span class="help-flow-item">🛒 장스오</span>
+          <span class="help-flow-arrow">→</span>
+          <span class="help-flow-item">💼 STP</span>
+          <span class="help-flow-arrow">→</span>
+          <span class="help-flow-item">🌱 복제</span>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📋 카탈로그 (지식·정보 공유)</div>
+        <div class="help-item-desc">나만의 제품 카탈로그는 내가 잘 활용하는 제품만 소비자에게 공유하는 방법입니다.</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🛒 장스오 (혜택·이익)</div>
+        <div class="help-item-desc">장바구니 스마트 오더 — 자신이 잘 활용하는 제품을 정기 구매 습관화로 소비자를 완성하는 도구입니다.</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💼 STP (재미·사업)</div>
+        <div class="help-item-desc">나만의 카탈로그와 장스오 경험을 하나의 스토리로 만들어 소비자를 파트너에게 공유하는 것입니다.</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title" style="color:#e07b00">⚠️ 3% 액션은 중복 선택 가능!</div>
+        <div class="help-item-desc">한 번의 소통에서 카탈로그와 장스오가 동시에 이루어질 수 있습니다.<br>해당되는 액션을 <b style="color:#e07b00">모두 선택</b>해 주세요.</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-section-title">3️⃣ 현장 작성 예시</div>
+      <div class="help-item">
+        <div class="help-item-title">📦 제품 탭 기록 예시</div>
+        <div class="help-example">
+          <b>일정:</b> 2026-09-05<br>
+          <b>제품군:</b> 뉴트리라이트 비타민C<br>
+          <b>니즈:</b> 피부 트러블로 고민 중<br>
+          <b>진행:</b> 카탈로그 보여드리며 체험 권유 → 관심 표명<br>
+          <b>피드백:</b> 다음 주 체험 제품 전달 예정<br>
+          <b>단계:</b> 인지<br>
+          <b>🎯 3% 액션:</b> 카탈로그 ✅
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💼 사업 탭 기록 예시</div>
+        <div class="help-example">
+          <b>일정:</b> 2026-09-15<br>
+          <b>니즈:</b> 부수입에 관심 있음<br>
+          <b>진행:</b> STP 1차 설명 → 긍정적 반응<br>
+          <b>피드백:</b> 다음 미팅에서 사업 자료 공유 예정<br>
+          <b>단계:</b> 이해<br>
+          <b>🎯 3% 액션:</b> STP ✅
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🎓 시스템 탭 기록 예시</div>
+        <div class="help-example">
+          <b>일정:</b> 2026-09-20<br>
+          <b>시스템 종류:</b> OM 세미나<br>
+          <b>소통 내용:</b> OM 동행 → 사업 비전 공유<br>
+          <b>피드백:</b> 긍정적 반응, 다음 달 세미나 참석 의향<br>
+          <b>단계:</b> 동행<br>
+          <b>🎯 3% 액션:</b> 카탈로그 ✅  STP ✅
+        </div>
+      </div>
+    </div>
+
+    <button class="help-close-btn" id="helpClose">확인</button>
   </div>
 </div>
 <div class="fbar">
@@ -901,7 +1024,7 @@ function buildForm(type,existing){
   html+='<span class="align-required-title">3% 필수 액션</span>';
   html+='<span class="align-required-badge">필수 선택</span>';
   html+='</div>';
-  html+='<div class="align-required-desc">카탈로그·장스오·STP 중 오늘 이 분과 얼라인된 액션을 선택해 주세요.</div>';
+  html+='<div class="align-required-desc">오늘 진행된 액션을 <b>모두</b> 선택해 주세요. <span style="color:#e07b00;font-weight:700">(중복 선택 가능 ✅)</span></div>';
   html+='<div class="align-chips">';
   ALIGN_ITEMS.forEach(a=>html+='<div class="align-chip '+a.cls+(exAligns.includes(a.key)?' sel':'')+'" data-align="'+a.key+'">'+a.label+'</div>');
   html+='</div>';
@@ -1302,6 +1425,18 @@ document.getElementById('statBtn').addEventListener('click',()=>{
     document.getElementById('statBtn').textContent='← 목록';
     renderStatView();
   }
+});
+
+// ── 도움말 ────────────────────────────────────────────
+document.getElementById('helpBtn').addEventListener('click',()=>{
+  document.getElementById('helpOverlay').style.display='flex';
+});
+document.getElementById('helpClose').addEventListener('click',()=>{
+  document.getElementById('helpOverlay').style.display='none';
+});
+document.getElementById('helpOverlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('helpOverlay'))
+    document.getElementById('helpOverlay').style.display='none';
 });
 
 // ── 초기화 ────────────────────────────────────────────
