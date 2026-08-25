@@ -65,25 +65,25 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 .inline-col-title{font-size:12px;color:var(--sub);font-weight:700;text-align:center;margin-bottom:6px;}
 .inline-col-chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;}
 .inline-chip{padding:8px 10px;border-radius:10px;border:1px solid var(--border);font-size:13px;background:#fff;color:var(--sub);font-weight:600;text-align:center;flex:1;min-width:calc(50% - 4px);}
-.inline-chip.sel{background:var(--accent);color:#fff;border-color:var(--accent);}
+.inline-chip.sel{background:#e8eef8;color:var(--accent);border-color:var(--accent);font-weight:800;}
 /* 인라인 3개월 목표 */
 .inline-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
 .inline-goal-chips{display:flex;flex-direction:column;gap:5px;}
 .goal-chip-btn{padding:7px 4px;border-radius:9px;border:1px solid var(--border);font-size:11.5px;background:#fff;color:var(--sub);font-weight:600;text-align:center;width:100%;}
-.goal-chip-btn.sel{background:var(--accent);color:#fff;border-color:var(--accent);}
+.goal-chip-btn.sel{background:#e8eef8;color:var(--accent);border-color:var(--accent);font-weight:800;}
 /* 구분 색상 — 섹션 헤더 */
-.inline-col-header{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;color:#fff;text-align:center;margin-bottom:6px;}
-.col-personal .inline-col-header{background:#2f5496;}
-.col-business .inline-col-header{background:#e07b00;}
-.col-m1 .inline-col-header{background:#2f5496;}
-.col-m2 .inline-col-header{background:#2e7d32;}
-.col-m3 .inline-col-header{background:#e07b00;}
+.inline-col-header{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;margin-bottom:6px;}
+.col-personal .inline-col-header{background:#dce6f7;color:#2f5496;}
+.col-business .inline-col-header{background:#fde8c8;color:#e07b00;}
+.col-m1 .inline-col-header{background:#dce6f7;color:#2f5496;}
+.col-m2 .inline-col-header{background:#c8e6c9;color:#2e7d32;}
+.col-m3 .inline-col-header{background:#fde8c8;color:#e07b00;}
 /* 구분 색상 — 칩 선택 시 */
-.col-personal .inline-chip.sel{background:#2f5496;border-color:#2f5496;}
-.col-business .inline-chip.sel{background:#e07b00;border-color:#e07b00;}
-.col-m1 .goal-chip-btn.sel{background:#2f5496;border-color:#2f5496;}
-.col-m2 .goal-chip-btn.sel{background:#2e7d32;border-color:#2e7d32;}
-.col-m3 .goal-chip-btn.sel{background:#e07b00;border-color:#e07b00;}
+.col-personal .inline-chip.sel{background:#dce6f7;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.col-business .inline-chip.sel{background:#fde8c8;color:#e07b00;border-color:#e07b00;font-weight:800;}
+.col-m1 .goal-chip-btn.sel{background:#dce6f7;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.col-m2 .goal-chip-btn.sel{background:#c8e6c9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
+.col-m3 .goal-chip-btn.sel{background:#fde8c8;color:#e07b00;border-color:#e07b00;font-weight:800;}
 /* 구분 색상 — 섹션 배경 (태블릿/PC만) */
 @media(min-width:480px){
   .col-personal{background:#f0f4ff;border-radius:12px;padding:10px;}
@@ -108,49 +108,49 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 /* 탭 */
 .tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--card);border-radius:14px;padding:5px;border:1px solid var(--border);}
 .tbtn{flex:1;border:none;background:transparent;padding:11px 4px;border-radius:10px;font-size:14.5px;font-weight:700;color:var(--sub);}
-.tbtn.active.tp{background:var(--pb);color:var(--p);}
+.tbtn.active.tp{background:var(--pb);color:var(--p);font-weight:800;}
 .tbtn.active.tb{background:var(--bb);color:var(--b);}
 .tbtn.active.ts{background:var(--sb);color:var(--s);}
-.tpanel{display:none;}
+.tpanel{display:none;border-radius:var(--radius);}
 .tpanel.active{display:block;}
 /* 기록 추가 버튼 */
 .addbtn{width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;}
-.addbtn.tp{background:var(--p);}
-.addbtn.tb{background:var(--b);}
-.addbtn.ts{background:var(--s);}
+.addbtn.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
+.addbtn.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
+.addbtn.ts{background:var(--sb);color:var(--s);border:2px solid var(--s);}
 /* 인라인 폼 */
 .eform{background:var(--card);border:2px solid;border-radius:var(--radius);padding:14px;margin-bottom:14px;display:none;flex-direction:column;gap:10px;}
 .eform.open{display:flex;}
-.eform.tp{border-color:var(--p);}
-.eform.tb{border-color:var(--b);}
-.eform.ts{border-color:var(--s);}
+.eform.tp{border-color:var(--p);background:#fafffe;}
+.eform.tb{border-color:var(--b);background:#fffdf8;}
+.eform.ts{border-color:var(--s);background:#f8faff;}
 .eform h3{margin:0;font-size:14.5px;}
 .schips{display:flex;gap:6px;flex-wrap:wrap;}
 .schip{padding:8px 12px;border-radius:20px;border:1px solid var(--border);font-size:13px;background:#fff;color:var(--sub);font-weight:600;}
-.schip.sel.tp{background:var(--p);color:#fff;border-color:var(--p);}
-.schip.sel.tb{background:var(--b);color:#fff;border-color:var(--b);}
-.schip.sel.ts{background:var(--s);color:#fff;border-color:var(--s);}
+.schip.sel.tp{background:var(--pb);color:var(--p);border-color:var(--p);font-weight:800;}
+.schip.sel.tb{background:var(--bb);color:var(--b);border-color:var(--b);font-weight:800;}
+.schip.sel.ts{background:var(--sb);color:var(--s);border-color:var(--s);font-weight:800;}
 .hint{font-size:12px;color:var(--accent);margin-top:6px;padding:8px 10px;background:#f0f4ff;border-radius:8px;}
 .efbtns{display:flex;gap:8px;}
 .efbtns button{flex:1;padding:11px;border-radius:10px;border:none;font-size:14px;font-weight:700;}
 .efcancel{background:#f1f2f5;color:var(--sub);}
-.efsave.tp{background:var(--p);color:#fff;}
-.efsave.tb{background:var(--b);color:#fff;}
-.efsave.ts{background:var(--s);color:#fff;}
+.efsave.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
+.efsave.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
+.efsave.ts{background:var(--sb);color:var(--s);border:2px solid var(--s);}
 /* 표 */
 .tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
 table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .etbl th{font-size:11.5px;font-weight:700;color:#fff;padding:9px 4px;text-align:center;}
-.etbl.tp th{background:var(--p);}
-.etbl.tb th{background:var(--b);}
-.etbl.ts th{background:var(--s);}
+.etbl.tp th{background:var(--pb);color:var(--p);}
+.etbl.tb th{background:var(--bb);color:var(--b);}
+.etbl.ts th{background:var(--sb);color:var(--s);}
 .etbl td{font-size:12.5px;padding:9px 6px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;}
 .etbl td.el{text-align:left;}
 .etbl tr.etr:active{background:#f5f6fa;}
 .spill{display:inline-block;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700;}
-.etbl.tp .spill{background:var(--pb);color:var(--p);}
-.etbl.tb .spill{background:var(--bb);color:var(--b);}
-.etbl.ts .spill{background:var(--sb);color:var(--s);}
+.etbl.tp .spill{background:var(--pb);color:var(--p);font-weight:800;}
+.etbl.tb .spill{background:var(--bb);color:var(--b);font-weight:800;}
+.etbl.ts .spill{background:var(--sb);color:var(--s);font-weight:800;}
 /* 펼침 */
 .exprow td{cursor:default;white-space:normal;text-align:left;background:#fafbfd;padding:14px 12px;}
 .expgrid{display:flex;flex-direction:column;gap:10px;}
@@ -159,14 +159,14 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .expfld input[type=date]{resize:none;min-height:unset;}
 .minisel{display:flex;flex-wrap:wrap;gap:4px;}
 .mchip{font-size:10.5px;padding:3px 7px;border-radius:14px;border:1px solid var(--border);background:#fff;color:var(--sub);font-weight:600;}
-.mchip.sel.tp{background:var(--p);color:#fff;border-color:var(--p);}
-.mchip.sel.tb{background:var(--b);color:#fff;border-color:var(--b);}
-.mchip.sel.ts{background:var(--s);color:#fff;border-color:var(--s);}
+.mchip.sel.tp{background:var(--pb);color:var(--p);border-color:var(--p);font-weight:800;}
+.mchip.sel.tb{background:var(--bb);color:var(--b);border-color:var(--b);font-weight:800;}
+.mchip.sel.ts{background:var(--sb);color:var(--s);border-color:var(--s);font-weight:800;}
 .expbtns{display:flex;gap:8px;margin-top:4px;}
 .expbtns button{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12.5px;font-weight:700;color:var(--sub);}
-.expbtns .expsave.tp{background:var(--p);color:#fff;border:none;}
-.expbtns .expsave.tb{background:var(--b);color:#fff;border:none;}
-.expbtns .expsave.ts{background:var(--s);color:#fff;border:none;}
+.expbtns .expsave.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
+.expbtns .expsave.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
+.expbtns .expsave.ts{background:var(--sb);color:var(--s);border:2px solid var(--s);}
 .expbtns .expdel{color:var(--danger);border-color:#f3d3d3;}
 /* 팝업 공통 */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
@@ -196,9 +196,9 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .align-bar-label{font-size:12px;font-weight:700;color:var(--sub);min-width:60px;}
 .align-bar-bg{flex:1;background:#f1f2f5;border-radius:20px;height:14px;overflow:hidden;}
 .align-bar-fill{height:100%;border-radius:20px;transition:width .3s;}
-.align-bar-fill.cat{background:#2f5496;}
-.align-bar-fill.smo{background:#2e7d32;}
-.align-bar-fill.stp{background:#e07b00;}
+.align-bar-fill.cat{background:#aab8e0;}
+.align-bar-fill.smo{background:#a5d6a7;}
+.align-bar-fill.stp{background:#ffcc80;}
 .align-bar-count{font-size:12px;font-weight:700;min-width:24px;text-align:right;}
 .align-bar-count.cat{color:#2f5496;}
 .align-bar-count.smo{color:#2e7d32;}
@@ -247,9 +247,35 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 /* 3% 체크칩 */
 .align-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 .align-chip{padding:7px 12px;border-radius:20px;border:1px solid var(--border);font-size:12.5px;background:#fff;color:var(--sub);font-weight:600;}
-.align-chip.sel.cat{background:#2f5496;color:#fff;border-color:#2f5496;}
-.align-chip.sel.smo{background:#2e7d32;color:#fff;border-color:#2e7d32;}
-.align-chip.sel.stp{background:#e07b00;color:#fff;border-color:#e07b00;}
+.align-chip.sel.cat{background:#eef2ff;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.align-chip.sel.smo{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
+.align-chip.sel.stp{background:#fff3e0;color:#e07b00;border-color:#e07b00;font-weight:800;}
+.stat-view{display:none;}
+.fiscal-year-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.fy-btn{padding:8px 14px;border-radius:20px;border:1px solid var(--border);
+  font-size:13px;font-weight:600;background:#fff;color:var(--sub);}
+.fy-btn.active{background:#dce6f7;color:var(--accent);border-color:var(--accent);font-weight:800;}
+.fy-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.stat-view.active{display:block;}
+.stat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.stat-header h2{margin:0;font-size:17px;font-weight:700;}
+.stat-month-label{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.stat-cell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:12px;background:#f8f9fb;}
+.stat-cell .sc-num{font-size:20px;font-weight:800;color:var(--accent);}
+.stat-cell .sc-lbl{font-size:11px;font-weight:700;color:var(--sub);text-align:center;}
+.stat-section-title{font-size:13px;font-weight:700;color:var(--sub);margin:14px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.stat-chart-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:14px;overflow-x:auto;}
+.stat-chart-table{width:100%;border-collapse:collapse;min-width:600px;}
+.stat-chart-table th{font-size:11px;color:var(--sub);font-weight:700;padding:6px 8px;text-align:center;border-bottom:1px solid var(--border);}
+.stat-chart-table td{font-size:12px;padding:6px 8px;text-align:center;border-bottom:1px solid var(--border);}
+.stat-chart-table tr.cur-month td{background:#f0f4ff;font-weight:700;color:var(--accent);}
+.stat-bar-cell{position:relative;min-width:40px;}
+.stat-bar{height:6px;border-radius:3px;background:var(--accent);display:inline-block;vertical-align:middle;min-width:2px;}
+/* 전체 현황 박스 개선 */
+.total-summary-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.total-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.total-meet-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
 .meet-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px;}
 .meet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .meet-title{font-size:13px;font-weight:700;color:var(--text);}
@@ -289,6 +315,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 <header>
   <button id="backBtn" style="display:none">← 목록</button>
   <h1 id="hTitle">소비자 관리 노트</h1>
+  <button id="statBtn" style="background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;">📊 통계</button>
 </header>
 <div class="con">
   <!-- 목록 화면 -->
@@ -307,20 +334,42 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
       </div>
     </div>
     <div class="total-summary" id="totalSummary">
-      <div class="total-summary-title">📊 이번 달 3% 얼라인 현황</div>
+      <div class="total-summary-title">📊 이번 달 현황</div>
+      <div class="total-meet-row">
+        <div class="total-meet-cell"><span class="tm-num" id="tot-meet-people">0</span><span class="tm-lbl">만남 인원</span></div>
+        <div class="total-meet-cell"><span class="tm-num" id="tot-meet-count">0</span><span class="tm-lbl">총 만남 횟수</span></div>
+      </div>
       <div class="total-grid">
         <div class="total-cell cat"><span class="tc-num" id="tot-cat">0</span><span class="tc-lbl">카탈로그</span></div>
         <div class="total-cell smo"><span class="tc-num" id="tot-smo">0</span><span class="tc-lbl">장스오</span></div>
         <div class="total-cell stp"><span class="tc-num" id="tot-stp">0</span><span class="tc-lbl">STP</span></div>
-        <div class="total-meet-row">
-          <div class="total-meet-cell"><span class="tm-num" id="tot-meet-people">0</span><span class="tm-lbl">만남 인원</span></div>
-          <div class="total-meet-cell"><span class="tm-num" id="tot-meet-count">0</span><span class="tm-lbl">총 만남 횟수</span></div>
-        </div>
+      </div>
+      <div class="total-row2">
+        <div class="total-cell" style="background:#fdf3ff;"><span class="tc-num" style="color:#6a0dad;" id="tot-prod">0</span><span class="tc-lbl">📦 제품</span></div>
+        <div class="total-cell" style="background:#f0fff4;"><span class="tc-num" style="color:#276749;" id="tot-biz">0</span><span class="tc-lbl">💼 사업</span></div>
+        <div class="total-cell" style="background:#ebf8ff;"><span class="tc-num" style="color:#2a4a7f;" id="tot-sys">0</span><span class="tc-lbl">🎓 시스템</span></div>
       </div>
     </div>
     <div class="searchbar"><input id="searchInput" type="text" placeholder="🔍 이름으로 찾기"></div>
     <div class="clist" id="cList"></div>
     <div class="empty" id="emptyMsg" style="display:none">등록된 소비자가 없습니다.<br>위 입력칸에 이름을 적고 "추가"를 눌러 주세요.</div>
+  </div>
+  <!-- 통계 화면 -->
+  <div id="statView" class="stat-view">
+    <div class="stat-header">
+      <h2>📊 현황 통계</h2>
+    </div>
+    <div class="fiscal-year-tabs" id="fyTabs"></div>
+    <div class="stat-month-label" id="statMonthLabel"></div>
+    <div class="stat-section-title">이번 달 현황</div>
+    <div class="stat-grid" id="statThisMonth"></div>
+    <div class="stat-section-title">월간 추이 <span style="font-size:11px;color:var(--sub);font-weight:400">(9월~8월 회계연도)</span></div>
+    <div class="stat-chart-wrap">
+      <table class="stat-chart-table" id="statYearTable">
+        <thead><tr id="statYearHead"></tr></thead>
+        <tbody id="statYearBody"></tbody>
+      </table>
+    </div>
   </div>
   <!-- 상세 화면 -->
   <div id="detailView" style="display:none">
@@ -540,6 +589,9 @@ function renderList(){
           '<span class="badge" style="background:#eef2ff;color:#2f5496">카탈 '+aligns.cat+'</span>'+
           '<span class="badge" style="background:#e8f5e9;color:#2e7d32">장스오 '+aligns.smo+'</span>'+
           '<span class="badge" style="background:#fff3e0;color:#e07b00">STP '+aligns.stp+'</span>'+
+          '<span class="badge bp">📦 '+(c.product||[]).length+'</span>'+
+          '<span class="badge bb2">💼 '+(c.business||[]).length+'</span>'+
+          '<span class="badge bs">🎓 '+(c.system||[]).length+'</span>'+
         '</div>'+
       '</div>'+
       '<button class="idel">✕</button>'+
@@ -657,14 +709,24 @@ function renderTotalSummary(){
   });
   // 만남 인원/횟수
   let meetPeople=0, meetTotal=0;
-  data.consumers.forEach(c=>{
-    const cnt=(c.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
+  let totProd=0, totBiz=0, totSys=0;
+  data.consumers.forEach(cc=>{
+    const cnt=(cc.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
     if(cnt>0){ meetPeople++; meetTotal+=cnt; }
+    (cc.product||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totProd++; });
+    (cc.business||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totBiz++; });
+    (cc.system||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totSys++; });
   });
   const mpEl=document.getElementById('tot-meet-people');
   const mcEl=document.getElementById('tot-meet-count');
   if(mpEl) mpEl.textContent=meetPeople;
   if(mcEl) mcEl.textContent=meetTotal;
+  const tpEl=document.getElementById('tot-prod');
+  const tbEl=document.getElementById('tot-biz');
+  const tsEl=document.getElementById('tot-sys');
+  if(tpEl) tpEl.textContent=totProd;
+  if(tbEl) tbEl.textContent=totBiz;
+  if(tsEl) tsEl.textContent=totSys;
 }
 
 // ── 만남 기록 ─────────────────────────────────────────
@@ -1080,6 +1142,166 @@ document.getElementById('fileInput').addEventListener('change',ev=>{
     ev.target.value='';
   };
   reader.readAsText(file);
+});
+
+// ── 통계 화면 ─────────────────────────────────────────
+function getFiscalStartYear(){
+  // 현재 날짜 기준 회계연도 시작 연도
+  const now=new Date();
+  const mo=now.getMonth()+1;
+  return mo>=9 ? now.getFullYear() : now.getFullYear()-1;
+}
+
+function getFiscalMonths(startYear){
+  // startYear: 회계연도 시작 연도 (9월 기준)
+  if(!startYear) startYear=getFiscalStartYear();
+  const months=[];
+  for(let i=0;i<12;i++){
+    const m=((9+i-1)%12)+1;
+    const y=startYear+(Math.floor((9+i-1)/12));
+    months.push(y+'-'+String(m).padStart(2,'0'));
+  }
+  return months;
+}
+
+function getAvailableFiscalYears(){
+  // 데이터가 있는 회계연도 목록 반환
+  const allDates=[];
+  data.consumers.forEach(cc=>{
+    ['product','business','system'].forEach(t=>{
+      (cc[t]||[]).forEach(e=>{ if(e.date) allDates.push(e.date); });
+    });
+    (cc.meets||[]).forEach(m=>{ if(m.date) allDates.push(m.date); });
+  });
+  const fiscalYears=new Set();
+  // 현재 회계연도는 항상 포함
+  fiscalYears.add(getFiscalStartYear());
+  allDates.forEach(d=>{
+    const yr=parseInt(d.slice(0,4));
+    const mo=parseInt(d.slice(5,7));
+    // 이 날짜가 속한 회계연도 시작연도 계산
+    fiscalYears.add(mo>=9 ? yr : yr-1);
+  });
+  return [...fiscalYears].sort((a,b)=>a-b);
+}
+
+function calcMonthStats(ym){
+  let meet=0,meetP=0,cat=0,smo=0,stp=0,prod=0,biz=0,sys=0;
+  const people=new Set();
+  data.consumers.forEach(cc=>{
+    const mc=(cc.meets||[]).filter(m=>(m.date||'').startsWith(ym)).length;
+    if(mc>0){people.add(cc.id); meet+=mc;}
+    const calcA=(arr)=>arr.filter(e=>(e.date||'').startsWith(ym)).reduce((acc,e)=>{
+      (e.aligns||[]).forEach(a=>{if(a==='cat')acc.cat++;if(a==='smo')acc.smo++;if(a==='stp')acc.stp++;});
+      return acc;
+    },{cat:0,smo:0,stp:0});
+    ['product','business','system'].forEach(t=>{
+      (cc[t]||[]).forEach(e=>{
+        if((e.date||'').startsWith(ym)){
+          if(t==='product')prod++;
+          if(t==='business')biz++;
+          if(t==='system')sys++;
+          (e.aligns||[]).forEach(a=>{if(a==='cat')cat++;if(a==='smo')smo++;if(a==='stp')stp++;});
+        }
+      });
+    });
+  });
+  return {ym,meetP:people.size,meet,cat,smo,stp,prod,biz,sys};
+}
+
+let _selectedFY=null; // 선택된 회계연도 시작연도
+
+function renderFYTabs(){
+  const tabs=document.getElementById('fyTabs');
+  if(!tabs)return;
+  const years=getAvailableFiscalYears();
+  const curFY=getFiscalStartYear();
+  if(!_selectedFY) _selectedFY=curFY;
+  tabs.innerHTML='';
+  years.forEach(yr=>{
+    const btn=document.createElement('button');
+    btn.className='fy-btn'+(yr===_selectedFY?' active':'');
+    btn.textContent=yr+'.'+'09 ~ '+(yr+1)+'.'+'08';
+    if(yr===curFY) btn.textContent+=' (현재)';
+    btn.addEventListener('click',()=>{
+      _selectedFY=yr;
+      renderStatView();
+    });
+    tabs.appendChild(btn);
+  });
+}
+
+function renderStatView(){
+  const thisMonth=today().slice(0,7);
+  const now=new Date();
+  if(!_selectedFY) _selectedFY=getFiscalStartYear();
+  renderFYTabs();
+  document.getElementById('statMonthLabel').textContent=
+    _selectedFY+'년 9월 ~ '+(_selectedFY+1)+'년 8월 회계연도';
+
+  // 이번 달 현황 (실제 이번 달 기준, 선택 연도 무관)
+  const tm=calcMonthStats(thisMonth);
+  const cols=[
+    {lbl:'만남 인원',val:tm.meetP,bg:'#fff0f5',col:'#c00060'},
+    {lbl:'만남 횟수',val:tm.meet,bg:'#fff0f5',col:'#c00060'},
+    {lbl:'카탈로그',val:tm.cat,bg:'#eef2ff',col:'#2f5496'},
+    {lbl:'장스오',val:tm.smo,bg:'#e8f5e9',col:'#2e7d32'},
+    {lbl:'STP',val:tm.stp,bg:'#fff3e0',col:'#e07b00'},
+    {lbl:'📦 제품',val:tm.prod,bg:'#fdf3ff',col:'#6a0dad'},
+    {lbl:'💼 사업',val:tm.biz,bg:'#f0fff4',col:'#276749'},
+    {lbl:'🎓 시스템',val:tm.sys,bg:'#ebf8ff',col:'#2a4a7f'},
+  ];
+  const tmEl=document.getElementById('statThisMonth');
+  tmEl.innerHTML='';
+  cols.forEach(col=>{
+    const div=document.createElement('div');
+    div.className='stat-cell';
+    div.style.background=col.bg;
+    div.innerHTML='<span class="sc-num" style="color:'+col.col+'">'+col.val+'</span><span class="sc-lbl">'+col.lbl+'</span>';
+    tmEl.appendChild(div);
+  });
+
+  // 회계연도 월간 추이 테이블
+  const months=getFiscalMonths(_selectedFY);
+  const keys=['만남인원','만남횟수','카탈','장스오','STP','제품','사업','시스템'];
+  const head=document.getElementById('statYearHead');
+  head.innerHTML='<th>월</th>'+keys.map(k=>'<th>'+k+'</th>').join('');
+  const body=document.getElementById('statYearBody');
+  body.innerHTML='';
+  const allStats=months.map(ym=>calcMonthStats(ym));
+  const maxVals={};
+  keys.forEach((k,i)=>{
+    const vals=allStats.map(s=>[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys][i]);
+    maxVals[i]=Math.max(...vals,1);
+  });
+  allStats.forEach(s=>{
+    const tr=document.createElement('tr');
+    if(s.ym===thisMonth) tr.className='cur-month';
+    const vals=[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys];
+    tr.innerHTML='<td>'+s.ym.slice(0,7)+'</td>'+
+      vals.map((v,i)=>'<td>'+v+'<br><span class="stat-bar" style="width:'+Math.round(v/maxVals[i]*40)+'px"></span></td>').join('');
+    body.appendChild(tr);
+  });
+}
+
+// 통계 버튼
+document.getElementById('statBtn').addEventListener('click',()=>{
+  const sv=document.getElementById('statView');
+  const lv=document.getElementById('listView');
+  const dv=document.getElementById('detailView');
+  if(sv.classList.contains('active')){
+    sv.classList.remove('active');
+    lv.style.display='block';
+    document.getElementById('statBtn').textContent='📊 통계';
+  } else {
+    lv.style.display='none';
+    dv.style.display='none';
+    document.getElementById('backBtn').style.display='none';
+    document.getElementById('hTitle').textContent='소비자 관리 노트';
+    sv.classList.add('active');
+    document.getElementById('statBtn').textContent='← 목록';
+    renderStatView();
+  }
 });
 
 // ── 초기화 ────────────────────────────────────────────
