@@ -266,6 +266,20 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .help-example{background:#f8f9fb;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 12px;margin-top:6px;font-size:12.5px;line-height:1.7;color:var(--text);}
 .help-example b{color:var(--accent);}
 .help-close-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:15px;margin-top:8px;}
+.leg-chip{padding:7px 11px;border-radius:20px;border:1px solid var(--border);font-size:12.5px;background:#fff;color:var(--sub);font-weight:600;display:inline-block;}
+.leg-chip.sel{background:#dce6f7;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.leg-chip.hold.sel{background:#fde8c8;color:#e07b00;border-color:#e07b00;}
+.div-chip{padding:7px 14px;border-radius:20px;border:1px solid var(--border);font-size:13px;background:#fff;color:var(--sub);font-weight:600;}
+.div-chip.sel.partner{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
+.div-chip.sel.consumer{background:#dce6f7;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.leg-chips-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.div-chips-wrap{display:flex;gap:6px;margin-top:6px;}
+.leg-filter-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:10px;}
+.leg-filter-label{font-size:11.5px;color:var(--sub);font-weight:700;margin-bottom:6px;}
+.leg-filter-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.lfc{padding:5px 10px;border-radius:16px;border:1px solid var(--border);font-size:12px;background:#fff;color:var(--sub);font-weight:600;}
+.lfc.active{background:#dce6f7;color:#2f5496;border-color:#2f5496;font-weight:800;}
+.lfc.hold.active{background:#fde8c8;color:#e07b00;border-color:#e07b00;}
 .fiscal-year-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .fy-btn{padding:8px 14px;border-radius:20px;border:1px solid var(--border);
   font-size:13px;font-weight:600;background:#fff;color:var(--sub);}
@@ -341,12 +355,9 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
         <input id="qaName" type="text" placeholder="이름을 입력하고 추가">
         <button id="qaAdd">추가</button>
       </div>
-      <div class="qatoggle" id="qaToggle">＋ 소개자·첫접촉일 입력</div>
+      <div class="qatoggle" id="qaToggle">＋ 첫접촉일 입력</div>
       <div class="qaextra" id="qaExtra">
-        <div class="row2">
-          <input id="qaIntro" type="text" placeholder="소개자">
-          <input id="qaDate" type="date">
-        </div>
+        <div class="row2"><input id="qaDate" type="date"></div>
       </div>
     </div>
     <div class="total-summary" id="totalSummary">
@@ -366,6 +377,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
         <div class="total-cell" style="background:#ebf8ff;"><span class="tc-num" style="color:#2a4a7f;" id="tot-sys">0</span><span class="tc-lbl">🎓 시스템</span></div>
       </div>
     </div>
+    <div class="leg-filter-wrap"><div class="leg-filter-label">레그 필터</div><div class="leg-filter-chips" id="legFilterChips"></div></div>
     <div class="searchbar"><input id="searchInput" type="text" placeholder="🔍 이름으로 찾기"></div>
     <div class="clist" id="cList"></div>
     <div class="empty" id="emptyMsg" style="display:none">등록된 소비자가 없습니다.<br>위 입력칸에 이름을 적고 "추가"를 눌러 주세요.</div>
@@ -379,6 +391,8 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     <div class="stat-month-label" id="statMonthLabel"></div>
     <div class="stat-section-title">이번 달 현황</div>
     <div class="stat-grid" id="statThisMonth"></div>
+    <div class="stat-section-title">레그별 현황</div>
+    <div id="statLegWrap" style="margin-bottom:14px;"></div>
     <div class="stat-section-title">월간 추이 <span style="font-size:11px;color:var(--sub);font-weight:400">(9월~8월 회계연도)</span></div>
     <div class="stat-chart-wrap">
       <table class="stat-chart-table" id="statYearTable">
@@ -392,8 +406,9 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     <div class="basiccard">
       <div class="bsection">
         <div class="fld full"><label>이름 *</label><input id="beName" type="text"></div>
-        <div class="fld"><label>소개자</label><input id="beIntro" type="text"></div>
         <div class="fld"><label>첫 접촉일</label><input id="beDate" type="date"></div>
+        <div class="fld full"><label>레그 <span style="font-size:11px;color:var(--sub)">(보류 또는 번호 선택)</span></label><div class="leg-chips-wrap" id="beLegChips"></div></div>
+        <div class="fld full"><label>구분</label><div class="div-chips-wrap" id="beDivChips"></div></div>
       </div>
       <div class="bsub">
         <div class="bsub-title">🤝 관계발달</div>
@@ -625,6 +640,8 @@ const TH   = {
   system:   ['일정','시스템 종류','니즈','피드백','단계']
 };
 const REL_STAGES  = ['1단계(관심)','2단계(친한)','3단계(신뢰)','4단계(승승)'];
+const LEGS = ['보류','1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
+let _legFilter = 'all';
 const ALIGN_ITEMS = [
   {key:'cat', label:'카탈로그', cls:'cat'},
   {key:'smo', label:'장스오',   cls:'smo'},
@@ -664,8 +681,10 @@ let _goals     = {m1:[], m2:[], m3:[]};
 function load(){
   try{const r=localStorage.getItem(STORAGE_KEY);if(r){data=JSON.parse(r);}if(!data.consumers)data.consumers=[];}
   catch(e){data={consumers:[]};}
-  // 기존 데이터 마이그레이션: meets 필드 없으면 추가
+  // 기존 데이터 마이그레이션
   data.consumers.forEach(c=>{
+    if(!c.leg) c.leg='보류';
+    if(!c.div) c.div='consumer';
     if(!c.meets) c.meets=[];
     ['product','business','system'].forEach(t=>{
       (c[t]||[]).forEach(e=>{ if(!e.aligns) e.aligns=[]; });
@@ -685,12 +704,60 @@ let _tt=null;
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),1800);}
 
 // ── 목록 ──────────────────────────────────────────────
+function buildLegChips(wrapId, selectedLeg, isFilter){
+  const wrap = document.getElementById(wrapId);
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const legs = isFilter ? ['all'].concat(LEGS) : LEGS;
+  legs.forEach(leg => {
+    const el = document.createElement('div');
+    const isHold = leg === '보류';
+    const isAll = leg === 'all';
+    const lbl = isAll ? '전체' : isHold ? '보류' : leg + '레그';
+    el.className = 'leg-chip' + (isHold ? ' hold' : '') +
+      ((isFilter ? _legFilter === leg : selectedLeg === leg) ? ' sel' : '');
+    if(isFilter) el.className = 'lfc' + (isHold ? ' hold' : '') + (_legFilter === leg ? ' active' : '');
+    el.textContent = lbl;
+    el.dataset.leg = leg;
+    el.addEventListener('click', () => {
+      if(isFilter){
+        _legFilter = leg;
+        buildLegChips(wrapId, null, true);
+        renderList();
+      } else {
+        wrap.querySelectorAll('.leg-chip').forEach(x => x.classList.remove('sel'));
+        el.classList.add('sel');
+      }
+    });
+    wrap.appendChild(el);
+  });
+}
+
+function buildDivChips(wrapId, selectedDiv){
+  const wrap = document.getElementById(wrapId);
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  [['consumer','소비자'],['partner','파트너']].forEach(([val, lbl]) => {
+    const el = document.createElement('div');
+    el.className = 'div-chip' + (selectedDiv === val ? ' sel ' + val : '');
+    el.textContent = lbl;
+    el.dataset.div = val;
+    el.addEventListener('click', () => {
+      wrap.querySelectorAll('.div-chip').forEach(x => x.classList.remove('sel','consumer','partner'));
+      el.classList.add('sel', val);
+    });
+    wrap.appendChild(el);
+  });
+}
+
 function renderList(){
   const q=document.getElementById('searchInput').value.trim();
   const listEl=document.getElementById('cList');
   const emptyEl=document.getElementById('emptyMsg');
+  buildLegChips('legFilterChips', null, true);
   let arr=data.consumers.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-  if(q)arr=arr.filter(c=>c.name.includes(q));
+  if(q) arr=arr.filter(c=>c.name.includes(q));
+  if(_legFilter !== 'all') arr=arr.filter(c=>(c.leg||'보류')===_legFilter);
   listEl.innerHTML='';
   if(!arr.length){emptyEl.style.display='block';listEl.style.display='none';renderTotalSummary();return;}
   emptyEl.style.display='none';listEl.style.display='flex';
@@ -705,7 +772,10 @@ function renderList(){
     div.className='citem';
     div.innerHTML=
       '<div class="cinfo">'+
-        '<div class="cname">'+esc(c.name)+'</div>'+
+        '<div class="cname">'+esc(c.name)+
+        ' <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:'+(c.div==='partner'?'#e8f5e9':'#dce6f7')+';color:'+(c.div==='partner'?'#2e7d32':'#2f5496')+'">'+(c.div==='partner'?'파트너':'소비자')+'</span>'+
+        ' <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:#fde8c8;color:#e07b00">'+((c.leg&&c.leg!=='보류')?c.leg+'레그':'보류')+'</span>'+
+        '</div>'+
         '<div class="cmeta">'+(relTxt||'관계발달 미설정')+'</div>'+
         '<div class="ctags">'+
           '<span class="badge" style="background:#fff0f5;color:#c00060">🤝 '+mc+'회</span>'+
@@ -723,7 +793,7 @@ function renderList(){
     div.querySelector('.chevron').addEventListener('click',()=>openDetail(c.id));
     div.querySelector('.idel').addEventListener('click',ev=>{
       ev.stopPropagation();
-      const total=pc+bc+sc;
+      const total=(c.product||[]).length+(c.business||[]).length+(c.system||[]).length;
       const msg=total>0?c.name+' 님을 삭제할까요?\n(기록 '+total+'건도 함께 삭제됩니다)':c.name+' 님을 삭제할까요?';
       if(confirm(msg)){data.consumers=data.consumers.filter(x=>x.id!==c.id);save();renderList();toast(c.name+' 님 삭제됨');}
     });
@@ -745,7 +815,6 @@ function quickAdd(){
   });
   save();
   nameEl.value='';
-  document.getElementById('qaIntro').value='';
   document.getElementById('qaDate').value='';
   document.getElementById('qaExtra').classList.remove('open');
   renderList();
@@ -783,8 +852,9 @@ function fillBasicForm(){
   const c=curC();if(!c)return;
   document.getElementById('hTitle').textContent=c.name;
   document.getElementById('beName').value=c.name||'';
-  document.getElementById('beIntro').value=c.intro||'';
   document.getElementById('beDate').value=c.firstDate||'';
+  buildLegChips('beLegChips', c.leg||'보류', false);
+  buildDivChips('beDivChips', c.div||'consumer');
   const rel=c.relBasic||{personal:'',business:''};
   _rel={personal:rel.personal||'',business:rel.business||''};
   renderRelInline();
@@ -931,8 +1001,11 @@ document.getElementById('beSaveBtn').addEventListener('click',()=>{
   const name=document.getElementById('beName').value.trim();
   if(!name){toast('이름을 입력해 주세요');return;}
   c.name=name;
-  c.intro=document.getElementById('beIntro').value.trim();
   c.firstDate=document.getElementById('beDate').value;
+  const legSel=document.querySelector('#beLegChips .leg-chip.sel');
+  c.leg = legSel ? legSel.dataset.leg : (c.leg||'보류');
+  const divSel=document.querySelector('#beDivChips .div-chip.sel');
+  c.div = divSel ? divSel.dataset.div : (c.div||'consumer');
   c.relBasic={personal:_rel.personal,business:_rel.business};
   c.goals={};
   [1,2,3].forEach(m=>{c.goals['m'+m]={items:[..._goals['m'+m]]};});
@@ -1384,6 +1457,45 @@ function renderStatView(){
     tmEl.appendChild(div);
   });
 
+  // 레그별 현황
+  const legWrap=document.getElementById('statLegWrap');
+  if(legWrap){
+    const lst={};
+    LEGS.forEach(l=>{lst[l]={p:0,c:0,meet:0,cat:0,smo:0,stp:0};});
+    data.consumers.forEach(cc=>{
+      const l=cc.leg||'보류';
+      if(!lst[l])return;
+      cc.div==='partner'?lst[l].p++:lst[l].c++;
+      lst[l].meet+=(cc.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
+      ['product','business','system'].forEach(t=>{
+        (cc[t]||[]).forEach(e=>{
+          if((e.date||'').startsWith(thisMonth)){
+            (e.aligns||[]).forEach(a=>{
+              if(a==='cat')lst[l].cat++;
+              else if(a==='smo')lst[l].smo++;
+              else if(a==='stp')lst[l].stp++;
+            });
+          }
+        });
+      });
+    });
+    let html='<div style="display:flex;flex-direction:column;gap:8px;">';
+    LEGS.forEach(l=>{
+      const s=lst[l]; if(s.p+s.c===0)return;
+      const lbl=l==='보류'?'보류':l+'레그';
+      html+='<div style="background:#f8f9fb;border-radius:12px;padding:10px 14px;">';
+      html+='<div style="font-size:13px;font-weight:700;color:#2f5496;margin-bottom:6px;">'+lbl+
+        ' <span style="font-size:11.5px;color:#6b7280;font-weight:600;">파트너 '+s.p+'명 · 소비자 '+s.c+'명</span></div>';
+      html+='<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff0f5;color:#c00060;font-weight:700;">🤝 '+s.meet+'회</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#eef2ff;color:#2f5496;font-weight:700;">카탈 '+s.cat+'</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#e8f5e9;color:#2e7d32;font-weight:700;">장스오 '+s.smo+'</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff3e0;color:#e07b00;font-weight:700;">STP '+s.stp+'</span>'+
+        '</div></div>';
+    });
+    html+='</div>';
+    legWrap.innerHTML=html;
+  }
   // 회계연도 월간 추이 테이블
   const months=getFiscalMonths(_selectedFY);
   const keys=['만남인원','만남횟수','카탈','장스오','STP','제품','사업','시스템'];
