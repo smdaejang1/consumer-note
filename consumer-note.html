@@ -114,6 +114,33 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 .tpanel{display:none;border-radius:var(--radius);}
 .tpanel.active{display:block;}
 /* 기록 추가 버튼 */
+.plan-card{border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px solid;}
+.plan-card.tp{background:#f0fff8;border-color:var(--p);}
+.plan-card.tb{background:#fffdf0;border-color:var(--b);}
+.plan-card.ts{background:#f0f4ff;border-color:var(--s);}
+.plan-card-title{font-size:13px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.plan-card.tp .plan-card-title{color:var(--p);}
+.plan-card.tb .plan-card-title{color:var(--b);}
+.plan-card.ts .plan-card-title{color:var(--s);}
+.plan-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.plan-field label{font-size:12px;font-weight:700;color:var(--sub);}
+.plan-field textarea{border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:13.5px;font-family:inherit;resize:vertical;min-height:42px;background:#fff;width:100%;}
+.plan-field input[type=text]{border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:13.5px;font-family:inherit;background:#fff;width:100%;}
+.plan-schedule{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:4px;}
+.plan-schedule-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:8px;}
+.plan-schedule-row{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
+.plan-schedule-row input[type=date]{border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-size:13px;font-family:inherit;background:#fff;flex-shrink:0;}
+.plan-schedule-row input[type=text]{border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-size:13px;font-family:inherit;background:#fff;flex:1;}
+.plan-schedule-add{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:#f8f9fb;font-size:12.5px;font-weight:600;color:var(--sub);}
+.plan-schedule-list{display:flex;flex-direction:column;gap:4px;margin-top:6px;}
+.plan-schedule-item{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#f0f4ff;border-radius:8px;font-size:12.5px;}
+.plan-schedule-item .ps-date{font-weight:700;color:var(--accent);min-width:80px;}
+.plan-schedule-item .ps-content{flex:1;color:var(--text);}
+.plan-schedule-item .ps-del{border:none;background:none;color:var(--danger);font-size:12px;padding:0 4px;}
+.plan-save-btn{width:100%;padding:10px;border-radius:10px;border:none;font-size:13.5px;font-weight:700;margin-top:4px;}
+.plan-card.tp .plan-save-btn{background:var(--pb);color:var(--p);border:2px solid var(--p);}
+.plan-card.tb .plan-save-btn{background:var(--bb);color:var(--b);border:2px solid var(--b);}
+.plan-card.ts .plan-save-btn{background:var(--sb);color:var(--s);border:2px solid var(--s);}
 .addbtn{width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;}
 .addbtn.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
 .addbtn.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
@@ -484,16 +511,94 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
       <button class="tbtn ts" data-tab="system">🎓 시스템</button>
     </div>
     <div class="tpanel active" id="panel-product">
+
+    <div class="plan-card tp" id="plan-product">
+      <div class="plan-card-title">📋 📦 제품 사전 계획</div>
+      <div class="plan-field">
+        <label>What — 무엇을 할 것인가?</label>
+        <textarea id="plan-what-product" placeholder="이 분에게 전달할 제품은?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>Why — 왜 필요한가?</label>
+        <textarea id="plan-why-product" placeholder="왜 이 제품이 이 분에게 필요한가?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>How — 어떻게 접근할 것인가?</label>
+        <textarea id="plan-how-product" placeholder="어떻게 접근할 것인가? (카탈로그→장스오→STP)"></textarea>
+      </div>
+      <div class="plan-schedule">
+        <div class="plan-schedule-title">📅 다음 일정</div>
+        <div class="plan-schedule-row">
+          <input type="date" id="plan-date-product">
+          <input type="text" id="plan-content-product" placeholder="일정 내용 입력">
+          <button class="plan-schedule-add" id="plan-add-product">＋</button>
+        </div>
+        <div class="plan-schedule-list" id="plan-list-product"></div>
+      </div>
+      <button class="plan-save-btn" id="plan-save-product">저장</button>
+    </div>
       <button class="addbtn tp" data-type="product">＋ 제품 컨택 기록 추가</button>
       <div class="eform tp" id="form-product"></div>
       <div id="list-product"></div>
     </div>
     <div class="tpanel" id="panel-business">
+
+    <div class="plan-card tb" id="plan-business">
+      <div class="plan-card-title">📋 💼 사업 사전 계획</div>
+      <div class="plan-field">
+        <label>What — 무엇을 할 것인가?</label>
+        <textarea id="plan-what-business" placeholder="이 분과 사업적으로 무엇을 할 것인가?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>Why — 왜 필요한가?</label>
+        <textarea id="plan-why-business" placeholder="왜 이 분이 파트너가 될 수 있는가?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>How — 어떻게 접근할 것인가?</label>
+        <textarea id="plan-how-business" placeholder="어떻게 사업을 소개할 것인가?"></textarea>
+      </div>
+      <div class="plan-schedule">
+        <div class="plan-schedule-title">📅 다음 일정</div>
+        <div class="plan-schedule-row">
+          <input type="date" id="plan-date-business">
+          <input type="text" id="plan-content-business" placeholder="일정 내용 입력">
+          <button class="plan-schedule-add" id="plan-add-business">＋</button>
+        </div>
+        <div class="plan-schedule-list" id="plan-list-business"></div>
+      </div>
+      <button class="plan-save-btn" id="plan-save-business">저장</button>
+    </div>
       <button class="addbtn tb" data-type="business">＋ 사업 컨택 기록 추가</button>
       <div class="eform tb" id="form-business"></div>
       <div id="list-business"></div>
     </div>
     <div class="tpanel" id="panel-system">
+
+    <div class="plan-card ts" id="plan-system">
+      <div class="plan-card-title">📋 🎓 시스템 사전 계획</div>
+      <div class="plan-field">
+        <label>What — 무엇을 할 것인가?</label>
+        <textarea id="plan-what-system" placeholder="어떤 시스템에 함께할 것인가?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>Why — 왜 필요한가?</label>
+        <textarea id="plan-why-system" placeholder="왜 지금 시스템 참여가 필요한가?"></textarea>
+      </div>
+      <div class="plan-field">
+        <label>How — 어떻게 접근할 것인가?</label>
+        <textarea id="plan-how-system" placeholder="어떻게 시스템으로 연결할 것인가?"></textarea>
+      </div>
+      <div class="plan-schedule">
+        <div class="plan-schedule-title">📅 다음 일정</div>
+        <div class="plan-schedule-row">
+          <input type="date" id="plan-date-system">
+          <input type="text" id="plan-content-system" placeholder="일정 내용 입력">
+          <button class="plan-schedule-add" id="plan-add-system">＋</button>
+        </div>
+        <div class="plan-schedule-list" id="plan-list-system"></div>
+      </div>
+      <button class="plan-save-btn" id="plan-save-system">저장</button>
+    </div>
       <button class="addbtn ts" data-type="system">＋ 시스템 컨택 기록 추가</button>
       <div class="eform ts" id="form-system"></div>
       <div id="list-system"></div>
@@ -610,8 +715,9 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
   </div>
 </div>
 <div class="fbar">
-  <button id="backupBtn">⬇ 백업(JSON 저장)</button>
-  <button id="restoreBtn">⬆ 복원(JSON 불러오기)</button>
+  <button id="backupBtn">⬇ 백업</button>
+  <button id="restoreBtn">⬆ 복원</button>
+  <button id="plannerExportBtn" style="background:#f0f4ff;color:#2f5496;border-color:#2f5496;">📅 플래너 내보내기</button>
 </div>
 <input type="file" id="fileInput" accept="application/json">
 <div class="toast" id="toast"></div>
@@ -686,6 +792,15 @@ function load(){
     if(!c.leg) c.leg='보류';
     if(!c.div) c.div='consumer';
     if(!c.meets) c.meets=[];
+    if(!c.plans) c.plans={
+      product:{what:'',why:'',how:'',schedules:[]},
+      business:{what:'',why:'',how:'',schedules:[]},
+      system:{what:'',why:'',how:'',schedules:[]}
+    };
+    ['product','business','system'].forEach(t=>{
+      if(!c.plans[t]) c.plans[t]={what:'',why:'',how:'',schedules:[]};
+      if(!c.plans[t].schedules) c.plans[t].schedules=[];
+    });
     ['product','business','system'].forEach(t=>{
       (c[t]||[]).forEach(e=>{ if(!e.aligns) e.aligns=[]; });
     });
@@ -808,7 +923,7 @@ function quickAdd(){
   if(!name){toast('이름을 입력해 주세요');nameEl.focus();return;}
   data.consumers.push({
     id:uid(),name,
-    intro:document.getElementById('qaIntro').value.trim(),
+    intro:'',
     firstDate:document.getElementById('qaDate').value||today(),
     product:[],business:[],system:[],meets:[],
     updatedAt:Date.now()
@@ -838,6 +953,7 @@ function openDetail(id){
   renderAlignSummary(curC());
   renderMeets();
   renderAllEntries();
+  PLAN_TYPES.forEach(t=>renderPlan(t));
 }
 document.getElementById('backBtn').addEventListener('click',()=>{
   currentId=null;
@@ -1073,6 +1189,82 @@ function closeAllForms(){
     f.classList.remove('open');f.innerHTML='';editingId[t]=null;
   });
 }
+
+// ── 사전 계획 ─────────────────────────────────────────────
+const PLAN_TYPES = ['product','business','system'];
+
+function renderPlan(type){
+  const cc=curC(); if(!cc)return;
+  if(!cc.plans) cc.plans={product:{what:'',why:'',how:'',schedules:[]},business:{what:'',why:'',how:'',schedules:[]},system:{what:'',why:'',how:'',schedules:[]}};
+  const p=cc.plans[type]||{what:'',why:'',how:'',schedules:[]};
+  const whatEl=document.getElementById('plan-what-'+type);
+  const whyEl=document.getElementById('plan-why-'+type);
+  const howEl=document.getElementById('plan-how-'+type);
+  if(whatEl) whatEl.value=p.what||'';
+  if(whyEl)  whyEl.value=p.why||'';
+  if(howEl)  howEl.value=p.how||'';
+  renderPlanSchedules(type);
+}
+
+function renderPlanSchedules(type){
+  const cc=curC(); if(!cc)return;
+  const p=(cc.plans&&cc.plans[type])||{schedules:[]};
+  const listEl=document.getElementById('plan-list-'+type); if(!listEl)return;
+  listEl.innerHTML='';
+  (p.schedules||[]).slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(s=>{
+    const div=document.createElement('div');
+    div.className='plan-schedule-item';
+    div.innerHTML='<span class="ps-date">'+esc(s.date)+'</span><span class="ps-content">'+esc(s.content)+'</span><button class="ps-del" data-sid="'+s.id+'">✕</button>';
+    div.querySelector('.ps-del').addEventListener('click',ev=>{
+      ev.stopPropagation();
+      const cc2=curC(); if(!cc2)return;
+      cc2.plans[type].schedules=cc2.plans[type].schedules.filter(x=>x.id!==s.id);
+      cc2.updatedAt=Date.now(); save();
+      renderPlanSchedules(type);
+      toast('일정 삭제됨');
+    });
+    listEl.appendChild(div);
+  });
+}
+
+function savePlan(type){
+  const cc=curC(); if(!cc)return;
+  if(!cc.plans) cc.plans={product:{what:'',why:'',how:'',schedules:[]},business:{what:'',why:'',how:'',schedules:[]},system:{what:'',why:'',how:'',schedules:[]}};
+  if(!cc.plans[type]) cc.plans[type]={what:'',why:'',how:'',schedules:[]};
+  const whatEl=document.getElementById('plan-what-'+type);
+  const whyEl=document.getElementById('plan-why-'+type);
+  const howEl=document.getElementById('plan-how-'+type);
+  cc.plans[type].what=whatEl?whatEl.value.trim():'';
+  cc.plans[type].why=whyEl?whyEl.value.trim():'';
+  cc.plans[type].how=howEl?howEl.value.trim():'';
+  cc.updatedAt=Date.now(); save();
+  toast('사전 계획이 저장됐습니다');
+}
+
+function addPlanSchedule(type){
+  const cc=curC(); if(!cc)return;
+  const dateEl=document.getElementById('plan-date-'+type);
+  const contentEl=document.getElementById('plan-content-'+type);
+  const date=(dateEl&&dateEl.value)||today();
+  const content=contentEl?contentEl.value.trim():'';
+  if(!content){ toast('일정 내용을 입력해 주세요'); return; }
+  if(!cc.plans) cc.plans={product:{what:'',why:'',how:'',schedules:[]},business:{what:'',why:'',how:'',schedules:[]},system:{what:'',why:'',how:'',schedules:[]}};
+  if(!cc.plans[type].schedules) cc.plans[type].schedules=[];
+  cc.plans[type].schedules.push({id:uid(), date, content});
+  cc.updatedAt=Date.now(); save();
+  if(dateEl) dateEl.value='';
+  if(contentEl) contentEl.value='';
+  renderPlanSchedules(type);
+  toast('일정이 추가됐습니다');
+}
+
+// 사전 계획 이벤트 바인딩 (document 위임)
+PLAN_TYPES.forEach(type=>{
+  document.addEventListener('click', ev=>{
+    if(ev.target&&ev.target.id==='plan-save-'+type) savePlan(type);
+    if(ev.target&&ev.target.id==='plan-add-'+type)  addPlanSchedule(type);
+  });
+});
 
 function buildForm(type,existing){
   const cls=CLS[type],stages=STAGES[type];
@@ -1549,6 +1741,42 @@ document.getElementById('helpClose').addEventListener('click',()=>{
 document.getElementById('helpOverlay').addEventListener('click',e=>{
   if(e.target===document.getElementById('helpOverlay'))
     document.getElementById('helpOverlay').style.display='none';
+});
+
+// ── 플래너 내보내기 ───────────────────────────────────
+document.getElementById('plannerExportBtn').addEventListener('click',()=>{
+  const followUps=[];
+  data.consumers.forEach(cc=>{
+    PLAN_TYPES.forEach(type=>{
+      const p=cc.plans&&cc.plans[type];
+      if(!p)return;
+      (p.schedules||[]).forEach(s=>{
+        followUps.push({
+          date:s.date,
+          text:esc(cc.name)+' — '+esc(s.content),
+          consumer:cc.name,
+          type:type==='product'?'제품':type==='business'?'사업':'시스템',
+          what:p.what||'',
+          why:p.why||'',
+          how:p.how||''
+        });
+      });
+    });
+  });
+  followUps.sort((a,b)=>a.date.localeCompare(b.date));
+  const exportData={
+    fromConsumerNote:true,
+    exportDate:today(),
+    followUps
+  };
+  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d=new Date();
+  a.href=url;
+  a.download='소비자노트_플래너내보내기_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  toast('플래너 내보내기 완료! ('+followUps.length+'개 일정)');
 });
 
 // ── 초기화 ────────────────────────────────────────────
