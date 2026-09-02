@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -554,6 +553,8 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .prodgrp-chip{padding:7px 11px;border-radius:20px;border:1px solid var(--border);font-size:12.5px;background:#fff;color:var(--sub);font-weight:600;cursor:pointer;}
 .prodgrp-chip.sel{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
 .prodname-input{margin-top:8px;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:14px;font-family:inherit;background:#fbfbfd;}
+/* 계획에서 자동 입력된 텍스트 */
+.from-plan{color:#1a3a8f !important;font-style:italic;font-size:13px !important;font-weight:700;background:#eef3ff;border:1px solid #b0c4f0 !important;}
 </style>
 </head>
 <body>
@@ -746,42 +747,103 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 </div>
 <div id="helpOverlay" class="help-overlay" style="display:none">
   <div class="help-box">
-    <h2>❓ 소비자 관리 노트 도움말</h2>
-    <div class="help-subtitle">소비자와의 소통을 기록하고 3% 얼라인을 관리하는 도구입니다.</div>
+    <h2>❓ 소비자 관리 노트 작성 요령</h2>
+    <div class="help-subtitle">소비자와의 소통을 계획하고 기록하며 3% 얼라인을 관리하는 도구입니다.</div>
 
     <div class="help-section">
-      <div class="help-section-title">1️⃣ 기본 사용법</div>
+      <div class="help-section-title">1️⃣ 소비자 등록 &amp; 기본 설정</div>
       <div class="help-item">
         <div class="help-item-title">👤 소비자 등록</div>
-        <div class="help-item-desc">첫 화면 상단 이름 입력 → "추가" 버튼<br>소개자·첫접촉일은 선택 입력 가능</div>
+        <div class="help-item-desc">첫 화면 이름 입력 → [추가] 버튼<br>레그·구분·관계발달·3개월 목표 설정 후 저장</div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">🤝 관계발달 설정</div>
-        <div class="help-item-desc">소비자 상세 → 기본정보에서 개인적·사업적 단계 클릭 → 저장<br>1단계(관심) → 2단계(친한) → 3단계(신뢰) → 4단계(승승)</div>
+        <div class="help-item-title">🤝 관계발달</div>
+        <div class="help-item-desc">개인적: 1관심 → 2친한 → 3신뢰 → 4승승<br>사업적: 1관심 → 2이해 → 3확신 → 4실행</div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">📌 3개월 목표 설정</div>
-        <div class="help-item-desc">당월·익월·익익월별로 목표 클릭 → 저장<br>1개 제품 / 5개 제품 / 도움받는 3% / 스스로 3% / 복제하는 3%</div>
-      </div>
-      <div class="help-item">
-        <div class="help-item-title">📝 컨택 기록 추가</div>
-        <div class="help-item-desc">제품·사업·시스템 탭 → ＋ 버튼 → 내용 입력<br>→ <b style="color:#e07b00">🎯 3% 필수 액션 선택 (중복 선택 가능!)</b> → 저장</div>
-      </div>
-      <div class="help-item">
-        <div class="help-item-title">🤝 만남 기록</div>
-        <div class="help-item-desc">상세 화면 상단 🤝 만남 섹션 → ＋ 만남 기록 추가 → 날짜·메모 입력<br>탭 기록과 별개로 실제 만남 횟수를 기록합니다.</div>
-      </div>
-      <div class="help-item">
-        <div class="help-item-title">💾 백업/복원</div>
-        <div class="help-item-desc">하단 ⬇ 백업 버튼으로 JSON 파일 저장<br>⬆ 복원 버튼으로 이전 데이터 불러오기</div>
+        <div class="help-item-title">📌 3개월 목표</div>
+        <div class="help-item-desc">당월·익월·익익월별로 목표 클릭 → 저장<br>1개 제품 / 5개 제품 / 도움받는 3% / 스스로 3% / 복제하는 3%<br><b style="color:#2e7d32">⭐ 목표 설정 → 3% 얼라인 현황과 연동되어 방향 제시 박스에 자동 반영!</b><br>예) 장스오 목표 설정 시 → "장스오 단계" 자동 인식 → 다음 액션 제시</div>
       </div>
     </div>
 
     <div class="help-section">
-      <div class="help-section-title">2️⃣ 3% 얼라인 개념</div>
+      <div class="help-section-title">2️⃣ 이번 달 만남 계획 (도전카드)</div>
       <div class="help-item">
-        <div class="help-item-title">3%란?</div>
-        <div class="help-item-desc">나만의 제품 카탈로그, 나만의 장스오, 나만의 STP를 소비자와 공유하고<br>소비자도 소비자 관리 노트를 작성하게 하는 것이 목표입니다.</div>
+        <div class="help-item-title">📅 날짜 추가</div>
+        <div class="help-item-desc">기본정보 하단 → 날짜 선택 → [날짜 추가] 버튼<br>날짜별 계획표가 자동 생성됩니다</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📋 Thinking / What&amp;Why / How</div>
+        <div class="help-item-desc">
+          <b>Thinking:</b> 이 만남의 핵심 마인드셋<br>
+          <b>What&amp;Why:</b> 무엇을, 왜 할 것인가?<br>
+          <b>How:</b> 어떻게 접근할 것인가?<br>
+          → 제품·사업·시스템 3개 영역을 한 표에 작성
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📝 실행 기록 자동 연동 ⭐</div>
+        <div class="help-item-desc">
+          <b style="color:#1a3a8f">① 계획 먼저 작성</b><br>
+          날짜별 표에 Thinking / What&amp;Why / How 입력 후 [💾 저장]<br><br>
+          <b style="color:#2e7d32">② 만남 당일 [📝 실행 기록] 버튼 클릭</b><br>
+          → 제품·사업·시스템 탭이 자동으로 열리면서<br>
+          → 계획에 작성한 내용이 <b style="color:#1a3a8f">파란색</b>으로 자동 입력됩니다<br>
+          → 실제 결과(피드백)만 추가로 입력 후 저장하면 완료!<br><br>
+          <b style="color:#e07b00">⚠️ 파란색 = 계획에서 온 내용 (수정 시 검정으로 변경)</b><br>
+          <b style="color:#e07b00">⚠️ 검정색 = 직접 입력한 내용</b>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💾 저장 &amp; 완료 처리</div>
+        <div class="help-item-desc">[💾 저장]: 계획 저장 (만남 전 언제든 수정 가능)<br>[🔒 완료 처리]: 만남 후 계획 잠금 (수정 불가)</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-section-title">3️⃣ 실행 기록 입력</div>
+      <div class="help-item">
+        <div class="help-item-title">📦 제품 탭</div>
+        <div class="help-item-desc">제품군 클릭(11개 브랜드) → 제품명 → 니즈 → 진행 → 피드백<br>→ 🎯 3% 액션 선택 → 단계 선택 → 저장<br><b style="color:#2e7d32">⭐ 제품군 선택 시 활동 현황 카드에 브랜드별 자동 집계!</b><br>예) 뉴트리라이트 3개, 아티스트리 1개 → 활동 현황에 자동 표시</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💼 사업 탭</div>
+        <div class="help-item-desc">니즈 → 진행(STP 내용) → 피드백<br>→ 🎯 STP 선택 → 단계(소개/이해/파트너) → 저장</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🎓 시스템 탭</div>
+        <div class="help-item-desc">시스템명 입력 → 니즈 → 진행 → 피드백<br>예) OM세미나, FED, 월례회의, 특강<br>→ 🎯 3% 액션 선택 → 단계 선택 → 저장</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title" style="color:#e07b00">⚠️ 3% 액션은 중복 선택 가능!</div>
+        <div class="help-item-desc">카탈로그·장스오·STP가 한 번에 이루어질 수 있습니다.<br>해당 액션을 <b style="color:#e07b00">모두 선택</b>해 주세요.</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-section-title">4️⃣ 활동 현황 &amp; 방향 제시</div>
+      <div class="help-item">
+        <div class="help-item-title">🤝 소통 기록 (자동 집계) ⭐</div>
+        <div class="help-item-desc">
+          제품·사업·시스템 탭에 기록 입력 → 소통 기록 자동 반영<br>
+          이번 달 소통 횟수 자동 카운팅 (별도 입력 불필요!)<br>
+          <b style="color:#2e7d32">→ 기록을 성실히 할수록 소통 횟수가 자동으로 쌓입니다</b><br>
+          <b style="color:#2e7d32">→ 모든 기록은 통계 화면에도 자동 반영됩니다</b>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📋 활동 현황 3카드</div>
+        <div class="help-item-desc">📦 제품 결과 / 💼 사업 결과 / 🎓 시스템 결과<br>[이번 달][Q1][Q2][Q3][Q4][전체] 탭으로 분기별 확인<br>★ = 현재 분기, 데이터 있는 분기만 자동 표시</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">💡 방향 제시 박스</div>
+        <div class="help-item-desc">3% 얼라인 현황 분석 → 다음 액션 자동 제시<br>🌱 시작 → 📋 카탈 → 🛒 장스오 → 💼 STP → 🎉 3% 완성</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-section-title">5️⃣ 3% 얼라인 개념</div>
+      <div class="help-item">
         <div class="help-flow">
           <span class="help-flow-item">📋 카탈로그</span>
           <span class="help-flow-arrow">→</span>
@@ -793,64 +855,46 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
         </div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">📋 카탈로그 (지식·정보 공유)</div>
-        <div class="help-item-desc">나만의 제품 카탈로그는 내가 잘 활용하는 제품만 소비자에게 공유하는 방법입니다.</div>
+        <div class="help-item-title">📋 카탈로그</div>
+        <div class="help-item-desc">내가 잘 활용하는 제품을 소비자에게 공유하는 나만의 카탈로그</div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">🛒 장스오 (혜택·이익)</div>
-        <div class="help-item-desc">장바구니 스마트 오더 — 자신이 잘 활용하는 제품을 정기 구매 습관화로 소비자를 완성하는 도구입니다.</div>
+        <div class="help-item-title">🛒 장스오</div>
+        <div class="help-item-desc">장바구니 스마트 오더 — 정기 구매 습관화로 소비자를 완성</div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">💼 STP (재미·사업)</div>
-        <div class="help-item-desc">나만의 카탈로그와 장스오 경험을 하나의 스토리로 만들어 소비자를 파트너에게 공유하는 것입니다.</div>
-      </div>
-      <div class="help-item">
-        <div class="help-item-title" style="color:#e07b00">⚠️ 3% 액션은 중복 선택 가능!</div>
-        <div class="help-item-desc">한 번의 소통에서 카탈로그와 장스오가 동시에 이루어질 수 있습니다.<br>해당되는 액션을 <b style="color:#e07b00">모두 선택</b>해 주세요.</div>
+        <div class="help-item-title">💼 STP</div>
+        <div class="help-item-desc">카탈로그·장스오 경험을 스토리로 만들어 파트너에게 공유</div>
       </div>
     </div>
 
     <div class="help-section">
-      <div class="help-section-title">3️⃣ 현장 작성 예시</div>
+      <div class="help-section-title">6️⃣ 통계 &amp; 기타</div>
       <div class="help-item">
-        <div class="help-item-title">📦 제품 탭 기록 예시</div>
-        <div class="help-example">
-          <b>일정:</b> 2026-09-05<br>
-          <b>제품군:</b> 뉴트리라이트 비타민C<br>
-          <b>니즈:</b> 피부 트러블로 고민 중<br>
-          <b>진행:</b> 카탈로그 보여드리며 체험 권유 → 관심 표명<br>
-          <b>피드백:</b> 다음 주 체험 제품 전달 예정<br>
-          <b>단계:</b> 인지<br>
-          <b>🎯 3% 액션:</b> 카탈로그 ✅
+        <div class="help-item-title">📊 통계</div>
+        <div class="help-item-desc">상단 [📊 통계] → 회계연도 월간 추이<br>만남횟수·카탈·장스오·STP·제품·사업·시스템 횟수 한눈에 확인</div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📅 플래너 내보내기 ⭐</div>
+        <div class="help-item-desc">
+          하단 [📅 플래너 내보내기] → JSON 파일 저장<br>
+          7 Habits Planner → [📋 관리노트 가져오기] → 캘린더 자동 배치<br>
+          <b style="color:#2f5496">내보내지는 데이터:</b><br>
+          · 이번 달 만남 계획의 날짜·내용 (소비자별)<br>
+          · 예) 9/1 홍길동 — 제품: 비긴 체험<br>
+          · 예) 9/8 홍길동 — 사업: STP 1차 설명<br>
+          <b style="color:#2e7d32">→ 플래너 캘린더에서 전체 소비자 일정을 한눈에!</b>
         </div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">💼 사업 탭 기록 예시</div>
-        <div class="help-example">
-          <b>일정:</b> 2026-09-15<br>
-          <b>니즈:</b> 부수입에 관심 있음<br>
-          <b>진행:</b> STP 1차 설명 → 긍정적 반응<br>
-          <b>피드백:</b> 다음 미팅에서 사업 자료 공유 예정<br>
-          <b>단계:</b> 이해<br>
-          <b>🎯 3% 액션:</b> STP ✅
-        </div>
-      </div>
-      <div class="help-item">
-        <div class="help-item-title">🎓 시스템 탭 기록 예시</div>
-        <div class="help-example">
-          <b>일정:</b> 2026-09-20<br>
-          <b>시스템 종류:</b> OM 세미나<br>
-          <b>소통 내용:</b> OM 동행 → 사업 비전 공유<br>
-          <b>피드백:</b> 긍정적 반응, 다음 달 세미나 참석 의향<br>
-          <b>단계:</b> 동행<br>
-          <b>🎯 3% 액션:</b> 카탈로그 ✅  STP ✅
-        </div>
+        <div class="help-item-title">💾 백업/복원</div>
+        <div class="help-item-desc">⬇ 백업: 정기적으로 JSON 백업 권장!<br>⬆ 복원: 백업 파일로 데이터 복구</div>
       </div>
     </div>
 
     <button class="help-close-btn" id="helpClose">확인</button>
   </div>
-</div>
+</div></div>
 <div class="fbar">
   <button id="backupBtn">⬇ 백업</button>
   <button id="restoreBtn">⬆ 복원</button>
@@ -1258,57 +1302,214 @@ function renderMeets(){
 }
 
 
-// ── 플래너 내보내기 ───────────────────────────────────
-document.addEventListener('click', function(ev){
-  if(ev.target && ev.target.id==='plannerExportBtn'){
-    var followUps=[];
-    data.consumers.forEach(function(cc){
-      // 통합 만남 계획 내보내기
-      ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
-        var tl=s.planType==='product'?'제품':s.planType==='business'?'사업':'시스템';
-        followUps.push({
-          date:s.date,
-          text:esc(cc.name)+' — '+tl+': '+esc(s.content),
-          consumer:cc.name,
-          type:tl
-        });
+function getFiscalStartYear(){
+  // 현재 날짜 기준 회계연도 시작 연도
+  const now=new Date();
+  const mo=now.getMonth()+1;
+  return mo>=9 ? now.getFullYear() : now.getFullYear()-1;
+}
+
+function getFiscalMonths(startYear){
+  // startYear: 회계연도 시작 연도 (9월 기준)
+  if(!startYear) startYear=getFiscalStartYear();
+  const months=[];
+  for(let i=0;i<12;i++){
+    const m=((9+i-1)%12)+1;
+    const y=startYear+(Math.floor((9+i-1)/12));
+    months.push(y+'-'+String(m).padStart(2,'0'));
+  }
+  return months;
+}
+
+function getAvailableFiscalYears(){
+  // 데이터가 있는 회계연도 목록 반환
+  const allDates=[];
+  data.consumers.forEach(cc=>{
+    ['product','business','system'].forEach(t=>{
+      (cc[t]||[]).forEach(e=>{ if(e.date) allDates.push(e.date); });
+    });
+    (cc.meets||[]).forEach(m=>{ if(m.date) allDates.push(m.date); });
+  });
+  const fiscalYears=new Set();
+  // 현재 회계연도는 항상 포함
+  fiscalYears.add(getFiscalStartYear());
+  allDates.forEach(d=>{
+    const yr=parseInt(d.slice(0,4));
+    const mo=parseInt(d.slice(5,7));
+    // 이 날짜가 속한 회계연도 시작연도 계산
+    fiscalYears.add(mo>=9 ? yr : yr-1);
+  });
+  return [...fiscalYears].sort((a,b)=>a-b);
+}
+
+function calcMonthStats(ym){
+  let meet=0,meetP=0,cat=0,smo=0,stp=0,prod=0,biz=0,sys=0;
+  const people=new Set();
+  data.consumers.forEach(cc=>{
+    const mc=(cc.meets||[]).filter(m=>(m.date||'').startsWith(ym)).length;
+    if(mc>0){people.add(cc.id); meet+=mc;}
+    const calcA=(arr)=>arr.filter(e=>(e.date||'').startsWith(ym)).reduce((acc,e)=>{
+      (e.aligns||[]).forEach(a=>{if(a==='cat')acc.cat++;if(a==='smo')acc.smo++;if(a==='stp')acc.stp++;});
+      return acc;
+    },{cat:0,smo:0,stp:0});
+    ['product','business','system'].forEach(t=>{
+      (cc[t]||[]).forEach(e=>{
+        if((e.date||'').startsWith(ym)){
+          if(t==='product')prod++;
+          if(t==='business')biz++;
+          if(t==='system')sys++;
+          (e.aligns||[]).forEach(a=>{if(a==='cat')cat++;if(a==='smo')smo++;if(a==='stp')stp++;});
+        }
       });
-      // 제품/사업/시스템 기록 내보내기
-      var PLAN_TYPES_EXP=['product','business','system'];
-      PLAN_TYPES_EXP.forEach(function(type){
-        var p=cc.plans&&cc.plans[type];
-        if(!p) return;
-        (p.schedules||[]).forEach(function(s){
-          var typeLabel=type==='product'?'제품':type==='business'?'사업':'시스템';
-          followUps.push({
-            date:s.date,
-            text:esc(cc.name)+' — '+esc(s.content),
-            consumer:cc.name,
-            type:typeLabel,
-            whatwhy:p.whatwhy||'',
-            how:p.how||''
-          });
+    });
+  });
+  return {ym,meetP:people.size,meet,cat,smo,stp,prod,biz,sys};
+}
+
+let _selectedFY=null; // 선택된 회계연도 시작연도
+
+function renderFYTabs(){
+  const tabs=document.getElementById('fyTabs');
+  if(!tabs)return;
+  const years=getAvailableFiscalYears();
+  const curFY=getFiscalStartYear();
+  if(!_selectedFY) _selectedFY=curFY;
+  tabs.innerHTML='';
+  years.forEach(yr=>{
+    const btn=document.createElement('button');
+    btn.className='fy-btn'+(yr===_selectedFY?' active':'');
+    btn.textContent=yr+'.'+'09 ~ '+(yr+1)+'.'+'08';
+    if(yr===curFY) btn.textContent+=' (현재)';
+    btn.addEventListener('click',()=>{
+      _selectedFY=yr;
+      renderStatView();
+    });
+    tabs.appendChild(btn);
+  });
+}
+
+function renderStatView(){
+  const thisMonth=today().slice(0,7);
+  const now=new Date();
+  if(!_selectedFY) _selectedFY=getFiscalStartYear();
+  renderFYTabs();
+  document.getElementById('statMonthLabel').textContent=
+    _selectedFY+'년 9월 ~ '+(_selectedFY+1)+'년 8월 회계연도';
+
+  // 이번 달 현황 (실제 이번 달 기준, 선택 연도 무관)
+  const tm=calcMonthStats(thisMonth);
+  const cols=[
+    {lbl:'만남 인원',val:tm.meetP,bg:'#fff0f5',col:'#c00060'},
+    {lbl:'만남 횟수',val:tm.meet,bg:'#fff0f5',col:'#c00060'},
+    {lbl:'카탈로그',val:tm.cat,bg:'#eef2ff',col:'#2f5496'},
+    {lbl:'장스오',val:tm.smo,bg:'#e8f5e9',col:'#2e7d32'},
+    {lbl:'STP',val:tm.stp,bg:'#fff3e0',col:'#e07b00'},
+    {lbl:'📦 제품',val:tm.prod,bg:'#fdf3ff',col:'#6a0dad'},
+    {lbl:'💼 사업',val:tm.biz,bg:'#f0fff4',col:'#276749'},
+    {lbl:'🎓 시스템',val:tm.sys,bg:'#ebf8ff',col:'#2a4a7f'},
+  ];
+  const tmEl=document.getElementById('statThisMonth');
+  tmEl.innerHTML='';
+  cols.forEach(col=>{
+    const div=document.createElement('div');
+    div.className='stat-cell';
+    div.style.background=col.bg;
+    div.innerHTML='<span class="sc-num" style="color:'+col.col+'">'+col.val+'</span><span class="sc-lbl">'+col.lbl+'</span>';
+    tmEl.appendChild(div);
+  });
+
+  // 레그별 현황
+  const legWrap=document.getElementById('statLegWrap');
+  if(legWrap){
+    const lst={};
+    LEGS.forEach(l=>{lst[l]={p:0,c:0,meet:0,cat:0,smo:0,stp:0};});
+    data.consumers.forEach(cc=>{
+      const l=cc.leg||'보류';
+      if(!lst[l])return;
+      cc.div==='partner'?lst[l].p++:lst[l].c++;
+      lst[l].meet+=(cc.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
+      ['product','business','system'].forEach(t=>{
+        (cc[t]||[]).forEach(e=>{
+          if((e.date||'').startsWith(thisMonth)){
+            (e.aligns||[]).forEach(a=>{
+              if(a==='cat')lst[l].cat++;
+              else if(a==='smo')lst[l].smo++;
+              else if(a==='stp')lst[l].stp++;
+            });
+          }
         });
       });
     });
-    // 날짜순 정렬
-    followUps.sort(function(a,b){ return (a.date||'').localeCompare(b.date||''); });
-    var exportData={
-      fromConsumerNote:true,
-      exportedAt:new Date().toISOString(),
-      followUps:followUps
-    };
-    var blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url;
-    a.download='소비자노트_플래너내보내기_'+today()+'.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast('플래너 내보내기 완료! ('+followUps.length+'건)');
+    let html='<div style="display:flex;flex-direction:column;gap:8px;">';
+    LEGS.forEach(l=>{
+      const s=lst[l]; if(s.p+s.c===0)return;
+      const lbl=l==='보류'?'보류':l+'레그';
+      html+='<div style="background:#f8f9fb;border-radius:12px;padding:10px 14px;">';
+      html+='<div style="font-size:13px;font-weight:700;color:#2f5496;margin-bottom:6px;">'+lbl+
+        ' <span style="font-size:11.5px;color:#6b7280;font-weight:600;">파트너 '+s.p+'명 · 소비자 '+s.c+'명</span></div>';
+      html+='<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff0f5;color:#c00060;font-weight:700;">🤝 '+s.meet+'회</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#eef2ff;color:#2f5496;font-weight:700;">카탈 '+s.cat+'</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#e8f5e9;color:#2e7d32;font-weight:700;">장스오 '+s.smo+'</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff3e0;color:#e07b00;font-weight:700;">STP '+s.stp+'</span>'+
+        '</div></div>';
+    });
+    html+='</div>';
+    legWrap.innerHTML=html;
   }
+  // 회계연도 월간 추이 테이블
+  const months=getFiscalMonths(_selectedFY);
+  const keys=['만남인원','만남횟수','카탈','장스오','STP','제품','사업','시스템'];
+  const head=document.getElementById('statYearHead');
+  head.innerHTML='<th>월</th>'+keys.map(k=>'<th>'+k+'</th>').join('');
+  const body=document.getElementById('statYearBody');
+  body.innerHTML='';
+  const allStats=months.map(ym=>calcMonthStats(ym));
+  const maxVals={};
+  keys.forEach((k,i)=>{
+    const vals=allStats.map(s=>[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys][i]);
+    maxVals[i]=Math.max(...vals,1);
+  });
+  allStats.forEach(s=>{
+    const tr=document.createElement('tr');
+    if(s.ym===thisMonth) tr.className='cur-month';
+    const vals=[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys];
+    tr.innerHTML='<td>'+s.ym.slice(0,7)+'</td>'+
+      vals.map((v,i)=>'<td>'+v+'<br><span class="stat-bar" style="width:'+Math.round(v/maxVals[i]*40)+'px"></span></td>').join('');
+    body.appendChild(tr);
+  });
+}
+
+// 통계 버튼
+document.getElementById('statBtn').addEventListener('click',()=>{
+  const sv=document.getElementById('statView');
+  const lv=document.getElementById('listView');
+  const dv=document.getElementById('detailView');
+  if(sv.classList.contains('active')){
+    sv.classList.remove('active');
+    lv.style.display='block';
+    document.getElementById('statBtn').textContent='📊 통계';
+  } else {
+    lv.style.display='none';
+    dv.style.display='none';
+    document.getElementById('backBtn').style.display='none';
+    document.getElementById('hTitle').textContent='소비자 관리 노트';
+    sv.classList.add('active');
+    document.getElementById('statBtn').textContent='← 목록';
+    renderStatView();
+  }
+});
+
+// ── 도움말 ────────────────────────────────────────────
+document.getElementById('helpBtn').addEventListener('click',()=>{
+  document.getElementById('helpOverlay').style.display='flex';
+});
+document.getElementById('helpClose').addEventListener('click',()=>{
+  document.getElementById('helpOverlay').style.display='none';
+});
+document.getElementById('helpOverlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('helpOverlay'))
+    document.getElementById('helpOverlay').style.display='none';
 });
 
 function renderAllEntries(){
@@ -1645,7 +1846,16 @@ function renderMonthPlanCards(cc){
 
   // 날짜 카운트 표시
   var countEl=document.getElementById('plan-count-all');
-  if(countEl) countEl.textContent=dates.length>0?dates.length+'일 계획':'';
+  if(countEl){
+    if(dates.length===0){ countEl.textContent=''; }
+    else{
+      var dateLabels=dates.map(function(d){
+        var parts=d.split('-');
+        return parseInt(parts[1])+'/'+parseInt(parts[2]);
+      });
+      countEl.textContent=dates.length+'일 계획 ('+dateLabels.join(', ')+')';
+    }
+  }
 
   if(dates.length===0){ wrap.innerHTML='<div style="font-size:12.5px;color:var(--sub);padding:10px;text-align:center;">위 날짜 추가 버튼으로 만남 일정을 추가하세요</div>'; return; }
 
@@ -1743,19 +1953,67 @@ function renderMonthPlanCards(cc){
     });
   });
 
-  // 실행 기록 버튼
+  // 실행 기록 버튼 — 세 탭 모두 자동 입력
   wrap.querySelectorAll('.date-plan-record-btn').forEach(function(btn){
     btn.addEventListener('click',function(ev){
       ev.stopPropagation();
       var date=btn.dataset.date;
+      var cc2=curC(); if(!cc2) return;
+      var s=(cc2.plans&&cc2.plans.allSchedules||[]).find(function(x){ return x.date===date; });
+
+      function fillForm(type){
+        openForm(type, null);
+        setTimeout(function(){
+          var dateEl=document.getElementById('ef_date');
+          var needsEl=document.getElementById('ef_needs');
+          var proposalEl=document.getElementById('ef_proposal');
+          if(dateEl) dateEl.value=date;
+          if(s){
+            var thinking=s['thinking_'+type]||'';
+            var whatwhy=s['whatwhy_'+type]||'';
+            var how=s['how_'+type]||'';
+            var needsText='';
+            if(thinking) needsText+='[Thinking] '+thinking+'\n';
+            if(whatwhy)  needsText+='[What&Why] '+whatwhy;
+            if(needsEl&&needsText.trim()){
+              needsEl.value=needsText.trim();
+              needsEl.classList.add('from-plan');
+              needsEl.addEventListener('input',function(){ needsEl.classList.remove('from-plan'); },{once:true});
+            }
+            if(proposalEl&&how){
+              proposalEl.value=how;
+              proposalEl.classList.add('from-plan');
+              proposalEl.addEventListener('input',function(){ proposalEl.classList.remove('from-plan'); },{once:true});
+            }
+          }
+        },100);
+      }
+
+      // 제품 탭 먼저 채우고 이동
       setActiveTab('product');
       setTimeout(function(){
-        var dateEl=document.getElementById('ef_date');
-        if(dateEl) dateEl.value=date;
-        var formEl=document.getElementById('form-product');
-        if(formEl) formEl.scrollIntoView({behavior:'smooth',block:'start'});
+        fillForm('product');
+        // 사업/시스템 탭도 백그라운드에서 채우기
+        setTimeout(function(){
+          setActiveTab('business');
+          setTimeout(function(){
+            fillForm('business');
+            setTimeout(function(){
+              setActiveTab('system');
+              setTimeout(function(){
+                fillForm('system');
+                // 최종적으로 제품 탭으로 돌아오기
+                setTimeout(function(){
+                  setActiveTab('product');
+                  var formEl=document.getElementById('form-product');
+                  if(formEl) formEl.scrollIntoView({behavior:'smooth',block:'start'});
+                  toast('📝 제품·사업·시스템 계획 내용이 모두 채워졌습니다');
+                },200);
+              },100);
+            },300);
+          },100);
+        },400);
       },300);
-      toast('실행 기록 탭으로 이동했습니다');
     });
   });
 }
@@ -1808,12 +2066,8 @@ function buildForm(type,existing){
     html+=grpHtml;
   }
   if(isS) html+='<div class="fld"><label>시스템 종류</label><input type="text" id="ef_target" placeholder="함께한 시스템명" value="'+esc(existing?existing.target:'')+'"></div>';
-  if(!isS){
-    html+='<div class="fld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ef_needs" placeholder="예) 피부 트러블로 고민 / 노후 건강이 걱정됨">'+esc(existing?existing.needs:'')+'</textarea></div>';
-    html+='<div class="fld"><label>진행 (대안 제시 · 반응)</label><textarea id="ef_proposal" placeholder="어떤 방식으로 제안했고, 상대의 반응은 어땠나요?">'+esc(existing?existing.proposal:'')+'</textarea></div>';
-  }else{
-    html+='<div class="fld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ef_needs" placeholder="어떤 관심이나 필요로 시스템에 참여했나요?">'+esc(existing?existing.needs:'')+'</textarea></div>';
-  }
+  html+='<div class="fld"><label>니즈 (문제점·두려움·결핍)</label><textarea id="ef_needs" placeholder="'+(isS?'어떤 관심이나 필요로 시스템에 참여했나요?':'예) 피부 트러블로 고민 / 노후 건강이 걱정됨')+'">'+esc(existing?existing.needs:'')+'</textarea></div>';
+  html+='<div class="fld"><label>진행 '+(isS?'':'(대안 제시 · 반응)')+'</label><textarea id="ef_proposal" placeholder="'+(isS?'어떻게 참여를 이끌었고, 반응은 어땠나요?':'어떤 방식으로 제안했고, 상대의 반응은 어땠나요?')+'">'+esc(existing?existing.proposal:'')+'</textarea></div>';
   html+='<div class="fld"><label>피드백</label><textarea id="ef_note" placeholder="결과 정리·다음 계획">'+esc(existing?existing.note:'')+'</textarea></div>';
   const exAligns=existing?existing.aligns||[]:[];
   html+='<div class="align-required">';
@@ -1984,12 +2238,8 @@ function buildExpand(type,e){
     html+=grpHtml2;
   }
   if(isS)html+='<div class="expfld"><label>시스템 종류</label><textarea id="ex_target">'+esc(e.target||'')+'</textarea></div>';
-  if(!isS){
-    html+='<div class="expfld"><label>니즈</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
-    html+='<div class="expfld"><label>진행</label><textarea id="ex_proposal">'+esc(e.proposal||'')+'</textarea></div>';
-  }else{
-    html+='<div class="expfld"><label>니즈</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
-  }
+  html+='<div class="expfld"><label>니즈</label><textarea id="ex_needs">'+esc(e.needs||'')+'</textarea></div>';
+  html+='<div class="expfld"><label>진행</label><textarea id="ex_proposal">'+esc(e.proposal||'')+'</textarea></div>';
   html+='<div class="expfld"><label>피드백</label><textarea id="ex_note">'+esc(e.note||'')+'</textarea></div>';
   html+='<div class="expfld"><label>단계</label><div class="minisel" id="ex_chips">';
   stages.forEach(s=>html+='<span class="mchip '+cls+(s===e.stage?' sel':'')+'" data-stage="'+s+'">'+s+'</span>');
