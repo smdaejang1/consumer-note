@@ -544,7 +544,11 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .date-plan-table td:last-child{border-right:none;}
 .date-plan-table tr:last-child td{border-bottom:none;}
 .date-plan-table td.row-lbl{font-size:12px;font-weight:700;color:var(--sub);background:#f8f9fb;text-align:center;vertical-align:middle;}
-.date-plan-textarea{width:100%;border:none;background:transparent;font-size:12.5px;font-family:inherit;resize:none;min-height:38px;color:var(--text);outline:none;line-height:1.5;}
+.date-plan-textarea{width:100%;border:none;background:transparent;font-size:12px;font-family:inherit;resize:none;min-height:22px;max-height:44px;color:var(--text);outline:none;line-height:1.4;overflow-y:auto;}
+.date-plan-textarea.row-thinking{min-height:22px;max-height:44px;}
+.date-plan-textarea.row-what{min-height:22px;max-height:44px;}
+.date-plan-textarea.row-why{min-height:22px;max-height:44px;}
+.date-plan-textarea.row-how{min-height:22px;max-height:44px;}
 .date-plan-footer{display:flex;gap:6px;padding:8px 12px;background:#f8f9fb;border-top:1px solid var(--border);}
 .date-plan-save-btn{padding:7px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;}
 .date-plan-record-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--p);background:var(--pb);color:var(--p);font-size:12px;font-weight:700;}
@@ -554,7 +558,13 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .prodgrp-chip.sel{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;font-weight:800;}
 .prodname-input{margin-top:8px;width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:14px;font-family:inherit;background:#fbfbfd;}
 /* 계획에서 자동 입력된 텍스트 */
+.eform textarea{field-sizing:content;min-height:40px;}
 .from-plan{color:#1a3a8f !important;font-style:italic;font-size:13px !important;font-weight:700;background:#eef3ff;border:1px solid #b0c4f0 !important;}
+.date-plan-body{display:none;}
+.date-plan-body.open{display:block;}
+.date-plan-chevron{font-size:14px;color:var(--sub);transition:transform .2s;margin-left:auto;flex-shrink:0;}
+.date-plan-chevron.open{transform:rotate(90deg);}
+.date-plan-header{cursor:pointer;user-select:none;}
 </style>
 </head>
 <body>
@@ -1863,61 +1873,96 @@ function renderMonthPlanCards(cc){
   var html='';
 
   dates.forEach(function(date){
-    // 이 날짜의 데이터 찾기 (없으면 새로 생성)
     var s=cc.plans.allSchedules.find(function(x){ return x.date===date; });
     if(!s){
-      s={id:uid(),date:date,thinking_product:'',thinking_business:'',thinking_system:'',whatwhy_product:'',whatwhy_business:'',whatwhy_system:'',how_product:'',how_business:'',how_system:''};
+      s={id:uid(),date:date,
+        thinking_product:'',thinking_business:'',thinking_system:'',
+        what_product:'',what_business:'',what_system:'',
+        why_product:'',why_business:'',why_system:'',
+        how_product:'',how_business:'',how_system:''};
       cc.plans.allSchedules.push(s);
     }
-    var isPast=date<todayStr, isToday=date===todayStr;
+    // whatwhy → what 마이그레이션
+    ['product','business','system'].forEach(function(t){
+      if(s['whatwhy_'+t]&&!s['what_'+t]){ s['what_'+t]=s['whatwhy_'+t]; delete s['whatwhy_'+t]; }
+      if(!s['what_'+t]) s['what_'+t]='';
+      if(!s['why_'+t])  s['why_'+t]='';
+      if(!s['thinking_'+t]) s['thinking_'+t]='';
+      if(!s['how_'+t])  s['how_'+t]='';
+    });
+    var isPast=date<todayStr, isToday=date===todayStr, isFuture=date>todayStr;
+    var locked=s.recorded||false;
     var dateCls=isPast?'past':isToday?'today':'future';
     var dateLabel=formatDateKo(date);
 
     html+='<div class="date-plan-card" id="dpc-'+date+'">';
-    // 헤더
-    html+='<div class="date-plan-header">';
-    html+='<span class="date-plan-date-lbl '+dateCls+'">'+dateLabel+'</span>';
-    html+='<button class="date-plan-del-btn" data-date="'+date+'">✕ 삭제</button>';
+    html+='<div class="date-plan-header" data-date="'+date+'">';
+    html+='<span class="date-plan-date-lbl '+dateCls+'">'+(locked?'🔒 ':'')+dateLabel+'</span>';
+    if(!locked) html+='<button class="date-plan-del-btn" data-date="'+date+'" onclick="event.stopPropagation()" style="border:none;background:none;color:var(--danger);font-size:12px;font-weight:700;">✕</button>';
+    html+='<span class="date-plan-chevron open" id="chev-'+date+'">›</span>';
     html+='</div>';
+    html+='<div class="date-plan-body open" id="dpb-'+date+'">';
     // 표
     html+='<table class="date-plan-table">';
     html+='<thead><tr>';
     html+='<th class="th-row">Thinking</th>';
-    html+='<th class="th-product">📦 제품</th>';
-    html+='<th class="th-business">💼 사업</th>';
-    html+='<th class="th-system">🎓 시스템</th>';
+    html+='<th class="th-product">제품</th>';
+    html+='<th class="th-business">사업</th>';
+    html+='<th class="th-system">시스템</th>';
     html+='</tr></thead>';
-    // Thinking 행 (헤더 아래 입력칸)
-    html+='<tbody><tr>';
-    html+='<td class="row-lbl" style="background:#f8f9fb;"></td>';
-    ['product','business','system'].forEach(function(t){
-      var val=s['thinking_'+t]||'';
-      html+='<td><textarea class="date-plan-textarea" data-date="'+date+'" data-row="thinking" data-type="'+t+'">'+esc(val)+'</textarea></td>';
-    });
-    html+='</tr></tbody>';
     html+='<tbody>';
     var rows=[
-      {key:'whatwhy', lbl:'What&amp;Why'},
+      {key:'what', lbl:'What'},
+      {key:'why', lbl:'Why'},
       {key:'how', lbl:'How'}
     ];
     rows.forEach(function(row){
       html+='<tr><td class="row-lbl">'+row.lbl+'</td>';
       ['product','business','system'].forEach(function(t){
         var val=s[row.key+'_'+t]||'';
-        html+='<td><textarea class="date-plan-textarea" data-date="'+date+'" data-row="'+row.key+'" data-type="'+t+'">'+esc(val)+'</textarea></td>';
+        html+='<td><textarea class="date-plan-textarea row-'+row.key+'" data-date="'+date+'" data-row="'+row.key+'" data-type="'+t+'">'+esc(val)+'</textarea></td>';
       });
       html+='</tr>';
     });
     html+='</tbody></table>';
-    // 하단 버튼
     html+='<div class="date-plan-footer">';
-    html+='<button class="date-plan-save-btn" data-date="'+date+'">💾 저장</button>';
-    if(!isPast||isToday) html+='<button class="date-plan-record-btn" data-date="'+date+'">📝 실행 기록</button>';
+    if(!locked) html+='<button class="date-plan-save-btn" data-date="'+date+'">💾 저장</button>';
+    if(!locked&&!isFuture) html+='<button class="date-plan-record-btn" data-date="'+date+'">📝 실행 기록</button>';
+    if(!locked&&isPast) html+='<button class="date-plan-done-btn" data-date="'+date+'" style="padding:5px 12px;border-radius:8px;border:none;background:#f1f2f5;color:var(--sub);font-size:11.5px;font-weight:700;">🔒 완료</button>';
+    html+='</div>';
     html+='</div>';
     html+='</div>';
   });
 
   wrap.innerHTML=html;
+
+  // 헤더 클릭 → 접기/펼치기
+  wrap.querySelectorAll('.date-plan-header').forEach(function(hdr){
+    hdr.addEventListener('click',function(){
+      var date=hdr.dataset.date;
+      var body=document.getElementById('dpb-'+date);
+      var chev=document.getElementById('chev-'+date);
+      if(body) body.classList.toggle('open');
+      if(chev) chev.classList.toggle('open');
+    });
+  });
+
+  // 완료 처리 버튼
+  wrap.querySelectorAll('.date-plan-done-btn').forEach(function(btn){
+    btn.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      var date=btn.dataset.date;
+      var cc2=curC(); if(!cc2) return;
+      var s=(cc2.plans.allSchedules||[]).find(function(x){ return x.date===date; });
+      if(!s) return;
+      if(confirm(formatDateKo(date)+' 만남을 완료 처리할까요?')){
+        var card=document.getElementById('dpc-'+date);
+        if(card){ card.querySelectorAll('.date-plan-textarea').forEach(function(ta){ s[ta.dataset.row+'_'+ta.dataset.type]=ta.value; }); }
+        s.recorded=true; cc2.updatedAt=Date.now(); save();
+        renderMonthPlanCards(cc2); toast(formatDateKo(date)+' 완료 처리됐습니다');
+      }
+    });
+  });
 
   // 저장 버튼
   wrap.querySelectorAll('.date-plan-save-btn').forEach(function(btn){
@@ -1969,21 +2014,52 @@ function renderMonthPlanCards(cc){
           var proposalEl=document.getElementById('ef_proposal');
           if(dateEl) dateEl.value=date;
           if(s){
-            var thinking=s['thinking_'+type]||'';
-            var whatwhy=s['whatwhy_'+type]||'';
+            var what=s['what_'+type]||'';
+            var why=s['why_'+type]||'';
             var how=s['how_'+type]||'';
+            // What + Why → 니즈 칸
             var needsText='';
-            if(thinking) needsText+='[Thinking] '+thinking+'\n';
-            if(whatwhy)  needsText+='[What&Why] '+whatwhy;
-            if(needsEl&&needsText.trim()){
-              needsEl.value=needsText.trim();
-              needsEl.classList.add('from-plan');
-              needsEl.addEventListener('input',function(){ needsEl.classList.remove('from-plan'); },{once:true});
+            if(what) needsText+='[What] '+what+'\n';
+            if(why)  needsText+='[Why] '+why;
+            needsText=needsText.trim();
+            if(needsEl&&needsText){
+              // 계획 내용: 읽기전용으로 파란색 고정
+              needsEl.value=needsText;
+              needsEl.readOnly=true;
+              needsEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;';
+              setTimeout(function(){ needsEl.style.height='auto'; needsEl.style.height=needsEl.scrollHeight+'px'; },50);
+              // 실행 입력용 별도 textarea 추가
+              if(!document.getElementById('ef_needs_extra')){
+                var needsExtra=document.createElement('textarea');
+                needsExtra.id='ef_needs_extra';
+                needsExtra.placeholder='실제 니즈 기록 (직접 입력)';
+                needsExtra.style.cssText='width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:14.5px;font-family:inherit;margin-top:6px;min-height:40px;resize:vertical;';
+                needsExtra.addEventListener('input',function(){
+                  needsExtra.style.height='auto';
+                  needsExtra.style.height=needsExtra.scrollHeight+'px';
+                });
+                needsEl.parentNode.insertBefore(needsExtra, needsEl.nextSibling);
+                needsExtra.focus();
+              }
             }
+            // How → 진행 칸
             if(proposalEl&&how){
               proposalEl.value=how;
-              proposalEl.classList.add('from-plan');
-              proposalEl.addEventListener('input',function(){ proposalEl.classList.remove('from-plan'); },{once:true});
+              proposalEl.readOnly=true;
+              proposalEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;';
+              setTimeout(function(){ proposalEl.style.height='auto'; proposalEl.style.height=proposalEl.scrollHeight+'px'; },50);
+              // 실행 입력용 별도 textarea 추가
+              if(!document.getElementById('ef_proposal_extra')){
+                var propExtra=document.createElement('textarea');
+                propExtra.id='ef_proposal_extra';
+                propExtra.placeholder='실제 진행 기록 (직접 입력)';
+                propExtra.style.cssText='width:100%;border:1px solid var(--border);border-radius:10px;padding:9px 10px;font-size:14.5px;font-family:inherit;margin-top:6px;min-height:40px;resize:vertical;';
+                propExtra.addEventListener('input',function(){
+                  propExtra.style.height='auto';
+                  propExtra.style.height=propExtra.scrollHeight+'px';
+                });
+                proposalEl.parentNode.insertBefore(propExtra, proposalEl.nextSibling);
+              }
             }
           }
         },100);
@@ -2032,9 +2108,10 @@ document.addEventListener('click',function(ev){
     if(exists){ toast(formatDateKo(date)+' 일정이 이미 있습니다'); return; }
     cc.plans.allSchedules.push({
       id:uid(), date:date,
-      thinking_product:'', thinking_business:'', thinking_system:'',
-      whatwhy_product:'', whatwhy_business:'', whatwhy_system:'',
-      how_product:'', how_business:'', how_system:''
+      thinking_product:'',thinking_business:'',thinking_system:'',
+      what_product:'',what_business:'',what_system:'',
+      why_product:'',why_business:'',why_system:'',
+      how_product:'',how_business:'',how_system:''
     });
     cc.updatedAt=Date.now(); save();
     if(dateEl) dateEl.value='';
@@ -2140,14 +2217,23 @@ function openForm(type,entryId){
     }
     const targetEl=document.getElementById('ef_target');
     const needsEl=document.getElementById('ef_needs');
+    const needsExtraEl=document.getElementById('ef_needs_extra');
     const proposalEl=document.getElementById('ef_proposal');
+    const propExtraEl=document.getElementById('ef_proposal_extra');
     const prodGrpEl=document.getElementById('ef_prodGroup');
+    // 계획(파란색) + 실행 입력 합치기
+    var needsVal='';
+    if(needsEl&&needsEl.value.trim()) needsVal+=needsEl.value.trim();
+    if(needsExtraEl&&needsExtraEl.value.trim()) needsVal+=(needsVal?'\n':'')+needsExtraEl.value.trim();
+    var proposalVal='';
+    if(proposalEl&&proposalEl.value.trim()) proposalVal+=proposalEl.value.trim();
+    if(propExtraEl&&propExtraEl.value.trim()) proposalVal+=(proposalVal?'\n':'')+propExtraEl.value.trim();
     const payload={
       date:document.getElementById('ef_date').value||today(),
       prodGroup:prodGrpEl?prodGrpEl.value:'',
       target:targetEl?targetEl.value.trim():'',
-      needs:needsEl?needsEl.value.trim():'',
-      proposal:proposalEl?proposalEl.value.trim():'',
+      needs:needsVal,
+      proposal:proposalVal,
       note:document.getElementById('ef_note').value.trim(),
       stage:selStage,
       aligns:selAligns
