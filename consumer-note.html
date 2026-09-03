@@ -1170,7 +1170,6 @@ function openDetail(id){
   setActiveTab('product');
   fillBasicForm();
   renderPersonalStat(curC());
-  renderPersonalStat(curC());
   renderAlignSummary(curC());
   renderMeets();
   renderAllEntries();
@@ -2450,78 +2449,86 @@ function bindExpand(type,entryId){
 }
 
 
-// ── 백업 ──────────────────────────────────────────────
-document.getElementById('backupBtn').addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const d=new Date();
-  a.href=url;
-  a.download='소비자관리노트_백업_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
-  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-  toast('백업 파일이 저장되었습니다');
+// ── 백업/복원/플래너 — document 위임 방식 ───────────────
+document.addEventListener('click',function(ev){
+  // 백업
+  if(ev.target&&ev.target.id==='backupBtn'){
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    const d=new Date();
+    a.href=url;
+    a.download='소비자관리노트_백업_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    toast('백업 파일이 저장되었습니다');
+  }
+  // 복원
+  if(ev.target&&ev.target.id==='restoreBtn'){
+    document.getElementById('fileInput').click();
+  }
 });
 
-// ── 복원 ──────────────────────────────────────────────
-document.getElementById('restoreBtn').addEventListener('click',()=>document.getElementById('fileInput').click());
-document.getElementById('fileInput').addEventListener('change',ev=>{
-  const file=ev.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const parsed=JSON.parse(reader.result);
-      if(!parsed.consumers)throw new Error('형식 오류');
-      if(confirm('현재 데이터를 덮어씁니다. 계속할까요?')){
-        data=parsed;save();renderList();toast('복원 완료!');
-      }
-    }catch(e){toast('파일을 읽을 수 없습니다');}
-    ev.target.value='';
-  };
-  reader.readAsText(file);
+document.addEventListener('change',function(ev){
+  if(ev.target&&ev.target.id==='fileInput'){
+    const file=ev.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(){
+      try{
+        const parsed=JSON.parse(reader.result);
+        if(!parsed.consumers)throw new Error('형식 오류');
+        if(confirm('현재 데이터를 덮어씁니다. 계속할까요?')){
+          data=parsed;save();renderList();toast('복원 완료!');
+        }
+      }catch(e){toast('파일을 읽을 수 없습니다');}
+      ev.target.value='';
+    };
+    reader.readAsText(file);
+  }
 });
 
 // ── 플래너 내보내기 ───────────────────────────────────
-document.getElementById('plannerExportBtn').addEventListener('click',()=>{
-  const followUps=[];
-  data.consumers.forEach(function(cc){
-    // allSchedules 기반 내보내기
-    ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
-      var hasContent=s.what_product||s.why_product||s.how_product||
-                     s.what_business||s.why_business||s.how_business||
-                     s.what_system||s.why_system||s.how_system;
-      if(!hasContent) return;
-      ['product','business','system'].forEach(function(type){
-        var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
-        var what=s['what_'+type]||'';
-        var why=s['why_'+type]||'';
-        var how=s['how_'+type]||'';
-        if(!what&&!why&&!how) return;
-        followUps.push({
-          date:s.date,
-          text:esc(cc.name)+' — '+tl+': '+(what||why||how),
-          consumer:cc.name,
-          type:tl,
-          what:what,
-          why:why,
-          how:how
+document.addEventListener('click',function(ev){
+  if(ev.target&&ev.target.id==='plannerExportBtn'){
+    const followUps=[];
+    data.consumers.forEach(function(cc){
+      ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+        var hasContent=s.what_product||s.why_product||s.how_product||
+                       s.what_business||s.why_business||s.how_business||
+                       s.what_system||s.why_system||s.how_system;
+        if(!hasContent) return;
+        ['product','business','system'].forEach(function(type){
+          var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
+          var what=s['what_'+type]||'';
+          var why=s['why_'+type]||'';
+          var how=s['how_'+type]||'';
+          if(!what&&!why&&!how) return;
+          followUps.push({
+            date:s.date,
+            text:esc(cc.name)+' — '+tl+': '+(what||why||how),
+            consumer:cc.name,
+            type:tl,
+            what:what,
+            why:why,
+            how:how
+          });
         });
       });
     });
-  });
-  followUps.sort(function(a,b){ return a.date.localeCompare(b.date); });
-  const exportData={
-    fromConsumerNote:true,
-    exportDate:today(),
-    followUps:followUps
-  };
-  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const d=new Date();
-  a.href=url;
-  a.download='소비자노트_플래너내보내기_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
-  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-  toast('플래너 내보내기 완료! ('+followUps.length+'개 일정)');
+    followUps.sort(function(a,b){ return a.date.localeCompare(b.date); });
+    const exportData={
+      fromConsumerNote:true,
+      exportDate:today(),
+      followUps:followUps
+    };
+    const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    const d=new Date();
+    a.href=url;
+    a.download='소비자노트_플래너내보내기_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    toast('플래너 내보내기 완료! ('+followUps.length+'개 일정)');
+  }
 });
 
 // ── 초기화 ────────────────────────────────────────────
