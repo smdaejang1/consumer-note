@@ -1092,7 +1092,7 @@ function renderList(){
   renderTotalSummary();
   arr.forEach(c=>{
     const thisMonth=today().slice(0,7);
-    const mc=(c.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
+    const mc=(c.product||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(c.business||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(c.system||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length;
     const aligns=calcAligns(c);
     const rel=c.relBasic||{};
     const relTxt=(rel.personal?'개인 '+rel.personal:'')+(rel.business?' / 사업 '+rel.business:'');
@@ -1242,15 +1242,21 @@ function renderTotalSummary(){
     const el=document.getElementById('tot-'+key);
     if(el) el.textContent=totals[key];
   });
-  // 만남 인원/횟수
+  // 만남 인원/횟수 — 컨택 기록 기반으로 자동 집계
   let meetPeople=0, meetTotal=0;
   let totProd=0, totBiz=0, totSys=0;
   data.consumers.forEach(cc=>{
-    const cnt=(cc.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
-    if(cnt>0){ meetPeople++; meetTotal+=cnt; }
-    (cc.product||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totProd++; });
-    (cc.business||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totBiz++; });
-    (cc.system||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totSys++; });
+    let hasMeet=false;
+    (cc.product||[]).forEach(e=>{
+      if((e.date||'').startsWith(thisMonth)){ totProd++; meetTotal++; hasMeet=true; }
+    });
+    (cc.business||[]).forEach(e=>{
+      if((e.date||'').startsWith(thisMonth)){ totBiz++; meetTotal++; hasMeet=true; }
+    });
+    (cc.system||[]).forEach(e=>{
+      if((e.date||'').startsWith(thisMonth)){ totSys++; meetTotal++; hasMeet=true; }
+    });
+    if(hasMeet) meetPeople++;
   });
   const mpEl=document.getElementById('tot-meet-people');
   const mcEl=document.getElementById('tot-meet-count');
@@ -1338,7 +1344,7 @@ function getAvailableFiscalYears(){
     ['product','business','system'].forEach(t=>{
       (cc[t]||[]).forEach(e=>{ if(e.date) allDates.push(e.date); });
     });
-    (cc.meets||[]).forEach(m=>{ if(m.date) allDates.push(m.date); });
+    ['product','business','system'].forEach(function(t){ (cc[t]||[]).forEach(function(e){ if(e.date) allDates.push(e.date); }); });
   });
   const fiscalYears=new Set();
   // 현재 회계연도는 항상 포함
@@ -1356,7 +1362,7 @@ function calcMonthStats(ym){
   let meet=0,meetP=0,cat=0,smo=0,stp=0,prod=0,biz=0,sys=0;
   const people=new Set();
   data.consumers.forEach(cc=>{
-    const mc=(cc.meets||[]).filter(m=>(m.date||'').startsWith(ym)).length;
+    const mc=(cc.product||[]).filter(e=>(e.date||'').startsWith(ym)).length+(cc.business||[]).filter(e=>(e.date||'').startsWith(ym)).length+(cc.system||[]).filter(e=>(e.date||'').startsWith(ym)).length;
     if(mc>0){people.add(cc.id); meet+=mc;}
     const calcA=(arr)=>arr.filter(e=>(e.date||'').startsWith(ym)).reduce((acc,e)=>{
       (e.aligns||[]).forEach(a=>{if(a==='cat')acc.cat++;if(a==='smo')acc.smo++;if(a==='stp')acc.stp++;});
@@ -1437,7 +1443,7 @@ function renderStatView(){
       const l=cc.leg||'보류';
       if(!lst[l])return;
       cc.div==='partner'?lst[l].p++:lst[l].c++;
-      lst[l].meet+=(cc.meets||[]).filter(m=>(m.date||'').startsWith(thisMonth)).length;
+      lst[l].meet+=(cc.product||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(cc.business||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(cc.system||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length;
       ['product','business','system'].forEach(t=>{
         (cc[t]||[]).forEach(e=>{
           if((e.date||'').startsWith(thisMonth)){
@@ -1927,7 +1933,7 @@ function renderMonthPlanCards(cc){
     html+='</tbody></table>';
     html+='<div class="date-plan-footer">';
     if(!locked) html+='<button class="date-plan-save-btn" data-date="'+date+'">💾 저장</button>';
-    if(!locked&&!isFuture) html+='<button class="date-plan-record-btn" data-date="'+date+'">📝 실행 기록</button>';
+    if(!locked) html+='<button class="date-plan-record-btn" data-date="'+date+'">📝 실행 기록</button>';
     if(!locked&&isPast) html+='<button class="date-plan-done-btn" data-date="'+date+'" style="padding:5px 12px;border-radius:8px;border:none;background:#f1f2f5;color:var(--sub);font-size:11.5px;font-weight:700;">🔒 완료</button>';
     html+='</div>';
     html+='</div>';
@@ -2004,7 +2010,18 @@ function renderMonthPlanCards(cc){
       ev.stopPropagation();
       var date=btn.dataset.date;
       var cc2=curC(); if(!cc2) return;
+
+      // 현재 textarea 입력값 먼저 저장 (수정 보완 반영)
+      var card=document.getElementById('dpc-'+date);
       var s=(cc2.plans&&cc2.plans.allSchedules||[]).find(function(x){ return x.date===date; });
+      if(s&&card){
+        card.querySelectorAll('.date-plan-textarea').forEach(function(ta){
+          s[ta.dataset.row+'_'+ta.dataset.type]=ta.value;
+        });
+        cc2.updatedAt=Date.now(); save();
+      }
+      // 저장 후 최신 s 다시 읽기
+      s=(cc2.plans&&cc2.plans.allSchedules||[]).find(function(x){ return x.date===date; });
 
       function fillForm(type){
         openForm(type, null);
@@ -2026,8 +2043,10 @@ function renderMonthPlanCards(cc){
               // 계획 내용: 읽기전용으로 파란색 고정
               needsEl.value=needsText;
               needsEl.readOnly=true;
-              needsEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;';
-              setTimeout(function(){ needsEl.style.height='auto'; needsEl.style.height=needsEl.scrollHeight+'px'; },50);
+              needsEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;width:100%;box-sizing:border-box;';
+              // 줄수에 맞게 높이 자동 조절
+              needsEl.style.height='auto';
+              needsEl.style.height=(needsEl.scrollHeight+4)+'px';
               // 실행 입력용 별도 textarea 추가
               if(!document.getElementById('ef_needs_extra')){
                 var needsExtra=document.createElement('textarea');
@@ -2046,8 +2065,9 @@ function renderMonthPlanCards(cc){
             if(proposalEl&&how){
               proposalEl.value=how;
               proposalEl.readOnly=true;
-              proposalEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;';
-              setTimeout(function(){ proposalEl.style.height='auto'; proposalEl.style.height=proposalEl.scrollHeight+'px'; },50);
+              proposalEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;width:100%;box-sizing:border-box;';
+              proposalEl.style.height='auto';
+              proposalEl.style.height=(proposalEl.scrollHeight+4)+'px';
               // 실행 입력용 별도 textarea 추가
               if(!document.getElementById('ef_proposal_extra')){
                 var propExtra=document.createElement('textarea');
@@ -2228,13 +2248,14 @@ function openForm(type,entryId){
     var proposalVal='';
     if(proposalEl&&proposalEl.value.trim()) proposalVal+=proposalEl.value.trim();
     if(propExtraEl&&propExtraEl.value.trim()) proposalVal+=(proposalVal?'\n':'')+propExtraEl.value.trim();
+    const noteEl=document.getElementById('ef_note');
     const payload={
       date:document.getElementById('ef_date').value||today(),
       prodGroup:prodGrpEl?prodGrpEl.value:'',
       target:targetEl?targetEl.value.trim():'',
       needs:needsVal,
       proposal:proposalVal,
-      note:document.getElementById('ef_note').value.trim(),
+      note:noteEl?noteEl.value.trim():'',
       stage:selStage,
       aligns:selAligns
     };
@@ -2267,14 +2288,17 @@ function renderEntries(type){
   const ths=TH[type];
   const isS=type==='system';
   const colW=isS
-    ?'<col style="width:16%"><col style="width:22%"><col style="width:26%"><col style="width:22%"><col style="width:14%">'
-    :'<col style="width:16%"><col style="width:18%"><col style="width:20%"><col style="width:25%"><col style="width:21%">';
+    ?'<col style="width:4%"><col style="width:15%"><col style="width:20%"><col style="width:24%"><col style="width:20%"><col style="width:17%">'
+    :'<col style="width:4%"><col style="width:14%"><col style="width:16%"><col style="width:19%"><col style="width:24%"><col style="width:23%">';
   let html='<div class="tblwrap"><table class="etbl '+cls+'"><colgroup>'+colW+'</colgroup><thead><tr>';
+  html+='<th style="width:4%"></th>';
   ths.forEach(h=>html+='<th>'+h+'</th>');
   html+='</tr></thead><tbody>';
   arr.forEach(e=>{
     const isOpen=expanded[type]===e.id;
     html+='<tr class="etr" data-id="'+e.id+'">';
+    // 삭제 버튼 (날짜 왼쪽)
+    html+='<td style="text-align:center;padding:4px;"><button class="quick-del-btn" data-id="'+e.id+'" data-type="'+type+'" onclick="event.stopPropagation()" style="border:none;background:none;color:#e53935;font-size:14px;font-weight:700;cursor:pointer;padding:2px 6px;">✕</button></td>';
     if(isS){
       html+='<td>'+esc(e.date||'-')+'</td>';
       html+='<td class="el">'+esc(trunc(e.target,12))+'</td>';
@@ -2295,15 +2319,34 @@ function renderEntries(type){
       html+='<td class="el">'+esc(trunc(e.note,10))+'</td>';
     }
     html+='</tr>';
-    if(isOpen)html+='<tr class="exprow" data-for="'+e.id+'"><td colspan="5">'+buildExpand(type,e)+'</td></tr>';
+    if(isOpen)html+='<tr class="exprow" data-for="'+e.id+'"><td colspan="6">'+buildExpand(type,e)+'</td></tr>';
   });
   html+='</tbody></table></div>';
   wrap.innerHTML=html;
+  // 행 클릭 → 펼치기
   wrap.querySelectorAll('.etr').forEach(tr=>tr.addEventListener('click',()=>{
     const id=tr.dataset.id;
     expanded[type]=expanded[type]===id?null:id;
     renderEntries(type);
   }));
+  // 빠른 삭제 버튼
+  wrap.querySelectorAll('.quick-del-btn').forEach(btn=>{
+    btn.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      const id=btn.dataset.id;
+      const t=btn.dataset.type;
+      const cc=curC(); if(!cc) return;
+      if(confirm('이 기록을 삭제할까요?')){
+        cc[t]=cc[t].filter(x=>x.id!==id);
+        cc.updatedAt=Date.now(); save();
+        expanded[t]=null;
+        renderEntries(t);
+        if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
+        renderTotalSummary();
+        toast('삭제되었습니다');
+      }
+    });
+  });
   if(expanded[type])bindExpand(type,expanded[type]);
 }
 
@@ -2405,6 +2448,81 @@ function bindExpand(type,entryId){
     }
   });
 }
+
+
+// ── 백업 ──────────────────────────────────────────────
+document.getElementById('backupBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d=new Date();
+  a.href=url;
+  a.download='소비자관리노트_백업_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+  toast('백업 파일이 저장되었습니다');
+});
+
+// ── 복원 ──────────────────────────────────────────────
+document.getElementById('restoreBtn').addEventListener('click',()=>document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change',ev=>{
+  const file=ev.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const parsed=JSON.parse(reader.result);
+      if(!parsed.consumers)throw new Error('형식 오류');
+      if(confirm('현재 데이터를 덮어씁니다. 계속할까요?')){
+        data=parsed;save();renderList();toast('복원 완료!');
+      }
+    }catch(e){toast('파일을 읽을 수 없습니다');}
+    ev.target.value='';
+  };
+  reader.readAsText(file);
+});
+
+// ── 플래너 내보내기 ───────────────────────────────────
+document.getElementById('plannerExportBtn').addEventListener('click',()=>{
+  const followUps=[];
+  data.consumers.forEach(function(cc){
+    // allSchedules 기반 내보내기
+    ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+      var hasContent=s.what_product||s.why_product||s.how_product||
+                     s.what_business||s.why_business||s.how_business||
+                     s.what_system||s.why_system||s.how_system;
+      if(!hasContent) return;
+      ['product','business','system'].forEach(function(type){
+        var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
+        var what=s['what_'+type]||'';
+        var why=s['why_'+type]||'';
+        var how=s['how_'+type]||'';
+        if(!what&&!why&&!how) return;
+        followUps.push({
+          date:s.date,
+          text:esc(cc.name)+' — '+tl+': '+(what||why||how),
+          consumer:cc.name,
+          type:tl,
+          what:what,
+          why:why,
+          how:how
+        });
+      });
+    });
+  });
+  followUps.sort(function(a,b){ return a.date.localeCompare(b.date); });
+  const exportData={
+    fromConsumerNote:true,
+    exportDate:today(),
+    followUps:followUps
+  };
+  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d=new Date();
+  a.href=url;
+  a.download='소비자노트_플래너내보내기_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+  toast('플래너 내보내기 완료! ('+followUps.length+'개 일정)');
+});
 
 // ── 초기화 ────────────────────────────────────────────
 load();
