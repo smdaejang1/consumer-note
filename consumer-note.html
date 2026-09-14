@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="소비자노트">
+<meta name="mobile-web-app-capable" content="yes">
 <title>소비자 관리 노트</title>
 <style>
 :root{
@@ -565,6 +569,75 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .date-plan-chevron{font-size:14px;color:var(--sub);transition:transform .2s;margin-left:auto;flex-shrink:0;}
 .date-plan-chevron.open{transform:rotate(90deg);}
 .date-plan-header{cursor:pointer;user-select:none;}
+
+/* 게임화 패널 */
+.game-panel{background:linear-gradient(135deg,#1a3a8f 0%,#2e7d32 100%);border-radius:16px;padding:16px 20px;margin-bottom:12px;color:#fff;}
+.game-level{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.game-level-icon{font-size:28px;}
+.game-level-info{flex:1;}
+.game-level-name{font-size:15px;font-weight:800;}
+.game-level-pts{font-size:12px;opacity:.85;margin-top:2px;}
+.game-pts-big{font-size:22px;font-weight:800;flex-shrink:0;}
+.game-progress-wrap{background:rgba(255,255,255,.25);border-radius:20px;height:10px;overflow:hidden;}
+.game-progress-bar{height:100%;border-radius:20px;background:linear-gradient(90deg,#ffd700,#ffb300);transition:width .8s ease;}
+.game-progress-label{font-size:11px;opacity:.8;margin-top:3px;text-align:right;}
+.game-tabs{display:flex;gap:4px;margin:10px 0 6px;}
+.game-tab{padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);}
+.game-tab.sel{background:rgba(255,255,255,.25);color:#fff;border-color:rgba(255,255,255,.7);}
+.game-period-pts{font-size:26px;font-weight:800;margin:4px 0 2px;}
+.game-period-sub{font-size:11px;opacity:.75;margin-bottom:8px;}
+.game-chart{display:flex;align-items:flex-end;gap:4px;height:64px;margin:8px 0 4px;}
+.game-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.game-bar{width:100%;border-radius:4px 4px 0 0;background:rgba(255,255,255,.3);min-height:4px;transition:height .5s ease;}
+.game-bar.cur{background:linear-gradient(180deg,#ffd700,#ffb300);}
+.game-bar-lbl{font-size:9px;opacity:.75;white-space:nowrap;}
+.game-bar-val{font-size:9px;font-weight:700;opacity:.9;min-height:12px;}
+.game-streak{display:flex;align-items:center;gap:6px;margin:6px 0;background:rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;}
+.game-streak-icon{font-size:16px;}
+.game-streak-txt{font-size:12px;font-weight:700;}
+.game-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.game-badge{border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;}
+.game-badge.earned{background:rgba(255,215,0,.35);border:1px solid rgba(255,215,0,.7);}
+.game-badge.locked{background:rgba(255,255,255,.1);opacity:.4;}
+
+/* 게임 매트릭스 테이블 */
+.gm-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:11.5px;}
+.gm-table th{padding:6px 4px;text-align:center;font-size:11px;font-weight:800;
+  border-bottom:2px solid rgba(255,255,255,.3);color:rgba(255,255,255,.9);}
+.gm-table th.gm-th-item{text-align:left;padding-left:4px;width:18%;}
+.gm-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,.1);}
+.gm-table td.gm-row-lbl{text-align:left;font-weight:700;color:rgba(255,255,255,.8);font-size:10.5px;white-space:nowrap;}
+.gm-val{font-weight:800;font-size:12px;}
+.gm-val.cur{color:#ffd700;}
+.gm-grade{font-size:11px;display:block;opacity:.85;margin-top:1px;}
+.gm-item-header{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.gm-item-icon{font-size:16px;}
+.gm-item-name{font-size:10px;font-weight:700;opacity:.9;}
+.gm-item-grade{font-size:10px;margin-top:1px;}
+.gm-progress-mini{height:4px;border-radius:4px;background:rgba(255,255,255,.2);margin-top:3px;overflow:hidden;}
+.gm-progress-mini-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,#ffd700,#ffb300);}
+
+/* 점수 기준 팝업 */
+.score-guide-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;
+  cursor:pointer;margin-top:8px;}
+.score-guide-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;
+  align-items:center;justify-content:center;}
+.score-guide-overlay.open{display:flex;}
+.score-guide-box{background:#fff;border-radius:16px;padding:20px;width:90%;max-width:360px;
+  max-height:80vh;overflow-y:auto;}
+.score-guide-box h3{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:12px;}
+.score-guide-row{display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.score-guide-row:last-child{border-bottom:none;}
+.score-guide-pts{font-weight:800;color:var(--accent);}
+.score-guide-close{width:100%;margin-top:14px;padding:10px;border-radius:10px;
+  border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;}
+.game-pts-row{display:flex;gap:6px;margin:8px 0;}
+.game-pts-cell{flex:1;background:rgba(255,255,255,.15);border-radius:10px;padding:6px 8px;text-align:center;}
+.game-pts-cell-lbl{font-size:10px;opacity:.8;margin-bottom:2px;}
+.game-pts-cell-val{font-size:15px;font-weight:800;}
+.game-pts-cell-val.cur{color:#ffd700;}
 </style>
 </head>
 <body>
@@ -577,6 +650,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 <div class="con">
   <!-- 목록 화면 -->
   <div id="listView">
+    <div id="gamePanel" class="game-panel" style="display:none"></div>
     <div class="qabox">
       <div class="qarow">
         <input id="qaName" type="text" placeholder="이름을 입력하고 추가">
@@ -899,6 +973,47 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
       <div class="help-item">
         <div class="help-item-title">💾 백업/복원</div>
         <div class="help-item-desc">⬇ 백업: 정기적으로 JSON 백업 권장!<br>⬆ 복원: 백업 파일로 데이터 복구</div>
+      </div>
+    </div>
+
+
+    <div class="help-section">
+      <div class="help-section-title">7️⃣ 게임화 점수 기준</div>
+      <div class="help-item">
+        <div class="help-item-title">📊 포인트 (레벨 점수)</div>
+        <div class="help-item-desc">
+          기록을 남길 때마다 자동으로 포인트가 쌓입니다:<br>
+          📦💼🎓 컨택 기록 저장 → <b>+15P</b><br>
+          🔒 완료 처리 → <b>+10P</b><br>
+          📅 계획 작성 (내용 있을 때) → <b>+5P</b><br>
+          🏆 3% 얼라인 완성 → <b>+50P</b>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🌟 레벨 체계 (누적 포인트)</div>
+        <div class="help-item-desc">
+          🌱 새싹: 0~100P &nbsp; 🌿 성장: 101~300P<br>
+          🌳 베테랑: 301~600P &nbsp; ⭐ 전문가: 601~1000P<br>
+          👑 마스터: 1001P 이상
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📈 Level 기준 (소통/계획/인맥/STP/3%완성)</div>
+        <div class="help-item-desc">
+          모든 항목 동일 기준:<br>
+          Lv1: 10 이상 &nbsp; Lv2: 30 이상 &nbsp; Lv3: 50 이상<br>
+          Lv4: 80 이상 &nbsp; Lv5: 100 이상<br>
+          <b style="color:#2e7d32">⭐ 매일 기록할수록 자동으로 Level이 올라갑니다!</b>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📅 기간별 집계</div>
+        <div class="help-item-desc">
+          당월: 이번 달 기록 건수<br>
+          전월: 지난 달 기록 건수<br>
+          회계연도: 9월~8월 누적 건수<br>
+          전체: 전체 기간 누적 건수
+        </div>
       </div>
     </div>
 
@@ -2266,7 +2381,7 @@ function openForm(type,entryId){
     renderEntries(type);
     if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
     renderTotalSummary();
-    toast('기록이 저장되었습니다');
+    toast('기록이 저장되었습니다'); renderGameMatrix();
   });
 }
 
@@ -2477,7 +2592,7 @@ document.addEventListener('change',function(ev){
         const parsed=JSON.parse(reader.result);
         if(!parsed.consumers)throw new Error('형식 오류');
         if(confirm('현재 데이터를 덮어씁니다. 계속할까요?')){
-          data=parsed;save();renderList();toast('복원 완료!');
+          data=parsed;save();renderList();renderTotalSummary();renderGameMatrix();toast('복원 완료! 점수가 갱신됐습니다!');
         }
       }catch(e){toast('파일을 읽을 수 없습니다');}
       ev.target.value='';
@@ -2490,7 +2605,27 @@ document.addEventListener('change',function(ev){
 document.addEventListener('click',function(ev){
   if(ev.target&&ev.target.id==='plannerExportBtn'){
     const followUps=[];
-    data.consumers.forEach(function(cc){
+    (data.consumers||[]).forEach(function(cc){
+      // ① 컨택 기록 기반 (product/business/system)
+      ['product','business','system'].forEach(function(type){
+        var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
+        (cc[type]||[]).forEach(function(e){
+          if(!e.date) return;
+          var text=esc(cc.name)+' — '+tl;
+          if(e.target) text+=' ('+e.target+')';
+          followUps.push({
+            date:e.date,
+            text:text,
+            consumer:cc.name,
+            type:tl,
+            stage:e.stage||'',
+            needs:e.needs||'',
+            proposal:e.proposal||'',
+            note:e.note||''
+          });
+        });
+      });
+      // ② 만남 계획(allSchedules) 기반 — 있을 경우 추가
       ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
         var hasContent=s.what_product||s.why_product||s.how_product||
                        s.what_business||s.why_business||s.how_business||
@@ -2504,9 +2639,9 @@ document.addEventListener('click',function(ev){
           if(!what&&!why&&!how) return;
           followUps.push({
             date:s.date,
-            text:esc(cc.name)+' — '+tl+': '+(what||why||how),
+            text:esc(cc.name)+' — 계획('+tl+'): '+(what||why||how),
             consumer:cc.name,
-            type:tl,
+            type:'계획_'+tl,
             what:what,
             why:why,
             how:how
@@ -2514,7 +2649,12 @@ document.addEventListener('click',function(ev){
         });
       });
     });
+    // 날짜순 정렬 (중복 제거)
     followUps.sort(function(a,b){ return a.date.localeCompare(b.date); });
+    if(followUps.length===0){
+      toast('내보낼 일정이 없습니다. 컨택 기록을 먼저 저장해주세요.');
+      return;
+    }
     const exportData={
       fromConsumerNote:true,
       exportDate:today(),
@@ -2531,10 +2671,434 @@ document.addEventListener('click',function(ev){
   }
 });
 
+
+// ── 게임화 ────────────────────────────────────────────
+const LEVELS=[
+  {min:0,    max:100,  icon:'&#127807;',name:'새싹'},
+  {min:101,  max:300,  icon:'&#127807;',name:'성장'},
+  {min:301,  max:600,  icon:'&#127795;',name:'베테랑'},
+  {min:601,  max:1000, icon:'&#11088;', name:'전문가'},
+  {min:1001, max:99999,icon:'&#128081;',name:'마스터'}
+];
+const BADGES_DEF=[
+  {id:'first',   icon:'&#127919;',name:'첫 발걸음', desc:'첫 컨택 기록 저장'},
+  {id:'plan5',   icon:'&#128197;',name:'계획왕',    desc:'5일 이상 계획 수립'},
+  {id:'people10',icon:'&#128101;',name:'인맥부자',  desc:'소비자 10명 등록'},
+  {id:'stp3',    icon:'&#128188;',name:'사업가',    desc:'STP 3회 달성'},
+  {id:'align',   icon:'&#127942;',name:'3% 챔피언', desc:'3% 얼라인 완성'}
+];
+var _gamePeriod='month';
+
+function calcGameScore(){
+  var pts=0;
+  var earned=new Set();
+  var consumers=data.consumers||[];
+  var totalContact=0, totalSTP=0, totalAlign=0, totalPlan=0;
+  consumers.forEach(function(cc){
+    (cc.product||[]).forEach(function(e){
+      pts+=15; totalContact++;
+      (e.aligns||[]).forEach(function(a){ if(a==='stp') totalSTP++; });
+    });
+    (cc.business||[]).forEach(function(e){
+      pts+=15; totalContact++;
+      (e.aligns||[]).forEach(function(a){ if(a==='stp') totalSTP++; });
+    });
+    (cc.system||[]).forEach(function(e){ pts+=15; totalContact++; });
+    ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+      if(s.recorded) pts+=10;
+      var has=s.what_product||s.what_business||s.what_system||
+              s.why_product||s.how_product||s.how_business;
+      if(has){ pts+=5; totalPlan++; }
+    });
+    var ca=calcAligns(cc);
+    if(ca.cat>0&&ca.smo>0&&ca.stp>0){ pts+=50; totalAlign++; }
+  });
+  if(totalContact>=1)      earned.add('first');
+  if(totalPlan>=5)         earned.add('plan5');
+  if(consumers.length>=10) earned.add('people10');
+  if(totalSTP>=3)          earned.add('stp3');
+  if(totalAlign>=1)        earned.add('align');
+  return {pts:pts, earned:earned};
+}
+
+function getLevelIdx(pts){
+  for(var i=LEVELS.length-1;i>=0;i--){ if(pts>=LEVELS[i].min) return i; }
+  return 0;
+}
+
+function getDateRange(period){
+  var now=new Date();
+  var y=now.getFullYear(), m=now.getMonth();
+  if(period==='week'){
+    var day=now.getDay()||7;
+    var mon=new Date(now); mon.setDate(now.getDate()-(day-1));
+    var sun=new Date(mon); sun.setDate(mon.getDate()+6);
+    return {start:mon.toISOString().slice(0,10),end:sun.toISOString().slice(0,10),label:'이번 주'};
+  }
+  if(period==='month'){
+    var ms=y+'-'+String(m+1).padStart(2,'0')+'-01';
+    var me=y+'-'+String(m+1).padStart(2,'0')+'-'+String(new Date(y,m+1,0).getDate()).padStart(2,'0');
+    return {start:ms, end:me, label:String(m+1)+'월'};
+  }
+  if(period==='quarter'){
+    var qMap=[[9,11],[12,2],[3,5],[6,8]];
+    var cm=m+1;
+    var qMonths=null;
+    for(var qi=0;qi<qMap.length;qi++){
+      var q=qMap[qi];
+      if(q[0]<=q[1]){ if(cm>=q[0]&&cm<=q[1]){ qMonths=q; break; } }
+      else { if(cm>=q[0]||cm<=q[1]){ qMonths=q; break; } }
+    }
+    if(!qMonths) qMonths=qMap[0];
+    var qy=y;
+    if(qMonths[0]>qMonths[1]&&cm<=qMonths[1]) qy=y-1;
+    var qs=qy+'-'+String(qMonths[0]).padStart(2,'0')+'-01';
+    var endM=qMonths[1];
+    var endY=(qMonths[0]>qMonths[1])?qy+1:qy;
+    var qe=endY+'-'+String(endM).padStart(2,'0')+'-'+String(new Date(endY,endM,0).getDate()).padStart(2,'0');
+    return {start:qs, end:qe, label:'이번 분기'};
+  }
+  return {start:'2020-01-01', end:'2099-12-31', label:'전체 누적'};
+}
+
+function calcPeriodScore(start,end){
+  var pts=0;
+  (data.consumers||[]).forEach(function(cc){
+    ['product','business','system'].forEach(function(t){
+      (cc[t]||[]).forEach(function(e){ if(e.date>=start&&e.date<=end) pts+=15; });
+    });
+    ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+      if(s.date>=start&&s.date<=end){
+        if(s.recorded) pts+=10;
+        var has=s.what_product||s.what_business||s.what_system||s.why_product||s.how_product;
+        if(has) pts+=5;
+      }
+    });
+  });
+  return pts;
+}
+
+function getMonthlyChart(){
+  // 회계연도 12개월 (9월 ~ 익년 8월)
+  var fyMonths=getFiscalMonths(getFiscalStartYear());
+  var now=new Date();
+  var curYm=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  return fyMonths.map(function(ym){
+    var parts=ym.split('-');
+    var start=ym+'-01';
+    var end=ym+'-'+String(new Date(parseInt(parts[0]),parseInt(parts[1]),0).getDate()).padStart(2,'0');
+    return {
+      lbl:parseInt(parts[1])+'월',
+      pts:calcPeriodScore(start,end),
+      isCur:ym===curYm,
+      isFuture:ym>curYm
+    };
+  });
+}
+
+function calcStreak(){
+  var allDates=new Set();
+  (data.consumers||[]).forEach(function(cc){
+    ['product','business','system'].forEach(function(t){
+      (cc[t]||[]).forEach(function(e){ if(e.date) allDates.add(e.date); });
+    });
+  });
+  var streak=0, d=new Date();
+  while(streak<=365){
+    var ds=d.toISOString().slice(0,10);
+    if(allDates.has(ds)){ streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  return streak;
+}
+
+
+// ── 게임 매트릭스 ─────────────────────────────────────
+const GM_GRADES=[
+  {lv:0, name:'Lv0', min:0},
+  {lv:1, name:'Lv1', min:10},
+  {lv:2, name:'Lv2', min:30},
+  {lv:3, name:'Lv3', min:50},
+  {lv:4, name:'Lv4', min:80},
+  {lv:5, name:'Lv5', min:100}
+];
+
+const GM_ITEMS=[
+  {id:'contact', icon:'&#129309;',name:'소통',   unit:'건', grades:GM_GRADES},
+  {id:'plan',    icon:'&#128197;',name:'계획',   unit:'일', grades:GM_GRADES},
+  {id:'people',  icon:'&#128101;',name:'인맥',   unit:'명', grades:GM_GRADES},
+  {id:'stp',     icon:'&#128188;',name:'STP',    unit:'회', grades:GM_GRADES},
+  {id:'align',   icon:'&#127942;',name:'3%완성', unit:'명', grades:GM_GRADES}
+];
+
+function getGrade(item, val){
+  var g=item.grades[0];
+  for(var i=item.grades.length-1;i>=0;i--){
+    if(val>=item.grades[i].min){ g=item.grades[i]; break; }
+  }
+  return g;
+}
+
+function getNextGrade(item, val){
+  for(var i=0;i<item.grades.length;i++){
+    if(val<item.grades[i].min) return item.grades[i];
+  }
+  return null;
+}
+
+function calcItemVal(item, start, end){
+  var consumers=data.consumers||[];
+  if(item.id==='contact'){
+    var cnt=0;
+    consumers.forEach(function(cc){
+      ['product','business','system'].forEach(function(t){
+        (cc[t]||[]).forEach(function(e){
+          if(!start||(e.date>=start&&e.date<=end)) cnt++;
+        });
+      });
+    });
+    return cnt;
+  }
+  if(item.id==='plan'){
+    var cnt=0;
+    consumers.forEach(function(cc){
+      ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+        var has=s.what_product||s.what_business||s.what_system||s.why_product||s.how_product;
+        if(has&&(!start||(s.date>=start&&s.date<=end))) cnt++;
+      });
+    });
+    return cnt;
+  }
+  if(item.id==='people'){
+    if(!start) return consumers.length;
+    // 해당 기간에 컨택 기록이 있는 소비자 수
+    var set=new Set();
+    consumers.forEach(function(cc){
+      ['product','business','system'].forEach(function(t){
+        (cc[t]||[]).forEach(function(e){
+          if(e.date>=start&&e.date<=end) set.add(cc.id);
+        });
+      });
+    });
+    return set.size;
+  }
+  if(item.id==='stp'){
+    var cnt=0;
+    consumers.forEach(function(cc){
+      (cc.business||[]).forEach(function(e){
+        if(!start||(e.date>=start&&e.date<=end)){
+          if((e.aligns||[]).indexOf('stp')>=0) cnt++;
+        }
+      });
+    });
+    return cnt;
+  }
+  if(item.id==='align'){
+    var cnt=0;
+    consumers.forEach(function(cc){
+      var ca=calcAligns(cc);
+      if(ca.cat>0&&ca.smo>0&&ca.stp>0) cnt++;
+    });
+    return cnt; // 얼라인 완성은 전체 기준
+  }
+  return 0;
+}
+
+function getPeriodRange(period){
+  var now=new Date();
+  var y=now.getFullYear(), m=now.getMonth();
+  if(period==='cur'){
+    var ms=y+'-'+String(m+1).padStart(2,'0')+'-01';
+    var me=y+'-'+String(m+1).padStart(2,'0')+'-'+String(new Date(y,m+1,0).getDate()).padStart(2,'0');
+    return {start:ms,end:me};
+  }
+  if(period==='prev'){
+    var pm=m===0?12:m, py=m===0?y-1:y;
+    var ps=py+'-'+String(pm).padStart(2,'0')+'-01';
+    var pe=py+'-'+String(pm).padStart(2,'0')+'-'+String(new Date(py,pm,0).getDate()).padStart(2,'0');
+    return {start:ps,end:pe};
+  }
+  if(period==='fy'){
+    var fyStart=getFiscalStartYear();
+    var fyS=fyStart+'-09-01';
+    var fyE=(fyStart+1)+'-08-31';
+    return {start:fyS,end:fyE};
+  }
+  return {start:null,end:null}; // 전체
+}
+
+function renderGameMatrix(){
+  var panel=document.getElementById('gamePanel');
+  if(!panel) return;
+  if(!data.consumers||data.consumers.length===0){ panel.style.display='none'; return; }
+  panel.style.display='block';
+
+  // 레벨 계산
+  var res=calcGameScore();
+  var pts=res.pts;
+  var lvIdx=getLevelIdx(pts);
+  var lv=LEVELS[lvIdx];
+  var nextLv=LEVELS[lvIdx+1];
+  var progress=nextLv?Math.min(100,Math.round((pts-lv.min)/(nextLv.min-lv.min)*100)):100;
+  var ptsToNext=nextLv?(nextLv.min-pts):0;
+
+  // 당월/전월 포인트 계산
+  function calcPtsByRange(start, end){
+    var p=0;
+    (data.consumers||[]).forEach(function(cc){
+      ['product','business','system'].forEach(function(t){
+        (cc[t]||[]).forEach(function(e){
+          if(e.date>=start&&e.date<=end) p+=15;
+        });
+      });
+      ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
+        if(s.date>=start&&s.date<=end){
+          if(s.recorded) p+=10;
+          var has=s.what_product||s.what_business||s.what_system||s.why_product||s.how_product;
+          if(has) p+=5;
+        }
+      });
+    });
+    return p;
+  }
+  var now=new Date();
+  var curM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  var prevM=(now.getMonth()===0?(now.getFullYear()-1)+'-12':now.getFullYear()+'-'+String(now.getMonth()).padStart(2,'0'));
+  var curStart=curM+'-01', curEnd=curM+'-'+String(new Date(now.getFullYear(),now.getMonth()+1,0).getDate()).padStart(2,'0');
+  var prevStart=prevM+'-01', prevEnd=prevM+'-'+String(new Date(parseInt(prevM.split('-')[0]),parseInt(prevM.split('-')[1]),0).getDate()).padStart(2,'0');
+  var curPts=calcPtsByRange(curStart,curEnd);
+  var prevPts=calcPtsByRange(prevStart,prevEnd);
+
+  // 기간별 범위
+  var periods=[
+    {id:'cur',  lbl:'당월'},
+    {id:'prev', lbl:'전월'},
+    {id:'fy',   lbl:'회계연도'},
+    {id:'total',lbl:'전체'}
+  ];
+
+  // 매트릭스 데이터 계산
+  var matData={};
+  GM_ITEMS.forEach(function(item){
+    matData[item.id]={};
+    periods.forEach(function(p){
+      var range=getPeriodRange(p.id);
+      matData[item.id][p.id]=calcItemVal(item,range.start,range.end);
+    });
+  });
+
+  // 헤더 (항목명 + 전체 기준 Level)
+  var thHtml='<th class="gm-th-item"></th>';
+  GM_ITEMS.forEach(function(item){
+    var totalVal=matData[item.id]['total'];
+    var grade=getGrade(item,totalVal);
+    thHtml+='<th><div class="gm-item-header">'+
+      '<span class="gm-item-icon">'+item.icon+'</span>'+
+      '<span class="gm-item-name">'+item.name+'</span>'+
+      '<span class="gm-item-grade" style="color:#ffd700;font-weight:800;">'+grade.name+'</span>'+
+    '</div></th>';
+  });
+
+  // 행 (기간별)
+  var rowsHtml='';
+  periods.forEach(function(p){
+    var isCur=p.id==='cur';
+    var isPrev=p.id==='prev';
+    var isTotal=p.id==='total';
+    rowsHtml+='<tr>';
+    rowsHtml+='<td class="gm-row-lbl">'+(isCur?'&#128994; ':'')+p.lbl+'</td>';
+    GM_ITEMS.forEach(function(item){
+      var val=matData[item.id][p.id];
+      var totalVal=matData[item.id]['total'];
+      var grade=getGrade(item,totalVal);
+      var nextG=getNextGrade(item,totalVal);
+      var nextMin=nextG?nextG.min:null;
+      var progressPct=nextMin?Math.min(100,Math.round(totalVal/nextMin*100)):100;
+      rowsHtml+='<td>'+
+        '<span class="gm-val'+(isCur?' cur':'')+'">'+(val||0)+item.unit+'</span>'+
+        (isPrev?' <span style="font-size:9px;opacity:.8;color:#ffd700;">'+grade.name+'</span>':'')+
+        (isTotal&&nextG?' <span style="font-size:9px;opacity:.7;">→'+nextG.name+' '+nextG.min+item.unit+'</span>':'')+
+        (isCur&&nextMin?'<div class="gm-progress-mini"><div class="gm-progress-mini-bar" style="width:'+progressPct+'%"></div></div>':'');
+      rowsHtml+='</td>';
+    });
+    rowsHtml+='</tr>';
+  });
+
+  panel.innerHTML=
+    '<div class="game-level">'+
+      '<span class="game-level-icon">'+lv.icon+'</span>'+
+      '<div class="game-level-info">'+
+        '<div class="game-level-name">'+lv.name+' 레벨</div>'+
+        '<div class="game-level-pts">'+(nextLv?'다음까지 '+ptsToNext+'P':'최고 레벨!')+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="game-pts-row">'+
+      '<div class="game-pts-cell">'+
+        '<div class="game-pts-cell-lbl">당월</div>'+
+        '<div class="game-pts-cell-val cur">+'+curPts+'P</div>'+
+      '</div>'+
+      '<div class="game-pts-cell">'+
+        '<div class="game-pts-cell-lbl">전월</div>'+
+        '<div class="game-pts-cell-val">+'+prevPts+'P</div>'+
+      '</div>'+
+      '<div class="game-pts-cell">'+
+        '<div class="game-pts-cell-lbl">누적</div>'+
+        '<div class="game-pts-cell-val">'+pts+'P</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="game-progress-wrap"><div class="game-progress-bar" style="width:'+progress+'%"></div></div>'+
+    '<div class="game-progress-label">'+progress+'%</div>'+
+    '<table class="gm-table"><thead><tr>'+thHtml+'</tr></thead><tbody>'+rowsHtml+'</tbody></table>'+
+    '<button class="score-guide-btn" id="scoreGuideBtn">❓ 점수 기준 보기</button>';
+}
+
+
+
+// ── 점수 기준 팝업 이벤트 ─────────────────────────────
+document.addEventListener('click',function(ev){
+  if(ev.target&&ev.target.id==='scoreGuideBtn'){
+    var ol=document.getElementById('scoreGuideOverlay');
+    if(ol) ol.classList.add('open');
+  }
+  if(ev.target&&ev.target.id==='scoreGuideClose'){
+    var ol=document.getElementById('scoreGuideOverlay');
+    if(ol) ol.classList.remove('open');
+  }
+  if(ev.target&&ev.target.id==='scoreGuideOverlay'){
+    ev.target.classList.remove('open');
+  }
+});
+
 // ── 초기화 ────────────────────────────────────────────
 load();
 renderList();
 renderTotalSummary();
+renderGameMatrix();
 </script>
+
+<!-- 점수 기준 팝업 -->
+<div class="score-guide-overlay" id="scoreGuideOverlay">
+  <div class="score-guide-box">
+    <h3>📊 점수 & Level 기준</h3>
+    <div class="score-guide-row"><span>📦💼🎓 컨택 기록 저장</span><span class="score-guide-pts">+15P</span></div>
+    <div class="score-guide-row"><span>🔒 완료 처리</span><span class="score-guide-pts">+10P</span></div>
+    <div class="score-guide-row"><span>📅 계획 작성</span><span class="score-guide-pts">+5P</span></div>
+    <div class="score-guide-row"><span>🏆 3% 얼라인 완성</span><span class="score-guide-pts">+50P</span></div>
+    <br>
+    <div class="score-guide-row"><span>🌱 새싹</span><span>0 ~ 100P</span></div>
+    <div class="score-guide-row"><span>🌿 성장</span><span>101 ~ 300P</span></div>
+    <div class="score-guide-row"><span>🌳 베테랑</span><span>301 ~ 600P</span></div>
+    <div class="score-guide-row"><span>⭐ 전문가</span><span>601 ~ 1000P</span></div>
+    <div class="score-guide-row"><span>👑 마스터</span><span>1001P ~</span></div>
+    <br>
+    <div class="score-guide-row"><span>Lv1</span><span>10 이상</span></div>
+    <div class="score-guide-row"><span>Lv2</span><span>30 이상</span></div>
+    <div class="score-guide-row"><span>Lv3</span><span>50 이상</span></div>
+    <div class="score-guide-row"><span>Lv4</span><span>80 이상</span></div>
+    <div class="score-guide-row"><span>Lv5</span><span>100 이상</span></div>
+    <button class="score-guide-close" id="scoreGuideClose">확인</button>
+  </div>
+</div>
+
 </body>
 </html>
