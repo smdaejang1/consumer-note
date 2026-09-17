@@ -12,7 +12,7 @@
 :root{
   --bg:#f5f6fa;--card:#fff;--border:#e2e5ec;--text:#23272f;--sub:#6b7280;
   --accent:#2f5496;--p:#2e7d32;--pb:#e8f5e9;--b:#e07b00;--bb:#fff3e0;
-  --s:#1565c0;--sb:#e3f2fd;--danger:#c00000;--radius:14px;
+  --s:#1565c0;--sb:#e3f2fd;--q:#8a4baf;--qb:#f4ecfa;--danger:#c00000;--radius:14px;
 }
 *{box-sizing:border-box;}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"맑은 고딕",sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px;-webkit-tap-highlight-color:transparent;}
@@ -115,6 +115,7 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 .tbtn.active.tp{background:var(--pb);color:var(--p);font-weight:800;}
 .tbtn.active.tb{background:var(--bb);color:var(--b);}
 .tbtn.active.ts{background:var(--sb);color:var(--s);}
+.tbtn.active.tq{background:var(--qb);color:var(--q);}
 .tpanel{display:none;border-radius:var(--radius);}
 .tpanel.active{display:block;}
 /* 기록 추가 버튼 */
@@ -149,12 +150,14 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 .addbtn.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
 .addbtn.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
 .addbtn.ts{background:var(--sb);color:var(--s);border:2px solid var(--s);}
+.addbtn.tq{background:var(--qb);color:var(--q);border:2px solid var(--q);}
 /* 인라인 폼 */
 .eform{background:var(--card);border:2px solid;border-radius:var(--radius);padding:14px;margin-bottom:14px;display:none;flex-direction:column;gap:10px;}
 .eform.open{display:flex;}
 .eform.tp{border-color:var(--p);background:#fafffe;}
 .eform.tb{border-color:var(--b);background:#fffdf8;}
 .eform.ts{border-color:var(--s);background:#f8faff;}
+.eform.tq{border-color:var(--q);background:#fdfaff;}
 .eform h3{margin:0;font-size:14.5px;}
 .schips{display:flex;gap:6px;flex-wrap:wrap;}
 .schip{padding:8px 12px;border-radius:20px;border:1px solid var(--border);font-size:13px;background:#fff;color:var(--sub);font-weight:600;}
@@ -168,6 +171,7 @@ header button{background:rgba(255,255,255,.18);border:none;color:#fff;border-rad
 .efsave.tp{background:var(--pb);color:var(--p);border:2px solid var(--p);}
 .efsave.tb{background:var(--bb);color:var(--b);border:2px solid var(--b);}
 .efsave.ts{background:var(--sb);color:var(--s);border:2px solid var(--s);}
+.efsave.tq{background:var(--qb);color:var(--q);border:2px solid var(--q);}
 /* 표 */
 .tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
 table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
@@ -754,13 +758,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
       </div>
       <button class="save-btn" id="beSaveBtn">저장</button>
     </div>
-    <div class="meet-section">
-      <div class="meet-header">
-        <span class="meet-title">🤝 소통 기록</span>
-        <span class="meet-count" id="meetCount">이번 달 0회</span>
-      </div>
-      <div class="meet-list" id="meetList"></div>
-    </div>
+
         <div class="align-summary" id="alignSummary">
       <div class="align-summary-title">📊 3% 얼라인 현황</div>
       <div class="align-bar-wrap">
@@ -806,6 +804,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
       <button class="tbtn active tp" data-tab="product">📦 제품</button>
       <button class="tbtn tb" data-tab="business">💼 사업</button>
       <button class="tbtn ts" data-tab="system">🎓 시스템</button>
+      <button class="tbtn tq" data-tab="quick">🗨️ 간편소통</button>
     </div>
     <div class="tpanel active" id="panel-product">
 
@@ -824,6 +823,12 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     <button class="addbtn ts" data-type="system">＋ 시스템 컨택 기록 추가</button>
       <div class="eform ts" id="form-system"></div>
       <div id="list-system"></div>
+    </div>
+    <div class="tpanel" id="panel-quick">
+      <div style="font-size:12px;color:var(--sub);padding:2px 2px 10px;">전화·톡 등으로 짧게 소통한 내용을 간단히 남겨보세요 (제품·사업·시스템 활동이 없어도 괜찮습니다)</div>
+    <button class="addbtn tq" data-type="quick">＋ 간편소통 추가</button>
+      <div class="eform tq" id="form-quick"></div>
+      <div id="list-quick"></div>
     </div>
   </div>
 </div>
@@ -907,12 +912,10 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     <div class="help-section">
       <div class="help-section-title">4️⃣ 활동 현황 &amp; 방향 제시</div>
       <div class="help-item">
-        <div class="help-item-title">🤝 소통 기록 (자동 집계) ⭐</div>
+        <div class="help-item-title">🗨️ 간편소통 탭</div>
         <div class="help-item-desc">
-          제품·사업·시스템 탭에 기록 입력 → 소통 기록 자동 반영<br>
-          이번 달 소통 횟수 자동 카운팅 (별도 입력 불필요!)<br>
-          <b style="color:#2e7d32">→ 기록을 성실히 할수록 소통 횟수가 자동으로 쌓입니다</b><br>
-          <b style="color:#2e7d32">→ 모든 기록은 통계 화면에도 자동 반영됩니다</b>
+          제품·사업·시스템처럼 뚜렷한 활동이 아니어도, 전화·톡 등 짧게 소통한 건 [🗨️ 간편소통] 탭에 날짜+내용만 간단히 남기세요<br>
+          <b style="color:#2e7d32">→ 제품·사업·시스템·간편소통 중 어디든 그 날짜에 기록이 있으면 "만남"으로 잡혀 이번 달 만남 횟수와 통계 화면에 자동 반영됩니다</b>
         </div>
       </div>
       <div class="help-item">
@@ -1104,6 +1107,7 @@ function load(){
     if(!c.leg) c.leg='보류';
     if(!c.div) c.div='consumer';
     if(!c.meets) c.meets=[];
+    if(!c.quick) c.quick=[];
     // 제품군/수량 마이그레이션
     if(!c.plans) c.plans={
       product:{whatwhy:'',how:'',schedules:[]},
@@ -1272,7 +1276,7 @@ function quickAdd(){
     id:uid(),name,
     intro:'',
     firstDate:document.getElementById('qaDate').value||today(),
-    product:[],business:[],system:[],meets:[],
+    product:[],business:[],system:[],quick:[],meets:[],
     plans:{
       product:{whatwhy:'',how:'',schedules:[]},
       business:{whatwhy:'',how:'',schedules:[]},
@@ -1305,7 +1309,6 @@ function openDetail(id){
   fillBasicForm();
   renderPersonalStat(curC());
   renderAlignSummary(curC());
-  renderMeets();
   renderAllEntries();
   ['product','business','system'].forEach(function(t){ renderPlan(t); });
   renderAllSchedules(curC());
@@ -1375,21 +1378,15 @@ function renderTotalSummary(){
     const el=document.getElementById('tot-'+key);
     if(el) el.textContent=totals[key];
   });
-  // 만남 인원/횟수 — 컨택 기록 기반으로 자동 집계
+  // 만남 인원/횟수 — 제품·사업·시스템·간편소통 중 하나라도 기록된 날짜(중복제거) 기준
   let meetPeople=0, meetTotal=0;
   let totProd=0, totBiz=0, totSys=0;
   data.consumers.forEach(cc=>{
-    let hasMeet=false;
-    (cc.product||[]).forEach(e=>{
-      if((e.date||'').startsWith(thisMonth)){ totProd++; meetTotal++; hasMeet=true; }
-    });
-    (cc.business||[]).forEach(e=>{
-      if((e.date||'').startsWith(thisMonth)){ totBiz++; meetTotal++; hasMeet=true; }
-    });
-    (cc.system||[]).forEach(e=>{
-      if((e.date||'').startsWith(thisMonth)){ totSys++; meetTotal++; hasMeet=true; }
-    });
-    if(hasMeet) meetPeople++;
+    const mc=getMeetDates(cc,thisMonth).length;
+    if(mc>0){ meetPeople++; meetTotal+=mc; }
+    (cc.product||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totProd++; });
+    (cc.business||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totBiz++; });
+    (cc.system||[]).forEach(e=>{ if((e.date||'').startsWith(thisMonth)) totSys++; });
   });
   const mpEl=document.getElementById('tot-meet-people');
   const mcEl=document.getElementById('tot-meet-count');
@@ -1403,52 +1400,71 @@ function renderTotalSummary(){
   if(tsEl) tsEl.textContent=totSys;
 }
 
-// ── 소통 기록 (자동 집계) ────────────────────────────
-function renderMeets(){
-  var cc=curC(); if(!cc) return;
-  var thisMonth=today().slice(0,7);
-  var typeIcon={product:'📦',business:'💼',system:'🎓'};
-  var typeLabel={product:'제품',business:'사업',system:'시스템'};
-  // 제품/사업/시스템 탭 기록에서 자동 집계
-  var entries=[];
-  ['product','business','system'].forEach(function(t){
-    (cc[t]||[]).forEach(function(e){
-      entries.push({
-        date:e.date||'',
-        type:t,
-        content:e.target||e.stage||'',
-        icon:typeIcon[t],
-        label:typeLabel[t]
-      });
-    });
-  });
-  // 날짜 내림차순 정렬
-  entries.sort(function(a,b){ return b.date.localeCompare(a.date); });
-  // 이번 달 카운팅 (날짜 중복 제거)
-  var thisMonthDates=[];
-  entries.forEach(function(e){
-    if(e.date.startsWith(thisMonth)&&thisMonthDates.indexOf(e.date)<0){
-      thisMonthDates.push(e.date);
-    }
-  });
-  var countEl=document.getElementById('meetCount');
-  if(countEl) countEl.textContent='이번 달 '+thisMonthDates.length+'회';
-  var listEl=document.getElementById('meetList');
-  if(!listEl) return;
-  if(entries.length===0){
-    listEl.innerHTML='<div style="font-size:12.5px;color:var(--sub);padding:10px;text-align:center;">제품·사업·시스템 탭에 기록을 추가하면 자동으로 표시됩니다</div>';
+// ── 간편소통 (전화·톡 등 짧은 소통, 별도 계획/단계 없이 날짜+내용만) ──
+function renderQuickEntries(){
+  const c=curC(); if(!c) return;
+  if(!c.quick) c.quick=[];
+  const wrap=document.getElementById('list-quick'); if(!wrap) return;
+  const arr=c.quick.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!arr.length){
+    wrap.innerHTML='<div class="empty" style="padding:24px 10px;text-align:center;color:var(--sub);font-size:13px;">아직 간편소통 기록이 없습니다</div>';
     return;
   }
-  var html='';
-  entries.forEach(function(e){
+  let html='';
+  arr.forEach(e=>{
     html+='<div class="meet-item">';
-    html+='<span class="meet-item-date">'+esc(e.date)+'</span>';
-    html+='<span style="font-size:12px;font-weight:700;margin-right:6px;">'+e.icon+' '+e.label+'</span>';
-    html+='<span class="meet-item-memo">'+esc(e.content)+'</span>';
+    html+='<span class="meet-item-date">'+esc(e.date||'')+'</span>';
+    html+='<span class="meet-item-memo">'+esc(e.content||'')+'</span>';
+    html+='<button class="meet-item-del" data-qid="'+e.id+'">✕</button>';
     html+='</div>';
   });
-  listEl.innerHTML=html;
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.meet-item-del').forEach(btn=>{
+    btn.addEventListener('click',ev=>{
+      ev.stopPropagation();
+      const c2=curC(); if(!c2)return;
+      if(confirm('이 간편소통 기록을 삭제할까요?')){
+        c2.quick=(c2.quick||[]).filter(x=>x.id!==btn.dataset.qid);
+        c2.updatedAt=Date.now(); save();
+        renderQuickEntries(); renderTotalSummary();
+        toast('삭제됐습니다');
+      }
+    });
+  });
 }
+
+function openQuickForm(){
+  const formEl=document.getElementById('form-quick'); if(!formEl) return;
+  formEl.innerHTML=
+    '<div class="fld"><label>일정</label><input type="date" id="qf_date" value="'+today()+'"></div>'+
+    '<div class="fld"><label>내용</label><textarea id="qf_content" placeholder="예) 전화로 안부 확인, 카톡으로 소식 공유 등"></textarea></div>'+
+    '<div class="efbtns"><button class="efcancel" id="qf_cancel">취소</button><button class="efsave tq" id="qf_save">저장</button></div>';
+  formEl.classList.add('open');
+  document.getElementById('qf_cancel').addEventListener('click',()=>{
+    formEl.classList.remove('open'); formEl.innerHTML='';
+  });
+  document.getElementById('qf_save').addEventListener('click',()=>{
+    const cc=curC(); if(!cc) return;
+    if(!cc.quick) cc.quick=[];
+    const dateVal=document.getElementById('qf_date').value||today();
+    const contentVal=document.getElementById('qf_content').value.trim();
+    cc.quick.push({id:uid(), date:dateVal, content:contentVal});
+    cc.updatedAt=Date.now(); save();
+    formEl.classList.remove('open'); formEl.innerHTML='';
+    renderQuickEntries(); renderTotalSummary();
+    toast('간편소통 기록이 저장됐습니다');
+  });
+}
+
+// 이 소비자의 이번 달 "만남 날짜" — 제품/사업/시스템/간편소통 중 하나라도 기록된 날짜(중복 제거)
+function getMeetDates(cc, ym){
+  const dates=new Set();
+  ['product','business','system','quick'].forEach(t=>{
+    (cc[t]||[]).forEach(e=>{ if((e.date||'').startsWith(ym)) dates.add(e.date); });
+  });
+  return [...dates];
+}
+
 
 
 function getFiscalStartYear(){
@@ -1474,10 +1490,9 @@ function getAvailableFiscalYears(){
   // 데이터가 있는 회계연도 목록 반환
   const allDates=[];
   data.consumers.forEach(cc=>{
-    ['product','business','system'].forEach(t=>{
+    ['product','business','system','quick'].forEach(t=>{
       (cc[t]||[]).forEach(e=>{ if(e.date) allDates.push(e.date); });
     });
-    ['product','business','system'].forEach(function(t){ (cc[t]||[]).forEach(function(e){ if(e.date) allDates.push(e.date); }); });
   });
   const fiscalYears=new Set();
   // 현재 회계연도는 항상 포함
@@ -1495,12 +1510,8 @@ function calcMonthStats(ym){
   let meet=0,meetP=0,cat=0,smo=0,stp=0,prod=0,biz=0,sys=0;
   const people=new Set();
   data.consumers.forEach(cc=>{
-    const mc=(cc.product||[]).filter(e=>(e.date||'').startsWith(ym)).length+(cc.business||[]).filter(e=>(e.date||'').startsWith(ym)).length+(cc.system||[]).filter(e=>(e.date||'').startsWith(ym)).length;
+    const mc=getMeetDates(cc,ym).length;
     if(mc>0){people.add(cc.id); meet+=mc;}
-    const calcA=(arr)=>arr.filter(e=>(e.date||'').startsWith(ym)).reduce((acc,e)=>{
-      (e.aligns||[]).forEach(a=>{if(a==='cat')acc.cat++;if(a==='smo')acc.smo++;if(a==='stp')acc.stp++;});
-      return acc;
-    },{cat:0,smo:0,stp:0});
     ['product','business','system'].forEach(t=>{
       (cc[t]||[]).forEach(e=>{
         if((e.date||'').startsWith(ym)){
@@ -1663,6 +1674,7 @@ document.getElementById('helpOverlay').addEventListener('click',e=>{
 
 function renderAllEntries(){
   ['product','business','system'].forEach(t=>renderEntries(t));
+  renderQuickEntries();
 }
 
 // 저장
@@ -2408,6 +2420,7 @@ document.querySelectorAll('.addbtn').forEach(btn=>btn.addEventListener('click',(
   const t=btn.dataset.type;
   const f=document.getElementById('form-'+t);
   if(f.classList.contains('open')&&!editingId[t]){f.classList.remove('open');f.innerHTML='';}
+  else if(t==='quick') openQuickForm();
   else openForm(t,null);
 }));
 
