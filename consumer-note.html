@@ -1249,6 +1249,25 @@ function quickAdd(){
   const nameEl=document.getElementById('qaName');
   const name=nameEl.value.trim();
   if(!name){toast('이름을 입력해 주세요');nameEl.focus();return;}
+
+  // 중복 이름 체크
+  const dup=data.consumers.find(function(c){ return c.name===name; });
+  if(dup){
+    const choice=confirm(
+      '⚠️ "'+name+'" 님은 이미 등록되어 있습니다!\n\n'+
+      '[확인] → 기존 '+name+' 님 상세 화면으로 이동\n'+
+      '[취소] → 다른 이름으로 다시 입력'
+    );
+    if(choice){
+      nameEl.value='';
+      openDetail(dup.id);
+    } else {
+      nameEl.focus();
+      nameEl.select();
+    }
+    return;
+  }
+
   data.consumers.push({
     id:uid(),name,
     intro:'',
@@ -2604,53 +2623,49 @@ document.addEventListener('change',function(ev){
 // ── 플래너 내보내기 ───────────────────────────────────
 document.addEventListener('click',function(ev){
   if(ev.target&&ev.target.id==='plannerExportBtn'){
-    const followUps=[];
+    // 날짜 × 소비자 기준으로 통합 (1인당 1줄)
+    var dateMap={};
+
     (data.consumers||[]).forEach(function(cc){
-      // ① 컨택 기록 기반 (product/business/system)
+      // ① 컨택 기록 기반
       ['product','business','system'].forEach(function(type){
-        var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
         (cc[type]||[]).forEach(function(e){
           if(!e.date) return;
-          var text=esc(cc.name)+' — '+tl;
-          if(e.target) text+=' ('+e.target+')';
-          followUps.push({
-            date:e.date,
-            text:text,
-            consumer:cc.name,
-            type:tl,
-            stage:e.stage||'',
-            needs:e.needs||'',
-            proposal:e.proposal||'',
-            note:e.note||''
-          });
+          var key=e.date+'__'+cc.name;
+          if(!dateMap[key]) dateMap[key]={date:e.date,consumer:cc.name,types:{}};
+          dateMap[key].types[type]=true;
         });
       });
-      // ② 만남 계획(allSchedules) 기반 — 있을 경우 추가
+      // ② 만남 계획(allSchedules) 기반
       ((cc.plans&&cc.plans.allSchedules)||[]).forEach(function(s){
-        var hasContent=s.what_product||s.why_product||s.how_product||
-                       s.what_business||s.why_business||s.how_business||
-                       s.what_system||s.why_system||s.how_system;
-        if(!hasContent) return;
         ['product','business','system'].forEach(function(type){
-          var tl=type==='product'?'제품':type==='business'?'사업':'시스템';
           var what=s['what_'+type]||'';
           var why=s['why_'+type]||'';
           var how=s['how_'+type]||'';
           if(!what&&!why&&!how) return;
-          followUps.push({
-            date:s.date,
-            text:esc(cc.name)+' — 계획('+tl+'): '+(what||why||how),
-            consumer:cc.name,
-            type:'계획_'+tl,
-            what:what,
-            why:why,
-            how:how
-          });
+          var key=s.date+'__'+cc.name;
+          if(!dateMap[key]) dateMap[key]={date:s.date,consumer:cc.name,types:{}};
+          dateMap[key].types[type]=true;
         });
       });
     });
-    // 날짜순 정렬 (중복 제거)
+
+    // followUps 생성 — 소비자별 1줄, 탭 아이콘만 표시
+    var followUps=Object.values(dateMap).map(function(item){
+      var icons=[];
+      if(item.types.product)  icons.push('📦 제품');
+      if(item.types.business) icons.push('💼 사업');
+      if(item.types.system)   icons.push('🎓 시스템');
+      return {
+        date:item.date,
+        text:esc(item.consumer)+' — '+icons.join(' · '),
+        consumer:item.consumer,
+        types:Object.keys(item.types)
+      };
+    });
+
     followUps.sort(function(a,b){ return a.date.localeCompare(b.date); });
+
     if(followUps.length===0){
       toast('내보낼 일정이 없습니다. 컨택 기록을 먼저 저장해주세요.');
       return;
