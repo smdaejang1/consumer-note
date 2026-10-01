@@ -642,6 +642,67 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .game-pts-cell-lbl{font-size:10px;opacity:.8;margin-bottom:2px;}
 .game-pts-cell-val{font-size:15px;font-weight:800;}
 .game-pts-cell-val.cur{color:#ffd700;}
+
+/* 결과 현황 섹션 */
+.result-section{background:#f8f9fb;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:10px;}
+.result-section-title{font-size:12.5px;font-weight:800;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+/* 장스오 */
+.jango-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.jango-chip{padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;border:2px solid var(--border);cursor:pointer;background:#fff;}
+.jango-chip.sel-0{background:#f1f5f9;color:#64748b;border-color:#94a3b8;}
+.jango-chip.sel-10{background:#eef2ff;color:#2f5496;border-color:#2f5496;}
+.jango-chip.sel-20{background:#e8f5e9;color:#2e7d32;border-color:#2e7d32;}
+.jango-chip.sel-30{background:#fff3e0;color:#e07b00;border-color:#e07b00;}
+/* SOP */
+.sop-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+.sop-item{display:flex;align-items:center;gap:6px;}
+.sop-item input[type=text]{flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;font-family:inherit;}
+.sop-item input[type=number]{width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;}
+.sop-del-btn{border:none;background:none;color:var(--danger);font-size:14px;cursor:pointer;font-weight:700;}
+.sop-add-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px dashed var(--border);background:#fff;cursor:pointer;color:var(--sub);}
+/* 제품 결과 칩 */
+.prod-result-wrap{display:flex;flex-direction:column;gap:8px;}
+.prod-result-input{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12.5px;font-family:inherit;width:100%;}
+/* 시스템 결과 */
+.sys-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sys-result-col{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;}
+.sys-result-col-title{font-size:11.5px;font-weight:800;margin-bottom:6px;}
+.sys-result-col-title.propose{color:#2f5496;}
+.sys-result-col-title.attend{color:#2e7d32;}
+.sys-result-input{border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:12px;font-family:inherit;width:100%;margin-bottom:4px;}
+.sys-result-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;margin:2px;}
+.sys-result-tag.propose{background:#eef2ff;color:#2f5496;}
+.sys-result-tag.attend{background:#e8f5e9;color:#2e7d32;}
+
+/* 결과 현황 요약 */
+#resultSummary{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.rs-section{margin-bottom:12px;}
+.rs-section:last-child{margin-bottom:0;}
+.rs-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.rs-sub{font-size:11px;color:var(--sub);font-weight:400;}
+.rs-row{display:flex;flex-wrap:wrap;gap:6px;}
+.rs-chip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:20px;}
+.rs-chip-10{background:#eef2ff;color:#2f5496;}
+.rs-chip-20{background:#e8f5e9;color:#2e7d32;}
+.rs-chip-30{background:#fff3e0;color:#e07b00;}
+.rs-chip-none{background:#f1f5f9;color:#64748b;}
+.rs-chip-sop{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+.rs-chip-del{background:#e8f5e9;color:#2e7d32;border:1px solid #a7f3d0;}
+.rs-chip-shr{background:#eef2ff;color:#2f5496;border:1px solid #c7d2fe;}
+
+/* 저장 완료 하이라이트 */
+@keyframes saveFlash{
+  0%{background:#e8f5e9;}
+  50%{background:#c8e6c9;}
+  100%{background:transparent;}
+}
+.etr.just-saved{animation:saveFlash 1.2s ease;}
+/* 3% 액션 미니 칩 (목록 테이블) */
+.align-mini{display:inline-block;font-size:10px;font-weight:800;padding:2px 6px;
+  border-radius:8px;margin-right:2px;}
+.align-mini.cat{background:#eef2ff;color:#2f5496;}
+.align-mini.smo{background:#e8f5e9;color:#2e7d32;}
+.align-mini.stp{background:#fff3e0;color:#e07b00;}
 </style>
 </head>
 <body>
@@ -655,6 +716,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
   <!-- 목록 화면 -->
   <div id="listView">
     <div id="gamePanel" class="game-panel" style="display:none"></div>
+    <div id="resultSummary" style="display:none"></div>
     <div class="qabox">
       <div class="qarow">
         <input id="qaName" type="text" placeholder="이름을 입력하고 추가">
@@ -760,7 +822,7 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
     </div>
 
         <div class="align-summary" id="alignSummary">
-      <div class="align-summary-title">📊 3% 얼라인 현황</div>
+      <div class="align-summary-title">📊 3% 얼라인 제안 진척 <span style="font-size:10.5px;font-weight:600;color:#94a3b8;">(대화·제안 기준)</span> <span id="align3pctBadge"></span></div>
       <div class="align-bar-wrap">
         <div class="align-bar-row">
           <span class="align-bar-label">카탈로그</span>
@@ -1001,21 +1063,55 @@ table.etbl{width:100%;border-collapse:collapse;table-layout:fixed;}
         </div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">📈 Level 기준 (소통/계획/인맥/STP/3%완성)</div>
+        <div class="help-item-title">📈 매트릭스 8개 항목</div>
         <div class="help-item-desc">
-          모든 항목 동일 기준:<br>
+          📅 <b>계획</b> — 계획을 작성한 날짜 수<br>
+          🤝 <b>소통</b> — 컨택 기록 건수 (아래 제품·사업·시스템 분해 표시)<br>
+          👥 <b>인맥</b> — 소통한 소비자 인원수<br>
+          📦 <b>제품전달</b> — 실제 전달한 제품 건수 (여러 번 전달 시 누적)<br>
+          💳 <b>장스오</b> — 장바구니 스마트 오더 설정 인원<br>
+          💰 <b>월액</b> — 장스오 월 설정 금액 합계(만원)<br>
+          📋 <b>SOP</b> — 정기 구독 중인 제품 건수<br>
+          🏆 <b>3%완성</b> — 카탈로그 + 장스오 설정 + STP 모두 달성한 인원
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">⚠️ 누적 항목 vs 현재 상태 항목</div>
+        <div class="help-item-desc">
+          <b style="color:#2f5496">누적</b> (쌓이는 값): 계획 · 소통 · 제품전달<br>
+          → 기간 내 발생한 건수를 모두 더합니다<br><br>
+          <b style="color:#e07b00">현재 상태</b> (지금 값): 인맥 · 장스오 · 월액 · SOP · 3%완성<br>
+          → 장스오와 SOP는 매달 정기 구독이라 <b>최신 기록 하나</b>가 현재 상태입니다.<br>
+          같은 달에 장스오를 30만 → 10만으로 바꿔 기록하면 <b>10만</b>으로 집계됩니다.
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">🏆 3% 완성 기준 (중요)</div>
+        <div class="help-item-desc">
+          아래 <b>3가지를 모두</b> 충족해야 완성입니다:<br>
+          ① 📋 카탈로그 액션 체크<br>
+          ② 💳 장스오 <b>금액 실제 설정</b> (제안만으로는 안 됨)<br>
+          ③ 💼 STP 액션 체크<br>
+          <b style="color:#c00000">⚠️ 상세 화면의 "3% 얼라인 제안 진척"은 대화·제안 기준이라 완성 여부와 다릅니다.</b>
+        </div>
+      </div>
+      <div class="help-item">
+        <div class="help-item-title">📈 Level 기준 (8개 항목 공통)</div>
+        <div class="help-item-desc">
           Lv1: 10 이상 &nbsp; Lv2: 30 이상 &nbsp; Lv3: 50 이상<br>
           Lv4: 80 이상 &nbsp; Lv5: 100 이상<br>
           <b style="color:#2e7d32">⭐ 매일 기록할수록 자동으로 Level이 올라갑니다!</b>
         </div>
       </div>
       <div class="help-item">
-        <div class="help-item-title">📅 기간별 집계</div>
+        <div class="help-item-title">📅 기간별 집계 (OKR 구조)</div>
         <div class="help-item-desc">
-          당월: 이번 달 기록 건수<br>
-          전월: 지난 달 기록 건수<br>
-          회계연도: 9월~8월 누적 건수<br>
-          전체: 전체 기간 누적 건수
+          🟢 <b>당월</b> — 이번 달<br>
+          <b>전월</b> — 지난 달 (비교 기준)<br>
+          ⭐ <b>당기 분기</b> — Q1(9~11월) Q2(12~2월) Q3(3~5월) Q4(6~8월)<br>
+          📅 <b>당기 회계연도</b> — 9월~8월, 지난 연도 대비 성장률(▲▼) 표시<br>
+          📋 <b>지난 회계연도</b> — 목표 설정의 기준선<br>
+          📊 <b>월평균</b> — 지난 회계연도 ÷ 활동 월수, 당월과 비교
         </div>
       </div>
     </div>
@@ -1050,7 +1146,7 @@ const HINTS = {
 };
 const CLS  = {product:'tp', business:'tb', system:'ts'};
 const TH   = {
-  product:  ['일정','제품군','니즈','진행','피드백'],
+  product:  ['일정','제품군','전달 제품','니즈','진행','피드백'],
   business: ['일정','단계','니즈','진행','피드백'],
   system:   ['일정','시스템 종류','니즈','피드백','단계']
 };
@@ -1097,6 +1193,30 @@ let expanded   = {product:null, business:null, system:null};
 let editingId  = {product:null, business:null, system:null};
 let _rel       = {personal:'', business:''};
 let _goals     = {m1:[], m2:[], m3:[]};
+
+
+// ── 계획 textarea 높이 자동 조절 (숨김 탭에서도 정확) ──
+function autoSizePlanArea(el){
+  if(!el) return;
+  var val=el.value||'';
+  // 줄바꿈 수 + 긴 줄의 wrap 예상치로 계산
+  var lines=val.split('\n');
+  var totalLines=0;
+  // textarea 한 줄에 대략 들어가는 글자 수 (폰트 14.5px, 컨테이너 폭 기준)
+  var charsPerLine=Math.max(20, Math.floor((el.clientWidth||600)/10));
+  lines.forEach(function(ln){
+    totalLines += Math.max(1, Math.ceil(ln.length/charsPerLine));
+  });
+  var lineH=22; // line-height 근사치
+  el.style.height=(totalLines*lineH+16)+'px';
+  // 렌더 후 한 번 더 보정 (탭이 보일 때 실제 scrollHeight 사용)
+  requestAnimationFrame(function(){
+    if(el.offsetParent!==null && el.scrollHeight>0){
+      el.style.height='auto';
+      el.style.height=(el.scrollHeight+6)+'px';
+    }
+  });
+}
 
 // ── 유틸 ──────────────────────────────────────────────
 function load(){
@@ -1197,6 +1317,79 @@ function buildDivChips(wrapId, selectedDiv){
   });
 }
 
+
+// ── 소비자별 장스오/SOP 현황 ──────────────────────────
+// 장스오: 최신 설정값(상태) / SOP: 전체 합계(누적)
+
+// ── 3% 완성 판정 (B안: 결과 기준) ──────────────────────
+// 카탈로그 체크 + 장스오 실제 금액 설정 + STP 체크
+function is3pctDone(cc){
+  var ca=calcAligns(cc);
+  var hasJango=(cc.business||[]).some(function(e){
+    return e.jangoAmt && e.jangoAmt!=='0';
+  });
+  return ca.cat>0 && hasJango && ca.stp>0;
+}
+
+// 장스오·SOP는 둘 다 "정기 구독 상태" → 기간 내 최신 기록 하나가 현재 상태
+// start/end 생략 시 전체 기간 기준
+
+// ── 기록 변경 후 전체 화면 갱신 (누락 방지용 단일 진입점) ──
+function refreshAfterChange(){
+  if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
+  renderTotalSummary();
+  renderGameMatrix();
+  renderResultSummary();
+}
+
+function getJangoSop(cc, start, end){
+  var jangoAmt='0', jangoEntryId=null, jangoDate='';
+  var sopItems=[], sopTotal=0, sopEntryId=null, sopDate='';
+  var bizList=(cc.business||[]).slice().sort(function(a,b){
+    return (b.date||'').localeCompare(a.date||'');
+  });
+  bizList.forEach(function(e){
+    if(start && !((e.date||'')>=start && (e.date||'')<=end)) return;
+    // 장스오 — 최신 설정값
+    if(jangoAmt==='0' && e.jangoAmt && e.jangoAmt!=='0'){
+      jangoAmt=e.jangoAmt; jangoEntryId=e.id; jangoDate=e.date||'';
+    }
+    // SOP — 최신 목록 (누적 아님)
+    if(!sopEntryId && e.sopItems && e.sopItems.length){
+      sopItems=e.sopItems;
+      sopItems.forEach(function(s){ sopTotal+=s.cnt||1; });
+      sopEntryId=e.id; sopDate=e.date||'';
+    }
+  });
+  return {jangoAmt:jangoAmt, jangoEntryId:jangoEntryId, jangoDate:jangoDate,
+          jangoNum:(jangoAmt!=='0'?1:0), jangoSum:parseInt(jangoAmt)||0,
+          sopItems:sopItems, sopTotal:sopTotal, sopEntryId:sopEntryId, sopDate:sopDate};
+}
+
+// 사업 탭 특정 기록으로 이동 + 펼치기
+function gotoBusinessEntry(consumerId, entryId){
+  openDetail(consumerId);
+  setTimeout(function(){
+    setActiveTab('business');
+    if(entryId){
+      expanded.business=entryId;
+      renderEntries('business');
+      setTimeout(function(){
+        var row=document.querySelector('.exprow[data-for="'+entryId+'"]');
+        if(row) row.scrollIntoView({behavior:'smooth',block:'center'});
+      },150);
+    } else {
+      // 기록이 없으면 새 기록 폼 열기
+      openForm('business', null);
+      setTimeout(function(){
+        var formEl=document.getElementById('form-business');
+        if(formEl) formEl.scrollIntoView({behavior:'smooth',block:'start'});
+        toast('장스오·SOP를 입력할 새 사업 기록을 열었습니다');
+      },150);
+    }
+  },200);
+}
+
 function renderList(){
   const q=document.getElementById('searchInput').value.trim();
   const listEl=document.getElementById('cList');
@@ -1213,6 +1406,7 @@ function renderList(){
     const thisMonth=today().slice(0,7);
     const mc=(c.product||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(c.business||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(c.system||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length;
     const aligns=calcAligns(c);
+    const js=getJangoSop(c);
     const rel=c.relBasic||{};
     const relTxt=(rel.personal?'개인 '+rel.personal:'')+(rel.business?' / 사업 '+rel.business:'');
     const div=document.createElement('div');
@@ -1222,6 +1416,8 @@ function renderList(){
         '<div class="cname">'+esc(c.name)+
         ' <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:'+(c.div==='partner'?'#e8f5e9':'#dce6f7')+';color:'+(c.div==='partner'?'#2e7d32':'#2f5496')+'">'+(c.div==='partner'?'파트너':'소비자')+'</span>'+
         ' <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:#fde8c8;color:#e07b00">'+((c.leg&&c.leg!=='보류')?c.leg+'레그':'보류')+'</span>'+
+        ' <span class="js-badge" data-cid="'+c.id+'" data-eid="'+(js.jangoEntryId||'')+'" style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;cursor:pointer;background:'+(js.jangoAmt!=='0'?'#fff8e1':'#f1f5f9')+';color:'+(js.jangoAmt!=='0'?'#e07b00':'#94a3b8')+';border:1px solid '+(js.jangoAmt!=='0'?'#f9c74f':'#e2e8f0')+'">💳 '+(js.jangoAmt!=='0'?'장스오 '+js.jangoAmt+'만':'장스오 미설정')+'</span>'+
+        ' <span class="js-badge" data-cid="'+c.id+'" data-eid="'+(js.sopEntryId||'')+'" style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;cursor:pointer;background:'+(js.sopTotal>0?'#f0f9ff':'#f1f5f9')+';color:'+(js.sopTotal>0?'#0369a1':'#94a3b8')+';border:1px solid '+(js.sopTotal>0?'#bae6fd':'#e2e8f0')+'">📋 '+(js.sopTotal>0?'SOP '+js.sopTotal+'건':'SOP 없음')+'</span>'+
         '</div>'+
         '<div class="cmeta">'+(relTxt||'관계발달 미설정')+'</div>'+
         '<div class="ctags">'+
@@ -1236,6 +1432,13 @@ function renderList(){
       '</div>'+
       '<button class="idel">✕</button>'+
       '<span class="chevron">›</span>';
+    // 장스오/SOP 배지 클릭 → 해당 사업 기록으로 이동
+    div.querySelectorAll('.js-badge').forEach(function(b){
+      b.addEventListener('click',function(ev){
+        ev.stopPropagation();
+        gotoBusinessEntry(b.dataset.cid, b.dataset.eid||null);
+      });
+    });
     div.querySelector('.cinfo').addEventListener('click',()=>openDetail(c.id));
     div.querySelector('.chevron').addEventListener('click',()=>openDetail(c.id));
     div.querySelector('.idel').addEventListener('click',ev=>{
@@ -1360,6 +1563,21 @@ function renderAlignSummary(consumer){
     if(bar) bar.style.width=(counts[key]/max*100)+'%';
     if(cnt) cnt.textContent=counts[key];
   });
+  // 3% 완성 여부 배지 (결과 기준: 카탈 체크 + 장스오 실제 설정 + STP 체크)
+  const badge=document.getElementById('align3pctBadge');
+  if(badge&&consumer){
+    const done=is3pctDone(consumer);
+    const hasJango=(consumer.business||[]).some(e=>e.jangoAmt&&e.jangoAmt!=='0');
+    if(done){
+      badge.innerHTML='<span style="font-size:11px;font-weight:800;padding:2px 9px;border-radius:12px;background:#f0fff4;color:#276749;border:1px solid #86efac;">🏆 3% 완성</span>';
+    } else {
+      const lack=[];
+      if(counts.cat===0) lack.push('카탈');
+      if(!hasJango) lack.push('장스오 설정');
+      if(counts.stp===0) lack.push('STP');
+      badge.innerHTML='<span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:12px;background:#fff8f0;color:#e07b00;border:1px solid #f9c74f;">남은 항목: '+lack.join(' · ')+'</span>';
+    }
+  }
 }
 
 function renderTotalSummary(){
@@ -1440,6 +1658,46 @@ function openQuickForm(){
     '<div class="fld"><label>내용</label><textarea id="qf_content" placeholder="예) 전화로 안부 확인, 카톡으로 소식 공유 등"></textarea></div>'+
     '<div class="efbtns"><button class="efcancel" id="qf_cancel">취소</button><button class="efsave tq" id="qf_save">저장</button></div>';
   formEl.classList.add('open');
+
+  // 장스오 칩 클릭 이벤트
+  formEl.querySelectorAll('.jango-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      formEl.querySelectorAll('.jango-chip').forEach(function(c2){
+        c2.style.fontWeight=''; c2.style.opacity='0.6';
+      });
+      chip.style.fontWeight='800'; chip.style.opacity='1';
+      var el=document.getElementById('ef_jango');
+      if(el) el.value=chip.dataset.jango;
+    });
+  });
+  // 초기 선택 강조
+  var initJango=document.getElementById('ef_jango');
+  if(initJango){
+    formEl.querySelectorAll('.jango-chip').forEach(function(chip){
+      chip.style.opacity= chip.dataset.jango===initJango.value?'1':'0.5';
+    });
+  }
+
+  // SOP 추가 버튼
+  var sopAddBtn=document.getElementById('ef_sop_add');
+  if(sopAddBtn){
+    sopAddBtn.addEventListener('click',function(){
+      var list=document.getElementById('ef_sop_list');
+      var idx=list.querySelectorAll('.sop-item').length;
+      var div=document.createElement('div');
+      div.className='sop-item';
+      div.innerHTML='<input type="text" placeholder="제품명" data-sop-name="'+idx+'" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;">'+
+        '<input type="number" min="1" value="1" data-sop-cnt="'+idx+'" style="width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;">'+
+        '<span style="font-size:11px;color:var(--sub);">건</span>'+
+        '<button class="sop-del-btn" data-sop-del="'+idx+'">✕</button>';
+      list.appendChild(div);
+      div.querySelector('.sop-del-btn').addEventListener('click',function(){ div.remove(); });
+    });
+    // 기존 삭제 버튼 이벤트
+    document.querySelectorAll('.sop-del-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){ btn.closest('.sop-item').remove(); });
+    });
+  }
   document.getElementById('qf_cancel').addEventListener('click',()=>{
     formEl.classList.remove('open'); formEl.innerHTML='';
   });
@@ -1507,23 +1765,48 @@ function getAvailableFiscalYears(){
 }
 
 function calcMonthStats(ym){
-  let meet=0,meetP=0,cat=0,smo=0,stp=0,prod=0,biz=0,sys=0;
+  // 게임화 매트릭스와 동일 구성:
+  // 계획 · 소통 · 인맥 · 제품전달 · 장스오 · 월액 · SOP · 3%완성
+  let plan=0,contact=0,delivered=0,jango=0,jangoAmt=0,sop=0,align=0;
+  let prod=0,biz=0,sys=0; // 소통 내역 분해용
   const people=new Set();
   data.consumers.forEach(cc=>{
-    const mc=getMeetDates(cc,ym).length;
-    if(mc>0){people.add(cc.id); meet+=mc;}
+    // 계획 — 해당 월 계획 작성 일수
+    ((cc.plans&&cc.plans.allSchedules)||[]).forEach(s=>{
+      if((s.date||'').startsWith(ym)){
+        const has=s.what_product||s.what_business||s.what_system||
+                  s.why_product||s.why_business||s.why_system||
+                  s.how_product||s.how_business||s.how_system;
+        if(has) plan++;
+      }
+    });
+    // 소통 · 인맥 · 제품전달 · 장스오 · SOP
+    let hasEntry=false;
     ['product','business','system'].forEach(t=>{
       (cc[t]||[]).forEach(e=>{
         if((e.date||'').startsWith(ym)){
+          hasEntry=true;
+          contact++;
           if(t==='product')prod++;
           if(t==='business')biz++;
           if(t==='system')sys++;
-          (e.aligns||[]).forEach(a=>{if(a==='cat')cat++;if(a==='smo')smo++;if(a==='stp')stp++;});
+          if(t==='product'&&e.deliveredProducts&&e.deliveredProducts.trim()){
+            delivered+=e.deliveredProducts.split(/[,，、]/).filter(x=>x.trim()).length;
+          }
         }
       });
     });
+    if(hasEntry) people.add(cc.id);
+    // 장스오·SOP — 해당 월 최신 기록 기준 (상태값)
+    const jsM=getJangoSop(cc, ym+'-01', ym+'-31');
+    jango    += jsM.jangoNum;
+    jangoAmt += jsM.jangoSum;
+    sop      += jsM.sopTotal;
+    // 3% 완성 — 현재 상태 기준(B안)
+    if(is3pctDone(cc)) align++;
   });
-  return {ym,meetP:people.size,meet,cat,smo,stp,prod,biz,sys};
+  return {ym, plan, contact, people:people.size, delivered,
+          jango, jangoAmt, sop, align, prod, biz, sys};
 }
 
 let _selectedFY=null; // 선택된 회계연도 시작연도
@@ -1558,15 +1841,17 @@ function renderStatView(){
 
   // 이번 달 현황 (실제 이번 달 기준, 선택 연도 무관)
   const tm=calcMonthStats(thisMonth);
+  // 게임화 매트릭스와 동일 구성 (8개)
   const cols=[
-    {lbl:'만남 인원',val:tm.meetP,bg:'#fff0f5',col:'#c00060'},
-    {lbl:'만남 횟수',val:tm.meet,bg:'#fff0f5',col:'#c00060'},
-    {lbl:'카탈로그',val:tm.cat,bg:'#eef2ff',col:'#2f5496'},
-    {lbl:'장스오',val:tm.smo,bg:'#e8f5e9',col:'#2e7d32'},
-    {lbl:'STP',val:tm.stp,bg:'#fff3e0',col:'#e07b00'},
-    {lbl:'📦 제품',val:tm.prod,bg:'#fdf3ff',col:'#6a0dad'},
-    {lbl:'💼 사업',val:tm.biz,bg:'#f0fff4',col:'#276749'},
-    {lbl:'🎓 시스템',val:tm.sys,bg:'#ebf8ff',col:'#2a4a7f'},
+    {lbl:'📅 계획',val:tm.plan,bg:'#eef2ff',col:'#2f5496'},
+    {lbl:'🤝 소통',val:tm.contact,bg:'#fff0f5',col:'#c00060',
+     sub:'제품 '+tm.prod+' · 사업 '+tm.biz+' · 시스템 '+tm.sys},
+    {lbl:'👥 인맥',val:tm.people,bg:'#fff0f5',col:'#c00060'},
+    {lbl:'📦 제품전달',val:tm.delivered,bg:'#fdf3ff',col:'#6a0dad'},
+    {lbl:'💳 장스오',val:tm.jango,bg:'#fff8e1',col:'#e07b00'},
+    {lbl:'💰 월액(만)',val:tm.jangoAmt,bg:'#fff8e1',col:'#e07b00'},
+    {lbl:'📋 SOP',val:tm.sop,bg:'#f0f9ff',col:'#0369a1'},
+    {lbl:'🏆 3%완성',val:tm.align,bg:'#f0fff4',col:'#276749'},
   ];
   const tmEl=document.getElementById('statThisMonth');
   tmEl.innerHTML='';
@@ -1574,7 +1859,8 @@ function renderStatView(){
     const div=document.createElement('div');
     div.className='stat-cell';
     div.style.background=col.bg;
-    div.innerHTML='<span class="sc-num" style="color:'+col.col+'">'+col.val+'</span><span class="sc-lbl">'+col.lbl+'</span>';
+    div.innerHTML='<span class="sc-num" style="color:'+col.col+'">'+col.val+'</span><span class="sc-lbl">'+col.lbl+'</span>'+
+      (col.sub?'<span style="font-size:9.5px;color:#94a3b8;display:block;margin-top:2px;line-height:1.3;">'+col.sub+'</span>':'');
     tmEl.appendChild(div);
   });
 
@@ -1582,11 +1868,12 @@ function renderStatView(){
   const legWrap=document.getElementById('statLegWrap');
   if(legWrap){
     const lst={};
-    LEGS.forEach(l=>{lst[l]={p:0,c:0,meet:0,cat:0,smo:0,stp:0};});
+    LEGS.forEach(l=>{lst[l]={p:0,c:0,meet:0,cat:0,smo:0,stp:0,jango:0,jangoAmt:0,sop:0,align:0};});
     data.consumers.forEach(cc=>{
       const l=cc.leg||'보류';
       if(!lst[l])return;
       cc.div==='partner'?lst[l].p++:lst[l].c++;
+      if(is3pctDone(cc)) lst[l].align++;
       lst[l].meet+=(cc.product||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(cc.business||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length+(cc.system||[]).filter(e=>(e.date||'').startsWith(thisMonth)).length;
       ['product','business','system'].forEach(t=>{
         (cc[t]||[]).forEach(e=>{
@@ -1599,6 +1886,11 @@ function renderStatView(){
           }
         });
       });
+      // 장스오·SOP는 상태값 → 이번 달 최신 기록 하나 기준 (중복 합산 방지)
+      var jsLeg=getJangoSop(cc, thisMonth+'-01', thisMonth+'-31');
+      lst[l].jango    += jsLeg.jangoNum;
+      lst[l].jangoAmt += jsLeg.jangoSum;
+      lst[l].sop      += jsLeg.sopTotal;
     });
     let html='<div style="display:flex;flex-direction:column;gap:8px;">';
     LEGS.forEach(l=>{
@@ -1608,10 +1900,11 @@ function renderStatView(){
       html+='<div style="font-size:13px;font-weight:700;color:#2f5496;margin-bottom:6px;">'+lbl+
         ' <span style="font-size:11.5px;color:#6b7280;font-weight:600;">파트너 '+s.p+'명 · 소비자 '+s.c+'명</span></div>';
       html+='<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
-        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff0f5;color:#c00060;font-weight:700;">🤝 '+s.meet+'회</span>'+
-        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#eef2ff;color:#2f5496;font-weight:700;">카탈 '+s.cat+'</span>'+
-        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#e8f5e9;color:#2e7d32;font-weight:700;">장스오 '+s.smo+'</span>'+
-        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff3e0;color:#e07b00;font-weight:700;">STP '+s.stp+'</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff0f5;color:#c00060;font-weight:700;">🤝 소통 '+s.meet+'회</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#fff8e1;color:#e07b00;font-weight:700;border:1px solid #f9c74f;">💳 장스오 '+s.jango+'명·'+s.jangoAmt+'만</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#f0f9ff;color:#0369a1;font-weight:700;border:1px solid #bae6fd;">📋 SOP '+s.sop+'건</span>'+
+        '<span style="font-size:12px;padding:3px 9px;border-radius:14px;background:#f0fff4;color:#276749;font-weight:700;border:1px solid #86efac;">🏆 3%완성 '+s.align+'명</span>'+
+        '<span style="font-size:11px;padding:3px 9px;border-radius:14px;background:#f1f5f9;color:#64748b;font-weight:600;">제안 카탈'+s.cat+'·장스오'+s.smo+'·STP'+s.stp+'</span>'+
         '</div></div>';
     });
     html+='</div>';
@@ -1619,25 +1912,50 @@ function renderStatView(){
   }
   // 회계연도 월간 추이 테이블
   const months=getFiscalMonths(_selectedFY);
-  const keys=['만남인원','만남횟수','카탈','장스오','STP','제품','사업','시스템'];
+  // 게임화 매트릭스와 동일 순서
+  const keys=['📅계획','🤝소통','👥인맥','📦제품전달','💳장스오','💰월액','📋SOP','🏆3%완성'];
   const head=document.getElementById('statYearHead');
   head.innerHTML='<th>월</th>'+keys.map(k=>'<th>'+k+'</th>').join('');
   const body=document.getElementById('statYearBody');
   body.innerHTML='';
   const allStats=months.map(ym=>calcMonthStats(ym));
+  const pick=s=>[s.plan,s.contact,s.people,s.delivered,s.jango,s.jangoAmt,s.sop,s.align];
   const maxVals={};
   keys.forEach((k,i)=>{
-    const vals=allStats.map(s=>[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys][i]);
-    maxVals[i]=Math.max(...vals,1);
+    maxVals[i]=Math.max(...allStats.map(s=>pick(s)[i]),1);
   });
   allStats.forEach(s=>{
     const tr=document.createElement('tr');
     if(s.ym===thisMonth) tr.className='cur-month';
-    const vals=[s.meetP,s.meet,s.cat,s.smo,s.stp,s.prod,s.biz,s.sys];
+    const vals=pick(s);
     tr.innerHTML='<td>'+s.ym.slice(0,7)+'</td>'+
-      vals.map((v,i)=>'<td>'+v+'<br><span class="stat-bar" style="width:'+Math.round(v/maxVals[i]*40)+'px"></span></td>').join('');
+      vals.map((v,i)=>'<td>'+v+
+        (i===1&&v>0?'<br><span style="font-size:9px;color:#94a3b8">'+s.prod+'·'+s.biz+'·'+s.sys+'</span>':'')+
+        '<br><span class="stat-bar" style="width:'+Math.round(v/maxVals[i]*40)+'px"></span></td>').join('');
     body.appendChild(tr);
   });
+
+  // 회계연도 합계 행 (3%완성은 현재 상태라 최대값)
+  const totalRow=document.createElement('tr');
+  totalRow.style.cssText='background:#f0f4ff;font-weight:800;border-top:2px solid #2f5496;';
+  const sums=[
+    allStats.reduce((a,s)=>a+s.plan,0),
+    allStats.reduce((a,s)=>a+s.contact,0),
+    Math.max(...allStats.map(s=>s.people),0),
+    allStats.reduce((a,s)=>a+s.delivered,0),
+    Math.max(...allStats.map(s=>s.jango),0),
+    Math.max(...allStats.map(s=>s.jangoAmt),0),
+    allStats.reduce((a,s)=>a+s.sop,0),
+    Math.max(...allStats.map(s=>s.align),0)
+  ];
+  totalRow.innerHTML='<td style="color:#2f5496">합계</td>'+
+    sums.map(v=>'<td style="color:#2f5496">'+v+'</td>').join('');
+  body.appendChild(totalRow);
+  // 합계 기준 안내
+  const noteRow=document.createElement('tr');
+  noteRow.innerHTML='<td colspan="9" style="font-size:10px;color:#94a3b8;text-align:left;padding:6px 8px;background:#fafbfc;">'+
+    '※ 인맥·장스오·월액·3%완성은 누적이 아닌 <b>현재 상태</b>라 최대값으로 표시됩니다. 소통 칸 아래 작은 숫자는 제품·사업·시스템 분해입니다.</td>';
+  body.appendChild(noteRow);
 }
 
 // 통계 버튼
@@ -1713,6 +2031,15 @@ function setActiveTab(t){
   document.querySelector('.tbtn[data-tab="'+t+'"]').classList.add('active');
   document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+t).classList.add('active');
+  // 탭이 보이게 된 후 계획 textarea 높이 재보정
+  requestAnimationFrame(function(){
+    var panel=document.getElementById('panel-'+t);
+    if(!panel) return;
+    panel.querySelectorAll('textarea[readonly]').forEach(function(ta){
+      ta.style.height='auto';
+      ta.style.height=(ta.scrollHeight+6)+'px';
+    });
+  });
 }
 document.querySelectorAll('.tbtn').forEach(btn=>btn.addEventListener('click',()=>setActiveTab(btn.dataset.tab)));
 
@@ -2110,7 +2437,8 @@ function renderMonthPlanCards(cc){
         var card=document.getElementById('dpc-'+date);
         if(card){ card.querySelectorAll('.date-plan-textarea').forEach(function(ta){ s[ta.dataset.row+'_'+ta.dataset.type]=ta.value; }); }
         s.recorded=true; cc2.updatedAt=Date.now(); save();
-        renderMonthPlanCards(cc2); toast(formatDateKo(date)+' 완료 처리됐습니다');
+        renderMonthPlanCards(cc2); refreshAfterChange();
+        toast(formatDateKo(date)+' 완료 처리됐습니다');
       }
     });
   });
@@ -2130,6 +2458,7 @@ function renderMonthPlanCards(cc){
         });
       }
       cc2.updatedAt=Date.now(); save();
+      refreshAfterChange();
       toast(formatDateKo(date)+' 계획이 저장됐습니다');
     });
   });
@@ -2170,10 +2499,13 @@ function renderMonthPlanCards(cc){
 
       function fillForm(type){
         openForm(type, null);
-        setTimeout(function(){
-          var dateEl=document.getElementById('ef_date');
-          var needsEl=document.getElementById('ef_needs');
-          var proposalEl=document.getElementById('ef_proposal');
+        // 해당 탭의 폼 요소를 직접 찾아서 채움 (탭 전환 불필요)
+        (function(){
+          var formEl=document.getElementById('form-'+type);
+          if(!formEl) return;
+          var dateEl=formEl.querySelector('#ef_date');
+          var needsEl=formEl.querySelector('#ef_needs');
+          var proposalEl=formEl.querySelector('#ef_proposal');
           if(dateEl) dateEl.value=date;
           if(s){
             var what=s['what_'+type]||'';
@@ -2190,10 +2522,9 @@ function renderMonthPlanCards(cc){
               needsEl.readOnly=true;
               needsEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;width:100%;box-sizing:border-box;';
               // 줄수에 맞게 높이 자동 조절
-              needsEl.style.height='auto';
-              needsEl.style.height=(needsEl.scrollHeight+4)+'px';
+              autoSizePlanArea(needsEl);
               // 실행 입력용 별도 textarea 추가
-              if(!document.getElementById('ef_needs_extra')){
+              if(!formEl.querySelector('#ef_needs_extra')){
                 var needsExtra=document.createElement('textarea');
                 needsExtra.id='ef_needs_extra';
                 needsExtra.placeholder='실제 니즈 기록 (직접 입력)';
@@ -2211,10 +2542,9 @@ function renderMonthPlanCards(cc){
               proposalEl.value=how;
               proposalEl.readOnly=true;
               proposalEl.style.cssText='color:#1a3a8f;font-weight:700;font-style:italic;background:#eef3ff;border:1px solid #b0c4f0;resize:none;overflow:hidden;width:100%;box-sizing:border-box;';
-              proposalEl.style.height='auto';
-              proposalEl.style.height=(proposalEl.scrollHeight+4)+'px';
+              autoSizePlanArea(proposalEl);
               // 실행 입력용 별도 textarea 추가
-              if(!document.getElementById('ef_proposal_extra')){
+              if(!formEl.querySelector('#ef_proposal_extra')){
                 var propExtra=document.createElement('textarea');
                 propExtra.id='ef_proposal_extra';
                 propExtra.placeholder='실제 진행 기록 (직접 입력)';
@@ -2227,34 +2557,47 @@ function renderMonthPlanCards(cc){
               }
             }
           }
-        },100);
+        })();
       }
 
-      // 제품 탭 먼저 채우고 이동
-      setActiveTab('product');
+      // 제품·사업·시스템 각 탭의 폼을 독립적으로 채움
+      // (openForm은 각 탭의 form-{type} 요소에만 작용하므로 순차 처리 가능)
+      function fillAllForms(){
+        var types=['product','business','system'];
+        var filled=[];
+        types.forEach(function(t){
+          // 해당 타입에 계획 내용이 있을 때만 폼 열기
+          var what=s?(s['what_'+t]||''):'';
+          var why=s?(s['why_'+t]||''):'';
+          var how=s?(s['how_'+t]||''):'';
+          if(what||why||how){
+            fillForm(t);
+            filled.push(t==='product'?'제품':t==='business'?'사업':'시스템');
+          }
+        });
+        return filled;
+      }
+
+      // 모든 탭 폼 채우기 (탭 전환 없이)
+      var filledTypes=fillAllForms();
+
+      // 계획이 있는 첫 번째 탭으로 이동
       setTimeout(function(){
-        fillForm('product');
-        // 사업/시스템 탭도 백그라운드에서 채우기
-        setTimeout(function(){
-          setActiveTab('business');
-          setTimeout(function(){
-            fillForm('business');
-            setTimeout(function(){
-              setActiveTab('system');
-              setTimeout(function(){
-                fillForm('system');
-                // 최종적으로 제품 탭으로 돌아오기
-                setTimeout(function(){
-                  setActiveTab('product');
-                  var formEl=document.getElementById('form-product');
-                  if(formEl) formEl.scrollIntoView({behavior:'smooth',block:'start'});
-                  toast('📝 제품·사업·시스템 계획 내용이 모두 채워졌습니다');
-                },200);
-              },100);
-            },300);
-          },100);
-        },400);
-      },300);
+        var firstType='product';
+        if(s){
+          if(s.what_product||s.why_product||s.how_product) firstType='product';
+          else if(s.what_business||s.why_business||s.how_business) firstType='business';
+          else if(s.what_system||s.why_system||s.how_system) firstType='system';
+        }
+        setActiveTab(firstType);
+        var formEl=document.getElementById('form-'+firstType);
+        if(formEl) formEl.scrollIntoView({behavior:'smooth',block:'start'});
+        if(filledTypes.length){
+          toast('📝 '+filledTypes.join('·')+' 계획 내용이 채워졌습니다');
+        } else {
+          toast('계획 내용이 없습니다. 먼저 계획을 입력해주세요.');
+        }
+      },400);
     });
   });
 }
@@ -2332,6 +2675,62 @@ function buildForm(type,existing){
   const initDesc=(STAGE_DESC[type]&&STAGE_DESC[type][selStage])||'';
   html+='<div class="stage-desc-box'+(initDesc?' show':'')+'" id="ef_desc">'+esc(initDesc)+'</div>';
   html+='</div>';
+  // ── 결과 현황 섹션 ──────────────────────────────────
+  if(isP){
+    // 제품: 전달한 제품 / 정보 공유 제품
+    var delProd=existing?(existing.deliveredProducts||''):'';
+    var shareProd=existing?(existing.sharedProducts||''):'';
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">📦 제품 결과 현황</div>';
+    html+='<div class="prod-result-wrap">';
+    html+='<div class="fld" style="margin:0"><label style="font-size:12px;color:#2e7d32;font-weight:700;">✅ 전달한 제품</label>';
+    html+='<input type="text" class="prod-result-input" id="ef_delivered" placeholder="예: 비긴, 오메가3" value="'+esc(delProd)+'"></div>';
+    html+='</div></div>';
+  }
+  if(type==='business'){
+    // 사업: 장스오 금액 / SOP 제품
+    var jangoAmt=existing?(existing.jangoAmt||'0'):'0';
+    var sopItems=existing?(existing.sopItems||[]):[];
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">💳 사업 결과 현황</div>';
+    // 장스오
+    html+='<div style="margin-bottom:10px;">';
+    html+='<div style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:6px;">💳 장스오 월 설정 금액</div>';
+    html+='<div class="jango-chips">';
+    [['0','미설정'],['10','10만원'],['20','20만원'],['30','30만원']].forEach(function(opt){
+      html+='<div class="jango-chip sel-'+opt[0]+' '+(jangoAmt===opt[0]?'sel-'+opt[0]:'')+'" data-jango="'+opt[0]+'" style="'+(jangoAmt===opt[0]?'font-weight:800;':'')+'">'+opt[1]+'</div>';
+    });
+    html+='</div>';
+    html+='<input type="hidden" id="ef_jango" value="'+esc(jangoAmt)+'">';
+    html+='</div>';
+    // SOP
+    html+='<div>';
+    html+='<div style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:6px;">📦 SOP 제품 (실제 주문)</div>';
+    html+='<div class="sop-list" id="ef_sop_list">';
+    if(sopItems.length){
+      sopItems.forEach(function(s,i){
+        html+='<div class="sop-item">';
+        html+='<input type="text" placeholder="제품명" value="'+esc(s.name||'')+'" data-sop-name="'+i+'" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;">';
+        html+='<input type="number" min="1" value="'+(s.cnt||1)+'" data-sop-cnt="'+i+'" style="width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;">';
+        html+='<span style="font-size:11px;color:var(--sub);">건</span>';
+        html+='<button class="sop-del-btn" data-sop-del="'+i+'">✕</button>';
+        html+='</div>';
+      });
+    }
+    html+='</div>';
+    html+='<button class="sop-add-btn" id="ef_sop_add">+ SOP 제품 추가</button>';
+    html+='</div>';
+    html+='</div>';
+  }
+  if(isS){
+    var sysAttend=existing?(existing.sysAttend||''):'';
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">🎓 시스템 결과 현황</div>';
+    html+='<div class="expfld" style="margin:0"><label style="font-size:12px;color:#2e7d32;font-weight:700;">✅ 참여한 시스템</label>';
+    html+='<input type="text" class="prod-result-input" id="ef_sys_attend" placeholder="예: FED, ABC강좌" value="'+esc(sysAttend)+'">';
+    html+='</div></div>';
+  }
+
   html+='<div class="efbtns"><button class="efcancel" id="ef_cancel">취소</button><button class="efsave '+cls+'" id="ef_save">저장</button></div>';
   return html;
 }
@@ -2343,6 +2742,46 @@ function openForm(type,entryId){
   const formEl=document.getElementById('form-'+type);
   formEl.innerHTML=buildForm(type,existing);
   formEl.classList.add('open');
+
+  // 장스오 칩 클릭 이벤트
+  formEl.querySelectorAll('.jango-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      formEl.querySelectorAll('.jango-chip').forEach(function(c2){
+        c2.style.fontWeight=''; c2.style.opacity='0.6';
+      });
+      chip.style.fontWeight='800'; chip.style.opacity='1';
+      var el=document.getElementById('ef_jango');
+      if(el) el.value=chip.dataset.jango;
+    });
+  });
+  // 초기 선택 강조
+  var initJango=document.getElementById('ef_jango');
+  if(initJango){
+    formEl.querySelectorAll('.jango-chip').forEach(function(chip){
+      chip.style.opacity= chip.dataset.jango===initJango.value?'1':'0.5';
+    });
+  }
+
+  // SOP 추가 버튼
+  var sopAddBtn=document.getElementById('ef_sop_add');
+  if(sopAddBtn){
+    sopAddBtn.addEventListener('click',function(){
+      var list=document.getElementById('ef_sop_list');
+      var idx=list.querySelectorAll('.sop-item').length;
+      var div=document.createElement('div');
+      div.className='sop-item';
+      div.innerHTML='<input type="text" placeholder="제품명" data-sop-name="'+idx+'" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;">'+
+        '<input type="number" min="1" value="1" data-sop-cnt="'+idx+'" style="width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;">'+
+        '<span style="font-size:11px;color:var(--sub);">건</span>'+
+        '<button class="sop-del-btn" data-sop-del="'+idx+'">✕</button>';
+      list.appendChild(div);
+      div.querySelector('.sop-del-btn').addEventListener('click',function(){ div.remove(); });
+    });
+    // 기존 삭제 버튼 이벤트
+    document.querySelectorAll('.sop-del-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){ btn.closest('.sop-item').remove(); });
+    });
+  }
   let selStage=existing?existing.stage:STAGES[type][0];
   formEl.querySelectorAll('.schip').forEach(chip=>{
     chip.addEventListener('click',()=>{
@@ -2374,12 +2813,25 @@ function openForm(type,entryId){
   document.getElementById('ef_save').addEventListener('click',()=>{
     const selAligns=[...formEl.querySelectorAll('.align-chip.sel')].map(ch=>ch.dataset.align);
     const warnEl=document.getElementById('ef_alignWarn');
+    // 3% 액션 미선택 시 → confirm 대신 폼 내 경고 표시 후 2초 후 자동 저장 여부 확인
     if(selAligns.length===0){
       if(warnEl) warnEl.classList.add('show');
-      if(!confirm('3% 필수 액션을 선택하지 않았습니다. 선택 없이 저장할까요?')){return;}
+      // 폼 내 확인 버튼으로 처리 (confirm 제거 → 폼 유지 문제 해결)
+      warnEl.innerHTML='⚠️ 3% 필수 액션 미선택 — <button id="ef_force_save" style="margin-left:8px;padding:3px 10px;border-radius:8px;background:#e07b00;color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;">그래도 저장</button> <button id="ef_go_back" style="margin-left:4px;padding:3px 10px;border-radius:8px;background:#fff;color:#333;border:1px solid #ccc;font-size:12px;cursor:pointer;">다시 선택</button>';
+      warnEl.classList.add('show');
+      document.getElementById('ef_force_save').addEventListener('click',function(){
+        doSave(selAligns);
+      });
+      document.getElementById('ef_go_back').addEventListener('click',function(){
+        warnEl.classList.remove('show');
+      });
+      return;
     } else {
-      if(warnEl) warnEl.classList.remove('show');
+      if(warnEl){ warnEl.classList.remove('show'); warnEl.innerHTML='⚠️ 3% 필수 액션을 하나 이상 선택해 주세요.'; }
     }
+    doSave(selAligns);
+  });
+  function doSave(selAligns){
     const targetEl=document.getElementById('ef_target');
     const needsEl=document.getElementById('ef_needs');
     const needsExtraEl=document.getElementById('ef_needs_extra');
@@ -2394,6 +2846,22 @@ function openForm(type,entryId){
     if(proposalEl&&proposalEl.value.trim()) proposalVal+=proposalEl.value.trim();
     if(propExtraEl&&propExtraEl.value.trim()) proposalVal+=(proposalVal?'\n':'')+propExtraEl.value.trim();
     const noteEl=document.getElementById('ef_note');
+    // 결과 현황 수집
+    var deliveredEl=document.getElementById('ef_delivered');
+    var jangoEl=document.getElementById('ef_jango');
+    var sysAttendEl=document.getElementById('ef_sys_attend');
+    // SOP 목록 수집
+    var sopItems=[];
+    var sopList=document.getElementById('ef_sop_list');
+    if(sopList){
+      sopList.querySelectorAll('.sop-item').forEach(function(item){
+        var nameEl=item.querySelector('[data-sop-name]');
+        var cntEl=item.querySelector('[data-sop-cnt]');
+        var name=nameEl?nameEl.value.trim():'';
+        var cnt=cntEl?parseInt(cntEl.value)||1:1;
+        if(name) sopItems.push({name:name,cnt:cnt});
+      });
+    }
     const payload={
       date:document.getElementById('ef_date').value||today(),
       prodGroup:prodGrpEl?prodGrpEl.value:'',
@@ -2402,7 +2870,12 @@ function openForm(type,entryId){
       proposal:proposalVal,
       note:noteEl?noteEl.value.trim():'',
       stage:selStage,
-      aligns:selAligns
+      aligns:selAligns,
+      // 결과 현황
+      deliveredProducts:deliveredEl?deliveredEl.value.trim():'',
+      jangoAmt:jangoEl?jangoEl.value:'0',
+      sopItems:sopItems,
+      sysAttend:sysAttendEl?sysAttendEl.value.trim():''
     };
     const cc=curC();
     if(existing)Object.assign(existing,payload);
@@ -2410,10 +2883,9 @@ function openForm(type,entryId){
     cc.updatedAt=Date.now();save();
     formEl.classList.remove('open');formEl.innerHTML='';editingId[type]=null;
     renderEntries(type);
-    if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
-    renderTotalSummary();
-    toast('기록이 저장되었습니다'); renderGameMatrix();
-  });
+    refreshAfterChange();
+    toast('기록이 저장되었습니다');
+  }
 }
 
 document.querySelectorAll('.addbtn').forEach(btn=>btn.addEventListener('click',()=>{
@@ -2433,9 +2905,14 @@ function renderEntries(type){
   if(!arr.length){wrap.innerHTML='<div class="empty" style="padding:24px 10px">아직 기록이 없습니다.</div>';return;}
   const ths=TH[type];
   const isS=type==='system';
-  const colW=isS
-    ?'<col style="width:4%"><col style="width:15%"><col style="width:20%"><col style="width:24%"><col style="width:20%"><col style="width:17%">'
-    :'<col style="width:4%"><col style="width:14%"><col style="width:16%"><col style="width:19%"><col style="width:24%"><col style="width:23%">';
+  // 컬럼 수 = TH 개수 + 빠른삭제 칸 1
+  // 제품 7 / 사업 6 / 시스템 6
+  const colW =
+    type==='product'
+    ?'<col style="width:4%"><col style="width:12%"><col style="width:13%"><col style="width:14%"><col style="width:18%"><col style="width:20%"><col style="width:19%">'
+    :type==='business'
+    ?'<col style="width:4%"><col style="width:14%"><col style="width:14%"><col style="width:24%"><col style="width:24%"><col style="width:20%">'
+    :'<col style="width:4%"><col style="width:15%"><col style="width:20%"><col style="width:24%"><col style="width:20%"><col style="width:17%">';
   let html='<div class="tblwrap"><table class="etbl '+cls+'"><colgroup>'+colW+'</colgroup><thead><tr>';
   html+='<th style="width:4%"></th>';
   ths.forEach(h=>html+='<th>'+h+'</th>');
@@ -2460,12 +2937,24 @@ function renderEntries(type){
     }else{
       html+='<td>'+esc(e.date||'-')+'</td>';
       html+='<td class="el">'+esc(trunc(e.target,10))+'</td>';
+      html+='<td class="el" style="color:#2e7d32;font-weight:600;">'+esc(trunc(e.deliveredProducts||'',10))+'</td>';
       html+='<td class="el">'+esc(trunc(e.needs,10))+'</td>';
       html+='<td class="el">'+esc(trunc(e.proposal,12))+'</td>';
       html+='<td class="el">'+esc(trunc(e.note,10))+'</td>';
     }
+    // 3% 액션 미니 칩 표시 (마지막 셀에 추가)
+    var alignsArr=e.aligns||[];
+    if(alignsArr.length){
+      var lastTd='';
+      alignsArr.forEach(function(a){
+        var lbl=a==='cat'?'카탈':a==='smo'?'장스오':'STP';
+        lastTd+='<span class="align-mini '+a+'">'+lbl+'</span>';
+      });
+      // 마지막 td에 미니 칩 추가
+      html=html.slice(0,html.lastIndexOf('</td>'))+' '+lastTd+'</td>';
+    }
     html+='</tr>';
-    if(isOpen)html+='<tr class="exprow" data-for="'+e.id+'"><td colspan="6">'+buildExpand(type,e)+'</td></tr>';
+    if(isOpen)html+='<tr class="exprow" data-for="'+e.id+'"><td colspan="'+(type==="product"?7:6)+'">'+buildExpand(type,e)+'</td></tr>';
   });
   html+='</tbody></table></div>';
   wrap.innerHTML=html;
@@ -2487,8 +2976,7 @@ function renderEntries(type){
         cc.updatedAt=Date.now(); save();
         expanded[t]=null;
         renderEntries(t);
-        if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
-        renderTotalSummary();
+        refreshAfterChange();
         toast('삭제되었습니다');
       }
     });
@@ -2529,6 +3017,49 @@ function buildExpand(type,e){
   html+='<div class="align-chips">';
   ALIGN_ITEMS.forEach(a=>html+='<span class="align-chip '+a.cls+(expAligns.includes(a.key)?' sel':'')+'" data-align="'+a.key+'">'+a.label+'</span>');
   html+='</div></div>';
+  // 결과 현황 (펼침 화면 수정 가능)
+  if(type==='product'){
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">📦 제품 결과 현황</div>';
+    html+='<div class="expfld" style="margin:0"><label style="font-size:12px;color:#2e7d32;font-weight:700;">✅ 전달한 제품</label>';
+    html+='<input type="text" class="prod-result-input" id="ex_delivered" placeholder="예: 비긴, 오메가3" value="'+esc(e.deliveredProducts||'')+'"></div>';
+    html+='</div>';
+  }
+  if(type==='business'){
+    var jangoAmt2=e.jangoAmt||'0';
+    var sopItems2=e.sopItems||[];
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">💳 사업 결과 현황</div>';
+    html+='<div style="margin-bottom:10px;">';
+    html+='<div style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:6px;">💳 장스오 월 설정 금액</div>';
+    html+='<div class="jango-chips" id="ex_jango_chips">';
+    [['0','미설정'],['10','10만원'],['20','20만원'],['30','30만원']].forEach(function(opt){
+      html+='<div class="jango-chip" data-jango="'+opt[0]+'" style="'+(jangoAmt2===opt[0]?'font-weight:800;opacity:1;':'opacity:0.5;')+'">'+opt[1]+'</div>';
+    });
+    html+='</div>';
+    html+='<input type="hidden" id="ex_jango" value="'+esc(jangoAmt2)+'">';
+    html+='</div>';
+    html+='<div>';
+    html+='<div style="font-size:12px;font-weight:700;color:var(--sub);margin-bottom:6px;">📦 SOP 제품</div>';
+    html+='<div class="sop-list" id="ex_sop_list">';
+    sopItems2.forEach(function(s,i){
+      html+='<div class="sop-item"><input type="text" placeholder="제품명" value="'+esc(s.name||'')+'" data-sop-name="'+i+'" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;">';
+      html+='<input type="number" min="1" value="'+(s.cnt||1)+'" data-sop-cnt="'+i+'" style="width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;">';
+      html+='<span style="font-size:11px;color:var(--sub);">건</span>';
+      html+='<button class="sop-del-btn" data-sop-del="'+i+'">✕</button></div>';
+    });
+    html+='</div>';
+    html+='<button class="sop-add-btn" id="ex_sop_add">+ SOP 제품 추가</button>';
+    html+='</div></div>';
+  }
+  if(isS){
+    html+='<div class="result-section">';
+    html+='<div class="result-section-title">🎓 시스템 결과 현황</div>';
+    html+='<div class="expfld" style="margin:0"><label style="font-size:12px;color:#2e7d32;font-weight:700;">✅ 참여한 시스템</label>';
+    html+='<input type="text" class="prod-result-input" id="ex_sys_attend" placeholder="예: FED, ABC강좌" value="'+esc(e.sysAttend||'')+'"></div>';
+    html+='</div>';
+  }
+
   html+='<div class="expbtns"><button class="expdel">삭제</button><button class="expsave '+cls+'">저장</button></div>';
   html+='</div>';
   return html;
@@ -2552,6 +3083,37 @@ function bindExpand(type,entryId){
       if(hidEl2) hidEl2.value=chip.dataset.grp;
     });
   });
+  // 장스오 칩 이벤트 (펼침)
+  row.querySelectorAll('#ex_jango_chips .jango-chip').forEach(function(chip){
+    chip.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      row.querySelectorAll('#ex_jango_chips .jango-chip').forEach(function(c2){ c2.style.opacity='0.5'; c2.style.fontWeight=''; });
+      chip.style.opacity='1'; chip.style.fontWeight='800';
+      var jEl=document.getElementById('ex_jango');
+      if(jEl) jEl.value=chip.dataset.jango;
+    });
+  });
+  // SOP 추가 버튼 (펼침)
+  var exSopAdd=document.getElementById('ex_sop_add');
+  if(exSopAdd){
+    exSopAdd.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      var list=document.getElementById('ex_sop_list');
+      var idx=list.querySelectorAll('.sop-item').length;
+      var div=document.createElement('div');
+      div.className='sop-item';
+      div.innerHTML='<input type="text" placeholder="제품명" data-sop-name="'+idx+'" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;">'+
+        '<input type="number" min="1" value="1" data-sop-cnt="'+idx+'" style="width:52px;border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12.5px;text-align:center;">'+
+        '<span style="font-size:11px;color:var(--sub);">건</span>'+
+        '<button class="sop-del-btn" data-sop-del="'+idx+'">✕</button>';
+      list.appendChild(div);
+      div.querySelector('.sop-del-btn').addEventListener('click',function(ev2){ ev2.stopPropagation(); div.remove(); });
+    });
+    row.querySelectorAll('.sop-del-btn').forEach(function(btn){
+      btn.addEventListener('click',function(ev){ ev.stopPropagation(); btn.closest('.sop-item').remove(); });
+    });
+  }
+
   row.querySelectorAll('.mchip').forEach(chip=>chip.addEventListener('click',ev=>{
     ev.stopPropagation();
     row.querySelectorAll('.mchip').forEach(x=>x.classList.remove('sel'));
@@ -2577,10 +3139,41 @@ function bindExpand(type,entryId){
     e.note=document.getElementById('ex_note').value.trim();
     e.stage=selStage;
     e.aligns=[...row.querySelectorAll('.align-chip.sel')].map(ch=>ch.dataset.align);
+    // 결과 현황 저장
+    var exDel=document.getElementById('ex_delivered');
+    var exJango=document.getElementById('ex_jango');
+    var exSysA=document.getElementById('ex_sys_attend');
+    if(exDel) e.deliveredProducts=exDel.value.trim();
+    if(exShr) e.sharedProducts=exShr.value.trim();
+    if(exJango) e.jangoAmt=exJango.value;
+    if(exSysA) e.sysAttend=exSysA.value.trim();
+    var exSopList=document.getElementById('ex_sop_list');
+    if(exSopList){
+      var sopArr=[];
+      exSopList.querySelectorAll('.sop-item').forEach(function(item){
+        var nm=item.querySelector('[data-sop-name]');
+        var ct=item.querySelector('[data-sop-cnt]');
+        var name=nm?nm.value.trim():'';
+        var cnt=ct?parseInt(ct.value)||1:1;
+        if(name) sopArr.push({name:name,cnt:cnt});
+      });
+      e.sopItems=sopArr;
+    }
     c.updatedAt=Date.now();save();
-    toast('저장되었습니다');renderEntries(type);
-    if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
-    renderTotalSummary();
+    // 저장 완료 토스트 — 3% 액션 변경 내용 포함
+    var savedAligns=e.aligns||[];
+    var alignLabels=savedAligns.map(function(a){ return a==='cat'?'📋카탈':a==='smo'?'🛒장스오':'💼STP'; });
+    var toastMsg=alignLabels.length?
+      '✅ 저장 완료! ('+alignLabels.join(' · ')+' 체크됨)':
+      '✅ 저장 완료! (3% 액션 없음)';
+    renderEntries(type);
+    // 저장된 행 하이라이트
+    setTimeout(function(){
+      var savedRow=document.querySelector('.etr[data-id="'+entryId+'"]');
+      if(savedRow){ savedRow.classList.add('just-saved'); setTimeout(function(){ savedRow.classList.remove('just-saved'); },1200); }
+    },50);
+    toast(toastMsg);
+    refreshAfterChange();
   });
   row.querySelector('.expdel').addEventListener('click',ev=>{
     ev.stopPropagation();
@@ -2588,8 +3181,7 @@ function bindExpand(type,entryId){
       c[type]=c[type].filter(x=>x.id!==entryId);
       c.updatedAt=Date.now();save();
       expanded[type]=null;renderEntries(type);
-      if(curC()){ renderPersonalStat(curC()); renderAlignSummary(curC()); }
-      renderTotalSummary();
+      refreshAfterChange();
       toast('삭제되었습니다');
     }
   });
@@ -2624,7 +3216,7 @@ document.addEventListener('change',function(ev){
         const parsed=JSON.parse(reader.result);
         if(!parsed.consumers)throw new Error('형식 오류');
         if(confirm('현재 데이터를 덮어씁니다. 계속할까요?')){
-          data=parsed;save();renderList();renderTotalSummary();renderGameMatrix();toast('복원 완료! 점수가 갱신됐습니다!');
+          data=parsed;save();renderList();renderTotalSummary();renderGameMatrix(); renderResultSummary();toast('복원 완료! 점수가 갱신됐습니다!');
         }
       }catch(e){toast('파일을 읽을 수 없습니다');}
       ev.target.value='';
@@ -2738,8 +3330,7 @@ function calcGameScore(){
               s.why_product||s.how_product||s.how_business;
       if(has){ pts+=5; totalPlan++; }
     });
-    var ca=calcAligns(cc);
-    if(ca.cat>0&&ca.smo>0&&ca.stp>0){ pts+=50; totalAlign++; }
+    if(is3pctDone(cc)){ pts+=50; totalAlign++; }
   });
   if(totalContact>=1)      earned.add('first');
   if(totalPlan>=5)         earned.add('plan5');
@@ -2852,10 +3443,13 @@ const GM_GRADES=[
 ];
 
 const GM_ITEMS=[
-  {id:'contact', icon:'&#129309;',name:'소통',   unit:'건', grades:GM_GRADES},
   {id:'plan',    icon:'&#128197;',name:'계획',   unit:'일', grades:GM_GRADES},
+  {id:'contact', icon:'&#129309;',name:'소통',   unit:'건', grades:GM_GRADES},
   {id:'people',  icon:'&#128101;',name:'인맥',   unit:'명', grades:GM_GRADES},
-  {id:'stp',     icon:'&#128188;',name:'STP',    unit:'회', grades:GM_GRADES},
+  {id:'delivered',icon:'&#128230;',name:'제품전달',unit:'건', grades:GM_GRADES},
+  {id:'jango',   icon:'&#128179;',name:'장스오', unit:'명', grades:GM_GRADES},
+  {id:'jangoAmt',icon:'&#128176;',name:'월액',   unit:'만', grades:GM_GRADES},
+  {id:'sop',     icon:'&#128230;',name:'SOP',    unit:'건', grades:GM_GRADES},
   {id:'align',   icon:'&#127942;',name:'3%완성', unit:'명', grades:GM_GRADES}
 ];
 
@@ -2910,49 +3504,117 @@ function calcItemVal(item, start, end){
     });
     return set.size;
   }
-  if(item.id==='stp'){
+  if(item.id==='delivered'){
+    // 전달한 제품 건수 (제품 기록의 deliveredProducts 기준)
     var cnt=0;
     consumers.forEach(function(cc){
-      (cc.business||[]).forEach(function(e){
+      (cc.product||[]).forEach(function(e){
         if(!start||(e.date>=start&&e.date<=end)){
-          if((e.aligns||[]).indexOf('stp')>=0) cnt++;
+          if(e.deliveredProducts&&e.deliveredProducts.trim()){
+            // 쉼표로 구분된 제품 수 카운트
+            cnt+=e.deliveredProducts.split(/[,，、]/).filter(function(s){ return s.trim(); }).length;
+          }
         }
       });
     });
     return cnt;
   }
+  if(item.id==='jango'){
+    // 장스오 설정 소비자 수 (10/20/30만원 설정된 소비자)
+    var cnt=0;
+    consumers.forEach(function(cc){
+      var hasJango=false;
+      (cc.business||[]).forEach(function(e){
+        if(e.jangoAmt&&e.jangoAmt!=='0') hasJango=true;
+      });
+      if(hasJango) cnt++;
+    });
+    return cnt;
+  }
+  if(item.id==='jangoAmt'){
+    // 장스오 월 설정 금액 합계 (최신 설정 기준, 만원)
+    var sum=0;
+    consumers.forEach(function(cc){
+      var latest='0';
+      var bizList=(cc.business||[]).slice().sort(function(a,b){
+        return (b.date||'').localeCompare(a.date||'');
+      });
+      for(var i=0;i<bizList.length;i++){
+        var e=bizList[i];
+        if(start&&!(e.date>=start&&e.date<=end)) continue;
+        if(e.jangoAmt&&e.jangoAmt!=='0'){ latest=e.jangoAmt; break; }
+      }
+      sum+=parseInt(latest)||0;
+    });
+    return sum;
+  }
+  if(item.id==='sop'){
+    // SOP 건수 — 기간 내 최신 구독 목록 기준(누적 아님)
+    var cnt=0;
+    consumers.forEach(function(cc){ cnt+=getJangoSop(cc,start,end).sopTotal; });
+    return cnt;
+  }
   if(item.id==='align'){
     var cnt=0;
     consumers.forEach(function(cc){
-      var ca=calcAligns(cc);
-      if(ca.cat>0&&ca.smo>0&&ca.stp>0) cnt++;
+      if(is3pctDone(cc)) cnt++;
     });
-    return cnt; // 얼라인 완성은 전체 기준
+    return cnt; // 3% 완성은 전체 기준(현재 상태)
   }
   return 0;
 }
 
 function getPeriodRange(period){
   var now=new Date();
-  var y=now.getFullYear(), m=now.getMonth();
+  var y=now.getFullYear(), m=now.getMonth(); // m: 0-based
+  // 당월
   if(period==='cur'){
     var ms=y+'-'+String(m+1).padStart(2,'0')+'-01';
     var me=y+'-'+String(m+1).padStart(2,'0')+'-'+String(new Date(y,m+1,0).getDate()).padStart(2,'0');
     return {start:ms,end:me};
   }
+  // 전월
   if(period==='prev'){
     var pm=m===0?12:m, py=m===0?y-1:y;
     var ps=py+'-'+String(pm).padStart(2,'0')+'-01';
     var pe=py+'-'+String(pm).padStart(2,'0')+'-'+String(new Date(py,pm,0).getDate()).padStart(2,'0');
     return {start:ps,end:pe};
   }
+  // 현재 분기 (암웨이 회계년도: 9월 시작)
+  // Q1:9-11, Q2:12-2, Q3:3-5, Q4:6-8
+  if(period==='q1'||period==='q2'||period==='q3'||period==='q4'){
+    var fyY=getFiscalStartYear();
+    var qMap={
+      q1:{sm:9,em:11,sy:fyY,ey:fyY},
+      q2:{sm:12,em:2,sy:fyY,ey:fyY+1},
+      q3:{sm:3,em:5,sy:fyY+1,ey:fyY+1},
+      q4:{sm:6,em:8,sy:fyY+1,ey:fyY+1}
+    };
+    var q=qMap[period];
+    var qs=q.sy+'-'+String(q.sm).padStart(2,'0')+'-01';
+    var qe=q.ey+'-'+String(q.em).padStart(2,'0')+'-'+String(new Date(q.ey,q.em,0).getDate()).padStart(2,'0');
+    return {start:qs,end:qe};
+  }
+  // 당기 회계년도
   if(period==='fy'){
     var fyStart=getFiscalStartYear();
-    var fyS=fyStart+'-09-01';
-    var fyE=(fyStart+1)+'-08-31';
-    return {start:fyS,end:fyE};
+    return {start:fyStart+'-09-01',end:(fyStart+1)+'-08-31'};
+  }
+  // 지난 회계년도
+  if(period==='pfy'){
+    var pfyStart=getFiscalStartYear()-1;
+    return {start:pfyStart+'-09-01',end:(pfyStart+1)+'-08-31'};
   }
   return {start:null,end:null}; // 전체
+}
+
+// 현재 분기 ID 반환
+function getCurQuarter(){
+  var now=new Date(); var m=now.getMonth()+1; // 1-based
+  if(m>=9&&m<=11) return 'q1';
+  if(m===12||m<=2) return 'q2';
+  if(m>=3&&m<=5) return 'q3';
+  return 'q4';
 }
 
 function renderGameMatrix(){
@@ -2997,12 +3659,18 @@ function renderGameMatrix(){
   var curPts=calcPtsByRange(curStart,curEnd);
   var prevPts=calcPtsByRange(prevStart,prevEnd);
 
-  // 기간별 범위
+  // 기간별 범위 (OKR 구조: 월→분기→연도)
+  var now2=new Date();
+  var curQ=getCurQuarter();
+  var curQLabel={'q1':'Q1(9~11월)','q2':'Q2(12~2월)','q3':'Q3(3~5월)','q4':'Q4(6~8월)'}[curQ];
+  var fyY=getFiscalStartYear();
+  var pfyY=fyY-1;
   var periods=[
     {id:'cur',  lbl:'당월'},
     {id:'prev', lbl:'전월'},
-    {id:'fy',   lbl:'회계연도'},
-    {id:'total',lbl:'전체'}
+    {id:curQ,   lbl:'당기'+curQLabel, isCurQ:true},
+    {id:'fy',   lbl:fyY+'~'+(fyY+1)+' 회계연도'},
+    {id:'pfy',  lbl:pfyY+'~'+(pfyY+1)+' 지난 회계연도'}
   ];
 
   // 매트릭스 데이터 계산
@@ -3029,28 +3697,97 @@ function renderGameMatrix(){
 
   // 행 (기간별)
   var rowsHtml='';
+  // 전체값 (Level 기준용)
+  var totalRangeData={};
+  GM_ITEMS.forEach(function(item){
+    totalRangeData[item.id]=calcItemVal(item,null,null);
+  });
+
   periods.forEach(function(p){
     var isCur=p.id==='cur';
     var isPrev=p.id==='prev';
-    var isTotal=p.id==='total';
-    rowsHtml+='<tr>';
-    rowsHtml+='<td class="gm-row-lbl">'+(isCur?'&#128994; ':'')+p.lbl+'</td>';
+    var isCurQ=p.isCurQ;
+    var isFY=p.id==='fy';
+    var isPFY=p.id==='pfy';
+    // 행 스타일
+    var rowStyle='';
+    if(isCurQ) rowStyle='background:rgba(255,215,0,.08);';
+    if(isFY) rowStyle='background:rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.2);';
+    if(isPFY) rowStyle='background:rgba(255,255,255,.05);opacity:.85;';
+    rowsHtml+='<tr style="'+rowStyle+'">';
+    // 레이블
+    var lbl='';
+    if(isCur) lbl='&#128994; '+p.lbl;
+    else if(isCurQ) lbl='⭐ '+p.lbl;
+    else if(isFY) lbl='📅 '+p.lbl;
+    else if(isPFY) lbl='📋 '+p.lbl;
+    else lbl=p.lbl;
+    rowsHtml+='<td class="gm-row-lbl" style="font-size:'+(isFY||isPFY?'9':'10')+'px;">'+lbl+'</td>';
     GM_ITEMS.forEach(function(item){
-      var val=matData[item.id][p.id];
-      var totalVal=matData[item.id]['total'];
+      var val=matData[item.id][p.id]||0;
+      var fyVal=matData[item.id]['fy']||0;
+      var pfyVal=matData[item.id]['pfy']||0;
+      var totalVal=totalRangeData[item.id]||0;
       var grade=getGrade(item,totalVal);
       var nextG=getNextGrade(item,totalVal);
       var nextMin=nextG?nextG.min:null;
       var progressPct=nextMin?Math.min(100,Math.round(totalVal/nextMin*100)):100;
+      // 지난 회계년도 대비 성장률
+      var growthHtml='';
+      if(isFY&&pfyVal>0){
+        var growth=Math.round((fyVal-pfyVal)/pfyVal*100);
+        var growthColor=growth>=0?'#4ade80':'#f87171';
+        growthHtml='<span style="font-size:9px;color:'+growthColor+';">'+
+          (growth>=0?'▲':'▼')+Math.abs(growth)+'%</span>';
+      }
       rowsHtml+='<td>'+
-        '<span class="gm-val'+(isCur?' cur':'')+'">'+(val||0)+item.unit+'</span>'+
-        (isPrev?' <span style="font-size:9px;opacity:.8;color:#ffd700;">'+grade.name+'</span>':'')+
-        (isTotal&&nextG?' <span style="font-size:9px;opacity:.7;">→'+nextG.name+' '+nextG.min+item.unit+'</span>':'')+
+        '<span class="gm-val'+(isCur?' cur':isCurQ?' cur':'')+'">'+(val||0)+item.unit+'</span>'+
+        (isPrev||isCurQ?' <span style="font-size:9px;opacity:.8;color:#ffd700;">'+grade.name+'</span>':'')+
+        growthHtml+
+        (isFY&&nextG?' <span style="font-size:9px;opacity:.7;">→'+nextG.name+' '+nextG.min+item.unit+'</span>':'')+
         (isCur&&nextMin?'<div class="gm-progress-mini"><div class="gm-progress-mini-bar" style="width:'+progressPct+'%"></div></div>':'');
       rowsHtml+='</td>';
     });
     rowsHtml+='</tr>';
   });
+
+  // ── 지난 회계년도 월평균 행 추가 ──────────────────
+  var pfyRange=getPeriodRange('pfy');
+  var pfyMonthCount=0;
+  if(pfyRange.start&&pfyRange.end){
+    var pfyMonths=new Set();
+    (data.consumers||[]).forEach(function(cc){
+      ['product','business','system'].forEach(function(t){
+        (cc[t]||[]).forEach(function(e){
+          if(e.date&&e.date>=pfyRange.start&&e.date<=pfyRange.end){
+            pfyMonths.add(e.date.slice(0,7));
+          }
+        });
+      });
+    });
+    pfyMonthCount=pfyMonths.size||1;
+  }
+  var hasPfyData=GM_ITEMS.some(function(item){ return (matData[item.id]['pfy']||0)>0; });
+  if(hasPfyData){
+    rowsHtml+='<tr style="background:rgba(255,255,255,.04);border-top:1px dashed rgba(255,255,255,.2);">';
+    rowsHtml+='<td class="gm-row-lbl" style="font-size:9px;opacity:.8;">📊 월평균<br><span style="font-size:8px;opacity:.6;">지난FY÷'+pfyMonthCount+'월</span></td>';
+    GM_ITEMS.forEach(function(item){
+      var pfyVal=matData[item.id]['pfy']||0;
+      var avg=pfyMonthCount>0?(pfyVal/pfyMonthCount):0;
+      var avgStr=avg===0?'-':(Number.isInteger(avg)?avg.toString():avg.toFixed(1));
+      var curVal=matData[item.id]['cur']||0;
+      var compareHtml='';
+      if(avg>0&&curVal>0){
+        var ratio=curVal/avg;
+        var rColor=ratio>=1?'#4ade80':'#f87171';
+        compareHtml='<span style="font-size:9px;color:'+rColor+';">'+(ratio>=1?'▲':'▼')+Math.round(Math.abs(ratio-1)*100)+'%</span>';
+      }
+      rowsHtml+='<td>'+
+        '<span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.75);">'+avgStr+(avg>0?item.unit:'')+'</span>'+
+        compareHtml+'</td>';
+    });
+    rowsHtml+='</tr>';
+  }
 
   panel.innerHTML=
     '<div class="game-level">'+
@@ -3073,6 +3810,9 @@ function renderGameMatrix(){
         '<div class="game-pts-cell-lbl">누적</div>'+
         '<div class="game-pts-cell-val">'+pts+'P</div>'+
       '</div>'+
+    '</div>'+
+    '<div style="font-size:10px;opacity:.7;text-align:center;margin-bottom:6px;">'+
+      '⭐ '+curQLabel+' &nbsp;|&nbsp; 📅 당기 회계년도: '+fyY+'~'+(fyY+1)+' &nbsp;|&nbsp; 📋 지난 회계년도: '+pfyY+'~'+(pfyY+1)+
     '</div>'+
     '<div class="game-progress-wrap"><div class="game-progress-bar" style="width:'+progress+'%"></div></div>'+
     '<div class="game-progress-label">'+progress+'%</div>'+
@@ -3097,11 +3837,111 @@ document.addEventListener('click',function(ev){
   }
 });
 
+
+// ── 결과 현황 요약 ───────────────────────────────────
+function renderResultSummary(){
+  var el=document.getElementById('resultSummary');
+  if(!el) return;
+  var consumers=data.consumers||[];
+  if(!consumers.length){ el.style.display='none'; return; }
+  el.style.display='block';
+
+  // 장스오 집계
+  var jango={0:0,10:0,20:0,30:0};
+  // SOP 집계
+  var sopMap={};
+  // 시스템 집계
+  var sysAttend=[];
+  // 제품 집계
+  var delivered={}, shared={};
+
+  consumers.forEach(function(cc){
+    // 장스오·SOP — 소비자별 최신 상태 기준 (중복 집계 방지)
+    var jsR=getJangoSop(cc);
+    if(jango[jsR.jangoAmt]!==undefined) jango[jsR.jangoAmt]++;
+    (jsR.sopItems||[]).forEach(function(s){
+      if(!sopMap[s.name]) sopMap[s.name]=0;
+      sopMap[s.name]+=s.cnt||1;
+    });
+    // 시스템 기록
+    (cc.system||[]).forEach(function(e){
+      if(e.sysAttend) e.sysAttend.split(/[,，、]/).forEach(function(s){ var t=s.trim(); if(t&&!sysAttend.includes(t)) sysAttend.push(t); });
+    });
+    // 제품 기록
+    (cc.product||[]).forEach(function(e){
+      if(e.deliveredProducts) e.deliveredProducts.split(/[,，、]/).forEach(function(s){
+        var t=s.trim(); if(t){ if(!delivered[t]) delivered[t]=0; delivered[t]++; }
+      });
+    });
+  });
+
+  var html='';
+
+  // 장스오 현황
+  var jangoTotal=jango[10]+jango[20]+jango[30];
+  html+='<div class="rs-section">';
+  html+='<div class="rs-title">💳 장스오 현황 <span class="rs-sub">(총 '+jangoTotal+'명 설정)</span></div>';
+  html+='<div class="rs-row">';
+  html+='<span class="rs-chip rs-chip-10">10만 '+jango[10]+'명</span>';
+  html+='<span class="rs-chip rs-chip-20">20만 '+jango[20]+'명</span>';
+  html+='<span class="rs-chip rs-chip-30">30만 '+jango[30]+'명</span>';
+  html+='<span class="rs-chip rs-chip-none">미설정 '+(consumers.length-jangoTotal)+'명</span>';
+  html+='</div></div>';
+
+  // SOP 현황
+  var sopKeys=Object.keys(sopMap);
+  if(sopKeys.length){
+    html+='<div class="rs-section">';
+    html+='<div class="rs-title">📦 SOP 현황</div>';
+    html+='<div class="rs-row">';
+    sopKeys.sort(function(a,b){ return sopMap[b]-sopMap[a]; }).forEach(function(k){
+      html+='<span class="rs-chip rs-chip-sop">'+esc(k)+' '+sopMap[k]+'건</span>';
+    });
+    html+='</div></div>';
+  }
+
+  // 시스템 현황
+  if(sysAttend.length){
+    html+='<div class="rs-section">';
+    html+='<div class="rs-title">🎓 시스템 참여 현황</div>';
+    html+='<div class="rs-row">';
+    sysAttend.forEach(function(s){ html+='<span class="rs-chip rs-chip-20">'+esc(s)+'</span>'; });
+    html+='</div></div>';
+  }
+
+  // 전달/공유 제품
+  var delKeys=Object.keys(delivered);
+  var shrKeys=Object.keys(shared);
+  if(delKeys.length||shrKeys.length){
+    html+='<div class="rs-section">';
+    html+='<div class="rs-title">📦 제품 현황</div>';
+    if(delKeys.length){
+      html+='<div style="font-size:11.5px;color:#2e7d32;font-weight:700;margin-bottom:4px;">✅ 전달</div>';
+      html+='<div class="rs-row">';
+      delKeys.sort(function(a,b){ return delivered[b]-delivered[a]; }).forEach(function(k){
+        html+='<span class="rs-chip rs-chip-del">'+esc(k)+' '+delivered[k]+'명</span>';
+      });
+      html+='</div>';
+    }
+    if(shrKeys.length){
+      html+='<div style="font-size:11.5px;color:#2f5496;font-weight:700;margin:6px 0 4px;">📋 공유</div>';
+      html+='<div class="rs-row">';
+      shrKeys.sort(function(a,b){ return shared[b]-shared[a]; }).forEach(function(k){
+        html+='<span class="rs-chip rs-chip-shr">'+esc(k)+' '+shared[k]+'명</span>';
+      });
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+
+  el.innerHTML=html;
+}
+
 // ── 초기화 ────────────────────────────────────────────
 load();
 renderList();
 renderTotalSummary();
-renderGameMatrix();
+renderGameMatrix(); renderResultSummary();
 </script>
 
 <!-- 점수 기준 팝업 -->
@@ -3111,7 +3951,20 @@ renderGameMatrix();
     <div class="score-guide-row"><span>📦💼🎓 컨택 기록 저장</span><span class="score-guide-pts">+15P</span></div>
     <div class="score-guide-row"><span>🔒 완료 처리</span><span class="score-guide-pts">+10P</span></div>
     <div class="score-guide-row"><span>📅 계획 작성</span><span class="score-guide-pts">+5P</span></div>
-    <div class="score-guide-row"><span>🏆 3% 얼라인 완성</span><span class="score-guide-pts">+50P</span></div>
+    <div class="score-guide-row"><span>🏆 3% 완성</span><span class="score-guide-pts">+50P</span></div>
+    <br>
+    <div style="font-size:11.5px;font-weight:800;color:#2f5496;margin-bottom:6px;">🏆 3% 완성 조건 (3가지 모두)</div>
+    <div class="score-guide-row"><span>📋 카탈로그 체크</span><span style="font-size:11px;color:#64748b">액션</span></div>
+    <div class="score-guide-row"><span>💳 장스오 금액 설정</span><span style="font-size:11px;color:#c00000;font-weight:700">실제 설정</span></div>
+    <div class="score-guide-row"><span>💼 STP 체크</span><span style="font-size:11px;color:#64748b">액션</span></div>
+    <br>
+    <div style="font-size:11.5px;font-weight:800;color:#2f5496;margin-bottom:6px;">📊 매트릭스 8개 항목</div>
+    <div class="score-guide-row"><span>📅 계획 · 🤝 소통 · 📦 제품전달</span><span style="font-size:11px;color:#2f5496">누적</span></div>
+    <div class="score-guide-row"><span>👥 인맥 · 💳 장스오 · 💰 월액</span><span style="font-size:11px;color:#e07b00">현재 상태</span></div>
+    <div class="score-guide-row"><span>📋 SOP · 🏆 3%완성</span><span style="font-size:11px;color:#e07b00">현재 상태</span></div>
+    <div style="font-size:10.5px;color:#94a3b8;line-height:1.6;margin-top:6px;">
+      ※ 장스오·SOP는 매달 정기 구독이라 최신 기록 하나가 현재 상태입니다.
+    </div>
     <br>
     <div class="score-guide-row"><span>🌱 새싹</span><span>0 ~ 100P</span></div>
     <div class="score-guide-row"><span>🌿 성장</span><span>101 ~ 300P</span></div>
